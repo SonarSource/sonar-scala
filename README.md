@@ -1,0 +1,3 @@
+# sonar-scala
+
+Scala analyzer
