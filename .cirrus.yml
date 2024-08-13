@@ -20,6 +20,12 @@ build_task:
     ARTIFACTORY_DEPLOY_USERNAME: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer username]
     ARTIFACTORY_DEPLOY_PASSWORD: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer access_token]
     DEPLOY_PULL_REQUEST: "true"
+  gradle_cache:
+    folder: ${GRADLE_USER_HOME}/caches
+    fingerprint_script:
+      - echo $CIRRUS_OS
+      - cat **/*.gradle* **/gradle*.properties || true
+    populate_script: mkdir -p ${GRADLE_USER_HOME}/caches
   build_script:
     - source cirrus-env BUILD-PRIVATE
     - ./gradlew build
@@ -37,6 +43,12 @@ qa_task:
     ARTIFACTORY_DEPLOY_USERNAME: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer username]
     ARTIFACTORY_DEPLOY_PASSWORD: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer access_token]
     DEPLOY_PULL_REQUEST: "true"
+  gradle_cache:
+    folder: ${GRADLE_USER_HOME}/caches
+    fingerprint_script:
+      - echo $CIRRUS_OS
+      - cat **/*.gradle* **/gradle*.properties || true
+    populate_script: mkdir -p ${GRADLE_USER_HOME}/caches
   build_script:
     - ./gradlew build --exclude-task test
   its_script:
