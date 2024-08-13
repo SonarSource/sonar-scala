@@ -53,27 +53,6 @@ public class CoverageTest extends TestBase {
     Files.write(reportCopy, reportContent.getBytes(UTF_8));
   }
 
-  @Test
-  public void ruby_coverage_resultset() throws Exception {
-    final String projectKey = "rubyCoverageResultSet";
-    setUpRuby("resultset.json");
-    SonarScanner rubyScanner = getSonarScanner(projectKey, workDir.getParent().toString(), "ruby");
-    ORCHESTRATOR.executeBuild(rubyScanner);
-
-    assert_ruby_measures(projectKey);
-  }
-
-  @Test
-  public void ruby_coverage_json_formatter() throws Exception {
-    final String projectKey = "rubyCoverageJsonFormatter";
-    setUpRuby("coverage.json");
-    SonarScanner rubyScanner = getSonarScanner(projectKey, workDir.getParent().toString(), "ruby");
-    rubyScanner.setProperty("sonar.ruby.coverage.reportPaths", "coverage/.coverage.json");
-    ORCHESTRATOR.executeBuild(rubyScanner);
-
-    assert_ruby_measures(projectKey);
-  }
-
   private void assert_ruby_measures(String projectKey) {
     String componentKey = projectKey + ":file.rb";
     assertThat(getMeasureAsInt(componentKey, "lines_to_cover")).isEqualTo(7);
@@ -113,21 +92,6 @@ public class CoverageTest extends TestBase {
     String componentKey = projectKey + ":file2.scala";
     assertThat(getMeasureAsInt(componentKey, "lines_to_cover")).isEqualTo(3);
     assertThat(getMeasureAsInt(componentKey, "uncovered_lines")).isEqualTo(1);
-    assertThat(getMeasureAsInt(componentKey, "conditions_to_cover")).isNull();
-    assertThat(getMeasureAsInt(componentKey, "uncovered_conditions")).isNull();
-  }
-
-  @Test
-  public void go_coverage() {
-    final String projectKey = "goCoverage";
-    SonarScanner goScanner = getSonarScanner(projectKey, BASE_DIRECTORY.toString(), "go");
-    goScanner.setProperty("sonar.go.coverage.reportPaths", "coverage.out");
-
-    ORCHESTRATOR.executeBuild(goScanner);
-
-    String componentKey = projectKey + ":pivot.go";
-    assertThat(getMeasureAsInt(componentKey, "lines_to_cover")).isEqualTo(16);
-    assertThat(getMeasureAsInt(componentKey, "uncovered_lines")).isEqualTo(4);
     assertThat(getMeasureAsInt(componentKey, "conditions_to_cover")).isNull();
     assertThat(getMeasureAsInt(componentKey, "uncovered_conditions")).isNull();
   }

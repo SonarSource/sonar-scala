@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.Rule;
@@ -42,36 +41,6 @@ public class ExternalReportTest extends TestBase {
 
   @Rule
   public TemporaryFolder tmpDir = new TemporaryFolder();
-
-  @Test
-  public void rubocop() {
-    final String projectKey = "rubocop";
-    SonarScanner sonarScanner = getSonarScanner(projectKey, BASE_DIRECTORY, "rubocop");
-    sonarScanner.setProperty("sonar.ruby.rubocop.reportPaths", "rubocop-report.json");
-    ORCHESTRATOR.executeBuild(sonarScanner);
-    List<Issue> issues = getExternalIssues(projectKey);
-    issues.sort(Comparator.comparing(Issue::getLine).thenComparing(Issue::getRule));
-
-    assertThat(issues).hasSize(3);
-
-    assertThat(issues.get(0).getRule()).isEqualTo("external_rubocop:Naming/FileName");
-    assertThat(issues.get(0).getLine()).isEqualTo(1);
-    assertThat(issues.get(0).getMessage()).isEqualTo("The name of this source file (`yaml-issue.rb`) should use snake_case.");
-    assertThat(issues.get(0).getSeverity().name()).isEqualTo("INFO");
-    assertThat(issues.get(0).getDebt()).isEqualTo("5min");
-
-    assertThat(issues.get(1).getRule()).isEqualTo("external_rubocop:Style/FrozenStringLiteralComment");
-    assertThat(issues.get(1).getLine()).isEqualTo(1);
-    assertThat(issues.get(1).getMessage()).isEqualTo("Missing frozen string literal comment.");
-    assertThat(issues.get(1).getSeverity().name()).isEqualTo("MINOR");
-    assertThat(issues.get(1).getDebt()).isEqualTo("5min");
-
-    assertThat(issues.get(2).getRule()).isEqualTo("external_rubocop:Security/YAMLLoad");
-    assertThat(issues.get(2).getLine()).isEqualTo(2);
-    assertThat(issues.get(2).getMessage()).isEqualTo("Prefer using `YAML.safe_load` over `YAML.load`.");
-    assertThat(issues.get(2).getSeverity().name()).isEqualTo("MAJOR");
-    assertThat(issues.get(2).getDebt()).isEqualTo("5min");
-  }
 
   @Test
   public void scalastyle() throws IOException {
@@ -121,80 +90,6 @@ public class ExternalReportTest extends TestBase {
     );
     Issue first = issues.get(0);
     assertThat(first.getDebt()).isEqualTo("5min");
-  }
-
-  @Test
-  public void govet() {
-    final String projectKey = "govet";
-
-    SonarScanner sonarScanner = getSonarScanner(projectKey, BASE_DIRECTORY, "govet");
-    sonarScanner.setProperty("sonar.go.govet.reportPaths", "go-vet.out");
-    ORCHESTRATOR.executeBuild(sonarScanner);
-    List<Issue> issues = getExternalIssues(projectKey);
-    assertThat(issues).hasSize(2);
-    assertThat(formatIssues(issues)).isEqualTo(
-      "SelfAssignement.go|external_govet:assign|MAJOR|5min|line:7|self-assignment of name to name\n" +
-        "SelfAssignement.go|external_govet:assign|MAJOR|5min|line:9|self-assignment of user.name to user.name");
-  }
-
-  @Test
-  public void golint() {
-    final String projectKey = "golint";
-
-    SonarScanner sonarScanner = getSonarScanner(projectKey, BASE_DIRECTORY, "golint");
-    sonarScanner.setProperty("sonar.go.golint.reportPaths", "golint.out");
-    ORCHESTRATOR.executeBuild(sonarScanner);
-    List<Issue> issues = getExternalIssues(projectKey);
-    assertThat(issues).hasSize(11);
-    assertThat(formatIssues(issues)).isEqualTo(
-      "SelfAssignement.go|external_golint:Exported|MAJOR|5min|line:4|exported type User should have comment or be unexported\n" +
-        "SelfAssignement.go|external_golint:PackageComment|MAJOR|5min|line:1|package comment should be of the form \"Package samples ...\"\n" +
-        "TabCharacter.go|external_golint:PackageComment|MAJOR|5min|line:1|package comment should be of the form \"Package samples ...\"\n" +
-        "TodoTagPresence.go|external_golint:PackageComment|MAJOR|5min|line:1|package comment should be of the form \"Package samples ...\"\n" +
-        "TooLongLine.go|external_golint:PackageComment|MAJOR|5min|line:1|package comment should be of the form \"Package samples ...\"\n" +
-        "TooManyParameters.go|external_golint:PackageComment|MAJOR|5min|line:1|package comment should be of the form \"Package samples ...\"\n" +
-        "pivot.go|external_golint:Names|MAJOR|5min|line:10|don't use underscores in Go names; var ascii_uppercase should be asciiUppercase\n" +
-        "pivot.go|external_golint:Names|MAJOR|5min|line:11|don't use underscores in Go names; var ascii_lowercase should be asciiLowercase\n" +
-        "pivot.go|external_golint:Names|MAJOR|5min|line:12|don't use underscores in Go names; var ascii_uppercase_len should be asciiUppercaseLen\n" +
-        "pivot.go|external_golint:Names|MAJOR|5min|line:13|don't use underscores in Go names; var ascii_lowercase_len should be asciiLowercaseLen\n" +
-        "pivot.go|external_golint:Names|MAJOR|5min|line:14|don't use underscores in Go names; var ascii_allowed should be asciiAllowed"
-    );
-  }
-
-  @Test
-  public void gometalinter() {
-    final String projectKey = "gometalinter";
-
-    SonarScanner sonarScanner = getSonarScanner(projectKey, BASE_DIRECTORY, "gometalinter");
-    sonarScanner.setProperty("sonar.go.gometalinter.reportPaths", "gometalinter.out");
-    ORCHESTRATOR.executeBuild(sonarScanner);
-    List<Issue> issues = getExternalIssues(projectKey);
-    assertThat(issues).hasSize(8);
-    assertThat(formatIssues(issues)).isEqualTo(
-      "SelfAssignement.go|external_golint:Exported|MAJOR|5min|line:4|exported type User should have comment or be unexported\n" +
-        "SelfAssignement.go|external_golint:PackageComment|MAJOR|5min|line:1|package comment should be of the form \"Package samples ...\"\n" +
-        "SelfAssignement.go|external_govet:assign|MAJOR|5min|line:7|self-assignment of name to name\n" +
-        "SelfAssignement.go|external_govet:assign|MAJOR|5min|line:9|self-assignment of user.name to user.name\n" +
-        "SelfAssignement.go|external_megacheck:SA4018|MAJOR|5min|line:7|self-assignment of name to name\n" +
-        "SelfAssignement.go|external_megacheck:SA4018|MAJOR|5min|line:9|self-assignment of user.name to user.name\n" +
-        "SelfAssignement.go|external_megacheck:U1000|MAJOR|5min|line:4|field name is unused\n" +
-        "SelfAssignement.go|external_megacheck:U1000|MAJOR|5min|line:6|func (*User).rename is unused");
-  }
-
-  @Test
-  public void golangcilint() {
-    final String projectKey = "golangcilint";
-
-    SonarScanner sonarScanner = getSonarScanner(projectKey, BASE_DIRECTORY, "golangci-lint");
-    sonarScanner.setProperty("sonar.go.golangci-lint.reportPaths", "golangci-lint-checkstyle.xml");
-    ORCHESTRATOR.executeBuild(sonarScanner);
-    List<Issue> issues = getExternalIssues(projectKey);
-    assertThat(issues).hasSize(4);
-    assertThat(formatIssues(issues)).isEqualTo(
-      "SelfAssignement.go|external_golangci-lint:govet.bug.major|MAJOR|5min|line:7|assign: self-assignment of name to name\n" +
-        "SelfAssignement.go|external_golangci-lint:govet.bug.major|MAJOR|5min|line:9|assign: self-assignment of user.name to user.name\n" +
-        "SelfAssignement.go|external_golangci-lint:unused.bug.major|MAJOR|5min|line:4|U1000: field `name` is unused\n" +
-        "SelfAssignement.go|external_golangci-lint:unused.bug.major|MAJOR|5min|line:6|U1000: func `(*User).rename` is unused");
   }
 
   private List<Issue> getExternalIssues(String componentKey) {

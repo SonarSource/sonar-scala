@@ -25,7 +25,7 @@ import com.sonar.orchestrator.locator.FileLocation;
 import com.sonar.orchestrator.locator.Location;
 import com.sonar.orchestrator.locator.MavenLocation;
 import java.io.File;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
@@ -36,7 +36,6 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
   CoverageTest.class,
-  TestReportTest.class,
   DuplicationsTest.class,
   ExternalReportTest.class,
   MeasuresTest.class,
@@ -47,7 +46,7 @@ public class Tests {
   static final String SQ_VERSION_PROPERTY = "sonar.runtimeVersion";
   static final String DEFAULT_SQ_VERSION = "LATEST_RELEASE";
 
-  private static final Set<String> LANGUAGES = new HashSet<>(Arrays.asList("ruby", "scala", "go"));
+  private static final Set<String> LANGUAGES = new HashSet<>(Collections.singletonList("scala"));
 
   @ClassRule
   public static final Orchestrator ORCHESTRATOR;
@@ -58,9 +57,7 @@ public class Tests {
     ORCHESTRATOR = orchestratorBuilder
       .useDefaultAdminCredentialsForBuilds(true)
       .setSonarVersion(System.getProperty(SQ_VERSION_PROPERTY, DEFAULT_SQ_VERSION))
-      .restoreProfileAtStartup(FileLocation.of("src/test/resources/nosonar-ruby.xml"))
       .restoreProfileAtStartup(FileLocation.of("src/test/resources/nosonar-scala.xml"))
-      .restoreProfileAtStartup(FileLocation.of("src/test/resources/nosonar-go.xml"))
       .restoreProfileAtStartup(FileLocation.of("src/test/resources/norule.xml"))
       .build();
   }

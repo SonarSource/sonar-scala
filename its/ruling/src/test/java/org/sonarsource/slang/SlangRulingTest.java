@@ -28,7 +28,6 @@ import com.sonar.orchestrator.locator.MavenLocation;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -52,7 +51,7 @@ public class SlangRulingTest {
   private static Orchestrator orchestrator;
   private static boolean keepSonarqubeRunning = "true".equals(System.getProperty("keepSonarqubeRunning"));
 
-  private static final Set<String> LANGUAGES = new HashSet<>(Arrays.asList("ruby", "scala", "go"));
+  private static final Set<String> LANGUAGES = new HashSet<>(Collections.singletonList("scala"));
 
   @BeforeClass
   public static void setUp() {
@@ -109,32 +108,9 @@ public class SlangRulingTest {
   @Test
   // @Ignore because it should only be run manually
   @Ignore
-  public void ruby_manual_keep_sonarqube_server_up() throws IOException {
-    keepSonarqubeRunning = true;
-    test_ruby();
-  }
-
-  @Test
-  // @Ignore because it should only be run manually
-  @Ignore
   public void scala_manual_keep_sonarqube_server_up() throws IOException {
     keepSonarqubeRunning = true;
     test_scala();
-  }
-
-  @Test
-  // @Ignore because it should only be run manually
-  @Ignore
-  public void go_manual_keep_sonarqube_server_up() throws IOException {
-    keepSonarqubeRunning = true;
-    test_go();
-  }
-
-  @Test
-  public void test_ruby() throws IOException {
-    Map<String, String> properties = new HashMap<>();
-    properties.put("sonar.inclusions", "sources/ruby/**/*.rb, ruling/src/test/resources/sources/ruby/**/*.rb");
-    run_ruling_test("ruby", properties);
   }
 
   @Test
@@ -142,16 +118,6 @@ public class SlangRulingTest {
     Map<String, String> properties = new HashMap<>();
     properties.put("sonar.inclusions", "sources/scala/**/*.scala, ruling/src/test/resources/sources/scala/**/*.scala");
     run_ruling_test("scala", properties);
-  }
-
-  @Test
-  public void test_go() throws IOException {
-    Map<String, String> properties = new HashMap<>();
-    properties.put("sonar.inclusions", "sources/go/**/*.go, ruling/src/test/resources/sources/go/**/*.go");
-    properties.put("sonar.exclusions", "**/*generated*.go, **/*.pb.go");
-    properties.put("sonar.tests", ".");
-    properties.put("sonar.test.inclusions", "**/*_test.go");
-    run_ruling_test("go", properties);
   }
 
   private void run_ruling_test(String project, Map<String, String> projectProperties) throws IOException {

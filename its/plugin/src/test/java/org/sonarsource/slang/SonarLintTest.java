@@ -100,23 +100,6 @@ public class SonarLintTest {
   }
 
   @Test
-  public void test_ruby() throws Exception {
-    ClientInputFile inputFile = prepareInputFile("foo.rb",
-      "def fooBar() \n"           // ruby:S100
-        + "  if true \n"                  // ruby:S1145
-        + "    password = 'blabla' \n"    // ruby:S1481
-        + "  end \n"
-        + "end \n",
-      false, "ruby");
-
-    assertIssues(analyzeWithSonarLint(inputFile),
-        tuple("ruby:S100", 1, inputFile.getPath(), IssueSeverity.MINOR),
-        tuple("ruby:S1145", 2, inputFile.getPath(), IssueSeverity.MAJOR),
-        tuple("ruby:S1481", 3, inputFile.getPath(), IssueSeverity.MINOR)
-      );
-  }
-
-  @Test
   public void test_scala() throws Exception {
     ClientInputFile inputFile = prepareInputFile("foo.scala",
       "object Code {\n"
@@ -136,30 +119,6 @@ public class SonarLintTest {
   }
 
   @Test
-  public void test_go() throws Exception {
-    ClientInputFile inputFile = prepareInputFile("foo.go",
-      "package main\n"
-        + "func empty() {\n"        // go:S1186 (empty function)
-        + "}\n",
-      false, "go");
-
-    assertIssues(analyzeWithSonarLint(inputFile),
-      tuple("go:S1186", 2, inputFile.getPath(), IssueSeverity.CRITICAL));
-  }
-
-  @Test
-  public void test_ruby_nosonar() throws Exception {
-    ClientInputFile rubyInputFile = prepareInputFile("foo.rb",
-      "def fooBar() # NOSONAR\n"            // skipped ruby:S100
-        + "  if true # NOSONAR\n"                  // skipped ruby:S1145
-        + "    password = 'blabla' # NOSONAR\n"    // skipped ruby:S1481
-        + "  end \n"
-        + "end \n",
-      false, "ruby");
-    assertThat(analyzeWithSonarLint(rubyInputFile)).isEmpty();
-  }
-
-  @Test
   public void test_scala_nosonar() throws Exception {
     ClientInputFile scalaInputFile = prepareInputFile("foo.scala",
       "package main"
@@ -172,16 +131,6 @@ public class SonarLintTest {
         + "}",
       false, "scala");
     assertThat(analyzeWithSonarLint(scalaInputFile)).isEmpty();
-  }
-
-  @Test
-  public void test_go_nosonar() throws Exception {
-    ClientInputFile goInputFile = prepareInputFile("foo.go",
-      "package main\n"
-        + "func empty() { // NOSONAR\n"        //  skipped go:S1186 (empty function)
-        + "}\n",
-      false, "go");
-    assertThat(analyzeWithSonarLint(goInputFile)).isEmpty();
   }
 
   private List<Issue> analyzeWithSonarLint(ClientInputFile inputFile) {

@@ -30,16 +30,6 @@ public class NoSonarTest extends TestBase {
   private static final String RULE_KEY = "S1145";
 
   @Test
-  public void test_go_nosonar() {
-    checkForLanguage("goNoSonar", "go");
-  }
-
-  @Test
-  public void test_ruby_nosonar() {
-    checkForLanguage("rubyNoSonar", "ruby");
-  }
-
-  @Test
   public void test_scala_nosonar() {
     checkForLanguage("scalaNoSonar", "scala");
   }
