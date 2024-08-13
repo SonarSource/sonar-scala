@@ -37,8 +37,8 @@ allprojects {
         sonarqubeVersion = '10.0.0.68432'
         orchestratorVersion = '3.42.0.312'
         sonarlintVersion = '9.0.0.74282'
-        sonarLinksCi = 'https://cirrus-ci.com/github/SonarSource/slang'
-        sonarLinksScm = 'https://github.com/SonarSource/slang'
+        sonarLinksCi = 'https://cirrus-ci.com/github/SonarSource/sonar-scala'
+        sonarLinksScm = 'https://github.com/SonarSource/sonar-scala'
 
         artifactsToPublish = ''
         artifactsToDownload = ''
@@ -187,7 +187,7 @@ subprojects {
                         }
                     }
                     scm {
-                        url = 'https://github.com/SonarSource/slang'
+                        url = 'https://github.com/SonarSource/sonar-scala'
                     }
                     developers {
                         developer {
@@ -228,7 +228,7 @@ sonar {
         property 'sonar.projectName', projectTitle
         property 'sonar.links.ci', "${sonarLinksCi}"
         property 'sonar.links.scm', "${sonarLinksScm}"
-        property 'sonar.links.issue', 'https://jira.sonarsource.com/browse/SONARSLANG'
+        property 'sonar.links.issue', 'https://jira.sonarsource.com/browse/SONARSCALA'
         property 'sonar.exclusions', '**/build/**/*'
     }
 }
@@ -245,7 +245,7 @@ artifactory {
         }
         defaults {
             properties = [
-                'build.name': 'slang-enterprise',
+                'build.name': 'sonar-scala',
                 'build.number': System.getenv('BUILD_NUMBER'),
                 'pr.branch.target': System.getenv('PULL_REQUEST_BRANCH_TARGET'),
                 'pr.number': System.getenv('PULL_REQUEST_NUMBER'),
@@ -259,7 +259,7 @@ artifactory {
         }
     }
 
-    clientConfig.info.setBuildName('slang-enterprise')
+    clientConfig.info.setBuildName('sonar-scala')
     clientConfig.info.setBuildNumber(System.getenv('BUILD_NUMBER'))
     // Define the artifacts to be deployed to https://binaries.sonarsource.com on releases
     clientConfig.info.addEnvironmentProperty('ARTIFACTS_TO_PUBLISH', artifactsToPublish)
