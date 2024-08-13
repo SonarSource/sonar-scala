@@ -2,6 +2,7 @@ env:
   CIRRUS_CLONE_DEPTH: "20"
   CIRRUS_SHELL: bash
   ARTIFACTORY_ACCESS_TOKEN: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-private-reader access_token]
+  GRADLE_USER_HOME: ${CIRRUS_WORKING_DIR}/.gradle
 
 eks_container: &CONTAINER_DEFINITION
   image: ${CIRRUS_AWS_ACCOUNT}.dkr.ecr.eu-central-1.amazonaws.com/base:j17-g7-latest
