@@ -3,7 +3,7 @@ env:
   CIRRUS_SHELL: bash
 
 eks_container: &CONTAINER_DEFINITION
-  image: ${CIRRUS_AWS_ACCOUNT}.dkr.ecr.eu-central-1.amazonaws.com/base:latest
+  image: ${CIRRUS_AWS_ACCOUNT}.dkr.ecr.eu-central-1.amazonaws.com/base:j17-g7-latest
   cluster_name: ${CIRRUS_CLUSTER_NAME}
   region: eu-central-1
   namespace: default
@@ -21,7 +21,7 @@ build_task:
     DEPLOY_PULL_REQUEST: "true"
   build_script:
     - source cirrus-env BUILD
-    - regular_build_...
+    - regular_gradle_build_deploy_analyze
 
 promote_task:
   depends_on:
