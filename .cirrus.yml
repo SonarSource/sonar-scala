@@ -38,6 +38,7 @@ qa_task:
     DEPLOY_PULL_REQUEST: "true"
   qa_script:
     - source cirrus-env BUILD-PRIVATE
+    - git submodule update --init its/sources
     - ./gradlew build --exclude-task test
     - ./gradlew build --project-prop its --info --no-daemon
 
