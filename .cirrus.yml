@@ -31,7 +31,7 @@ build_task:
     - source cirrus-env BUILD-PRIVATE
     - ./gradlew build
 
-qa_task:
+qa_plugin_task:
   depends_on:
     - build
   eks_container:
@@ -55,12 +55,39 @@ qa_task:
   its_script:
     - source cirrus-env BUILD-PRIVATE
     - git submodule update --init its/sources
-    - ./gradlew build --project-prop its --info --stacktrace --console=plain --build-cache --no-daemon "-Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}"
+    - ./gradlew build --project-prop plugin --info --stacktrace --console=plain --build-cache --no-daemon "-Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}"
+
+qa_ruling_task:
+  depends_on:
+    - build
+  eks_container:
+    <<: *CONTAINER_DEFINITION
+    cpu: 8
+    memory: 8G
+  env:
+    # Possible values for ARTIFACTORY_DEPLOY_REPO: sonarsource-private-qa, sonarsource-public-qa
+    ARTIFACTORY_DEPLOY_REPO: FIXME
+    ARTIFACTORY_DEPLOY_USERNAME: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer username]
+    ARTIFACTORY_DEPLOY_PASSWORD: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer access_token]
+    DEPLOY_PULL_REQUEST: "true"
+  gradle_cache:
+    folder: ${GRADLE_USER_HOME}/caches
+    fingerprint_script:
+      - echo $CIRRUS_OS
+      - cat **/*.gradle* **/gradle*.properties || true
+    populate_script: mkdir -p ${GRADLE_USER_HOME}/caches
+  build_script:
+    - ./gradlew build --exclude-task test
+  its_script:
+    - source cirrus-env BUILD-PRIVATE
+    - git submodule update --init its/sources
+    - ./gradlew build --project-prop ruling --info --stacktrace --console=plain --build-cache --no-daemon "-Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}"
 
 promote_task:
   depends_on:
     - build
-    - qa
+    - qa_plugin
+    - qa_ruling
   eks_container:
     <<: *CONTAINER_DEFINITION
     cpu: 1
