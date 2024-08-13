@@ -42,7 +42,7 @@ qa_task:
   its_script:
     - source cirrus-env BUILD-PRIVATE
     - git submodule update --init its/sources
-    - ./gradlew build --project-prop its --info --stacktrace --console=plain --build-cache --no-daemon "-Dorchestrator.configUrl=file:///$CIRRUS_WORKING_DIR/orchestrator.properties" "-Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}"
+    - ./gradlew build --project-prop its --info --stacktrace --console=plain --build-cache --no-daemon "-Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}"
 
 promote_task:
   depends_on:
