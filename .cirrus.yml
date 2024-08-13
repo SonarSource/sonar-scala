@@ -30,7 +30,7 @@ qa_task:
   eks_container:
     <<: *CONTAINER_DEFINITION
     cpu: 8
-    memory: 16G
+    memory: 8G
   env:
     # Possible values for ARTIFACTORY_DEPLOY_REPO: sonarsource-private-qa, sonarsource-public-qa
     ARTIFACTORY_DEPLOY_REPO: FIXME
