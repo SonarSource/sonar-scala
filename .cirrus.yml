@@ -36,11 +36,12 @@ qa_task:
     ARTIFACTORY_DEPLOY_USERNAME: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer username]
     ARTIFACTORY_DEPLOY_PASSWORD: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer access_token]
     DEPLOY_PULL_REQUEST: "true"
-  qa_script:
+  build_script:
+    - ./gradlew build --exclude-task test
+  its_script:
     - source cirrus-env BUILD-PRIVATE
     - git submodule update --init its/sources
-    - ./gradlew build --exclude-task test
-    - ./gradlew build --project-prop its --info --no-daemon
+    - ./gradlew build --project-prop its --info --stacktrace --console=plain --build-cache --no-daemon "-Dorchestrator.configUrl=file:///$CIRRUS_WORKING_DIR/orchestrator.properties" "-Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}"
 
 promote_task:
   depends_on:
