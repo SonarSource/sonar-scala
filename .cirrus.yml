@@ -96,9 +96,5 @@ promote_task:
     <<: *CONTAINER_DEFINITION
     cpu: 1
     memory: 1G
-  env:
-    ARTIFACTORY_PROMOTE_ACCESS_TOKEN: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-promoter access_token]
-    GITHUB_TOKEN: VAULT[development/github/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-promotion token]
-    ARTIFACTS: FIXME # This was for Burgr links, is it still required?
   promote_script:
-    - echo "You are good to go!"
+    - echo "Done!"
