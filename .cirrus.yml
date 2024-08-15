@@ -49,6 +49,25 @@ build_task:
     heap_dump_artifacts:
       path: "*.hprof"
 
+mend_task:
+  eks_container:
+    <<: *CONTAINER_DEFINITION
+    cpu: 8
+    memory: 4G
+  only_if: $CIRRUS_USER_COLLABORATOR == 'true' && ($CIRRUS_BRANCH == "master" || $CIRRUS_BRANCH =~ "branch-.*" || $CIRRUS_BRANCH =~ "mend-.*")
+  env:
+    WS_APIKEY: VAULT[development/kv/data/mend data.apikey]
+  <<: SETUP_GRADLE_CACHE
+  scan_script:
+    - source cirrus-env QA
+    - ./gradlew clean build --exclude-task test
+    - source export_ws_variables_from_gradle
+    - source ws_scan.sh
+  allow_failures: "true"
+  always:
+    ws_artifacts:
+      path: "whitesource/**/*"
+
 qa_plugin_task:
   depends_on:
     - build
