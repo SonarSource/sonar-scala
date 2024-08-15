@@ -28,7 +28,7 @@ build_task:
       - cat **/*.gradle* **/gradle*.properties || true
     populate_script: mkdir -p ${GRADLE_USER_HOME}/caches
   build_script:
-    - source cirrus-env BUILD-PRIVATE
+    - source cirrus-env BUILD
     - ./gradlew build
 
 qa_plugin_task:
@@ -56,8 +56,7 @@ qa_plugin_task:
   build_script:
     - ./gradlew build --exclude-task test
   plugin_script:
-    - source cirrus-env BUILD-PRIVATE
-    - git submodule update --init its/sources
+    - source cirrus-env QA
     - ./gradlew build --project-prop plugin --info --stacktrace --console=plain --build-cache --no-daemon -Dsonar.runtimeVersion=${SQ_VERSION} -Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}
 
 
@@ -83,7 +82,7 @@ qa_ruling_task:
   build_script:
     - ./gradlew build --exclude-task test
   ruling_script:
-    - source cirrus-env BUILD-PRIVATE
+    - source cirrus-env QA
     - git submodule update --init its/sources
     - ./gradlew build --project-prop ruling --info --stacktrace --console=plain --build-cache --no-daemon "-Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}"
 
