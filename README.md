@@ -51,7 +51,8 @@ You can also build and run only Ruling Tests using the `ruling` property:
 
 ## License headers
 
-License headers are automatically updated by the spotless plugin but only for Java files.
-Furthermore, there are files such as `package-info.java` and `module-info.java` that spotless ignores. Also, Scala and Go source files are not handled. For those files use a manual script like below to update the license. E.g., for Go files (on Mac):
+Furthermore, there are files such as `package-info.java` and `module-info.java` that spotless ignores.
+Scala source files are not handled.
+For those files use a manual script like below to update the license. E.g., for Scala files (on Mac):
 
-    `find . -type f -name "*.go" -exec sed -i '' 's/2018-2023/2018-2024/' "{}" \;`
+    `find . -type f -name "*.scala" -exec sed -i '' 's/2018-2023/2018-2024/' "{}" \;`
