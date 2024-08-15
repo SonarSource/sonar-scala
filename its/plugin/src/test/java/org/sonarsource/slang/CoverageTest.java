@@ -39,34 +39,6 @@ public class CoverageTest extends TestBase {
   public TemporaryFolder tmpDir = new TemporaryFolder();
   private Path workDir;
 
-  public void setUpRuby(String coverageReportName) throws Exception {
-    workDir = tmpDir.newFolder("ruby").toPath().toRealPath();
-    Path src = BASE_DIRECTORY.resolve("ruby/file.rb");
-    Path srcCopy = workDir.resolve(src.getFileName());
-    Files.copy(src, srcCopy);
-    Files.copy(BASE_DIRECTORY.resolve("ruby/file_not_in_report.rb"), workDir.resolve("file_not_in_report.rb"));
-    Path report = BASE_DIRECTORY.resolve("ruby/" + coverageReportName);
-    String reportContent = new String(Files.readAllBytes(report), UTF_8);
-    reportContent = reportContent.replace(ABSOLUTE_PATH_PLACEHOLDER, srcCopy.toString().replace("\\", "\\\\"));
-    Path reportCopy = workDir.resolve("coverage/." + coverageReportName);
-    Files.createDirectories(reportCopy.getParent());
-    Files.write(reportCopy, reportContent.getBytes(UTF_8));
-  }
-
-  private void assert_ruby_measures(String projectKey) {
-    String componentKey = projectKey + ":file.rb";
-    assertThat(getMeasureAsInt(componentKey, "lines_to_cover")).isEqualTo(7);
-    assertThat(getMeasureAsInt(componentKey, "uncovered_lines")).isEqualTo(1);
-    assertThat(getMeasureAsInt(componentKey, "conditions_to_cover")).isNull();
-    assertThat(getMeasureAsInt(componentKey, "uncovered_conditions")).isNull();
-
-    componentKey = projectKey + ":file_not_in_report.rb";
-    assertThat(getMeasureAsInt(componentKey, "lines_to_cover")).isEqualTo(3);
-    assertThat(getMeasureAsInt(componentKey, "uncovered_lines")).isEqualTo(3);
-    assertThat(getMeasureAsInt(componentKey, "conditions_to_cover")).isNull();
-    assertThat(getMeasureAsInt(componentKey, "uncovered_conditions")).isNull();
-  }
-
   public void setUpScala() throws Exception {
     workDir = tmpDir.newFolder("scala").toPath().toRealPath();
     Path src = BASE_DIRECTORY.resolve("scala/file2.scala");

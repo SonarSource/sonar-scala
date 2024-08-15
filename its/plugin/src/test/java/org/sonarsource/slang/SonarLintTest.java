@@ -86,9 +86,7 @@ public class SonarLintTest {
         /* Don't pollute logs */
       });
     StandaloneGlobalConfiguration configuration = sonarLintConfigBuilder
-      .addEnabledLanguage(Language.RUBY)
       .addEnabledLanguage(Language.SCALA)
-      .addEnabledLanguage(Language.GO)
       .build();
     sonarlintEngine = new StandaloneSonarLintEngineImpl(configuration);
     baseDir = temp.newFolder();
