@@ -1,9 +1,11 @@
 env:
   CIRRUS_CLONE_DEPTH: "20"
   CIRRUS_SHELL: bash
+  ARTIFACTORY_ACCESS_TOKEN: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-private-reader access_token]
+  GRADLE_USER_HOME: ${CIRRUS_WORKING_DIR}/.gradle
 
 eks_container: &CONTAINER_DEFINITION
-  image: ${CIRRUS_AWS_ACCOUNT}.dkr.ecr.eu-central-1.amazonaws.com/base:latest
+  image: ${CIRRUS_AWS_ACCOUNT}.dkr.ecr.eu-central-1.amazonaws.com/base:j17-g7-latest
   cluster_name: ${CIRRUS_CLUSTER_NAME}
   region: eu-central-1
   namespace: default
@@ -11,27 +13,87 @@ eks_container: &CONTAINER_DEFINITION
 build_task:
   eks_container:
     <<: *CONTAINER_DEFINITION
-    cpu: 1
-    memory: 1G
+    cpu: 8
+    memory: 4G
   env:
     # Possible values for ARTIFACTORY_DEPLOY_REPO: sonarsource-private-qa, sonarsource-public-qa
     ARTIFACTORY_DEPLOY_REPO: FIXME
     ARTIFACTORY_DEPLOY_USERNAME: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer username]
     ARTIFACTORY_DEPLOY_PASSWORD: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer access_token]
     DEPLOY_PULL_REQUEST: "true"
+  gradle_cache:
+    folder: ${GRADLE_USER_HOME}/caches
+    fingerprint_script:
+      - echo $CIRRUS_OS
+      - cat **/*.gradle* **/gradle*.properties || true
+    populate_script: mkdir -p ${GRADLE_USER_HOME}/caches
   build_script:
     - source cirrus-env BUILD
-    - regular_build_...
+    - ./gradlew build
 
-promote_task:
+qa_plugin_task:
   depends_on:
     - build
   eks_container:
     <<: *CONTAINER_DEFINITION
+    cpu: 8
+    memory: 8G
+  env:
+    # Possible values for ARTIFACTORY_DEPLOY_REPO: sonarsource-private-qa, sonarsource-public-qa
+    ARTIFACTORY_DEPLOY_REPO: FIXME
+    ARTIFACTORY_DEPLOY_USERNAME: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer username]
+    ARTIFACTORY_DEPLOY_PASSWORD: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer access_token]
+    DEPLOY_PULL_REQUEST: "true"
+    matrix:
+      - SQ_VERSION: "LATEST_RELEASE"
+      - SQ_VERSION: "DEV"
+  gradle_cache:
+    folder: ${GRADLE_USER_HOME}/caches
+    fingerprint_script:
+      - echo $CIRRUS_OS
+      - cat **/*.gradle* **/gradle*.properties || true
+    populate_script: mkdir -p ${GRADLE_USER_HOME}/caches
+  build_script:
+    - ./gradlew build --exclude-task test
+  plugin_script:
+    - source cirrus-env QA
+    - ./gradlew build --project-prop plugin --info --stacktrace --console=plain --build-cache --no-daemon -Dsonar.runtimeVersion=${SQ_VERSION} -Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}
+
+
+qa_ruling_task:
+  depends_on:
+    - build
+  eks_container:
+    <<: *CONTAINER_DEFINITION
+    cpu: 8
+    memory: 8G
+  env:
+    # Possible values for ARTIFACTORY_DEPLOY_REPO: sonarsource-private-qa, sonarsource-public-qa
+    ARTIFACTORY_DEPLOY_REPO: FIXME
+    ARTIFACTORY_DEPLOY_USERNAME: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer username]
+    ARTIFACTORY_DEPLOY_PASSWORD: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer access_token]
+    DEPLOY_PULL_REQUEST: "true"
+  gradle_cache:
+    folder: ${GRADLE_USER_HOME}/caches
+    fingerprint_script:
+      - echo $CIRRUS_OS
+      - cat **/*.gradle* **/gradle*.properties || true
+    populate_script: mkdir -p ${GRADLE_USER_HOME}/caches
+  build_script:
+    - ./gradlew build --exclude-task test
+  ruling_script:
+    - source cirrus-env QA
+    - git submodule update --init its/sources
+    - ./gradlew build --project-prop ruling --info --stacktrace --console=plain --build-cache --no-daemon "-Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}"
+
+promote_task:
+  depends_on:
+    - build
+    - qa_plugin
+    - qa_ruling
+  eks_container:
+    <<: *CONTAINER_DEFINITION
     cpu: 1
     memory: 1G
-  env:
-    ARTIFACTORY_PROMOTE_ACCESS_TOKEN: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-promoter access_token]
-    GITHUB_TOKEN: VAULT[development/github/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-promotion token]
-    ARTIFACTS: FIXME # This was for Burgr links, is it still required?
-  script: cirrus_promote_...
+  promote_script:
+    - echo "Done!"
