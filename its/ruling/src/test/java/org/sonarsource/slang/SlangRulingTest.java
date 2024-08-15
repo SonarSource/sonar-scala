@@ -30,10 +30,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -50,9 +48,6 @@ public class SlangRulingTest {
 
   private static Orchestrator orchestrator;
   private static boolean keepSonarqubeRunning = "true".equals(System.getProperty("keepSonarqubeRunning"));
-
-  private static final Set<String> LANGUAGES = new HashSet<>(Collections.singletonList("scala"));
-
   @BeforeClass
   public static void setUp() {
     OrchestratorBuilder builder = Orchestrator.builderEnv()
@@ -65,44 +60,29 @@ public class SlangRulingTest {
     orchestrator = builder.build();
     orchestrator.start();
 
-    ProfileGenerator.RulesConfiguration rubyRulesConfiguration = new ProfileGenerator.RulesConfiguration();
-    rubyRulesConfiguration.add("S1451", "headerFormat", "# Copyright 201\\d Twitch Interactive, Inc.  All Rights Reserved.");
-    rubyRulesConfiguration.add("S1451", "isRegularExpression", "true");
-    rubyRulesConfiguration.add("S1479", "maximum", "10");
-
     ProfileGenerator.RulesConfiguration scalaRulesConfiguration = new ProfileGenerator.RulesConfiguration();
     scalaRulesConfiguration.add("S1451", "headerFormat", "^(?i).*copyright");
     scalaRulesConfiguration.add("S1451", "isRegularExpression", "true");
 
-    ProfileGenerator.RulesConfiguration goRulesConfiguration = new ProfileGenerator.RulesConfiguration();
-    goRulesConfiguration.add("S1451", "headerFormat", "^(?i).*copyright");
-    goRulesConfiguration.add("S1451", "isRegularExpression", "true");
-
-    File rubyProfile = ProfileGenerator.generateProfile(SlangRulingTest.orchestrator.getServer().getUrl(), "ruby", "ruby", rubyRulesConfiguration, Collections.emptySet());
     File scalaProfile = ProfileGenerator.generateProfile(SlangRulingTest.orchestrator.getServer().getUrl(), "scala", "scala", scalaRulesConfiguration, Collections.emptySet());
-    File goProfile = ProfileGenerator.generateProfile(SlangRulingTest.orchestrator.getServer().getUrl(), "go", "go", goRulesConfiguration, Collections.emptySet());
 
-    orchestrator.getServer().restoreProfile(FileLocation.of(rubyProfile));
     orchestrator.getServer().restoreProfile(FileLocation.of(scalaProfile));
-    orchestrator.getServer().restoreProfile(FileLocation.of(goProfile));
   }
 
   private static void addLanguagePlugins(OrchestratorBuilder builder) {
     String slangVersion = System.getProperty("slangVersion");
 
-    LANGUAGES.forEach(language -> {
-      Location pluginLocation;
-      String plugin = "sonar-" + language +"-plugin";
-      if (StringUtils.isEmpty(slangVersion)) {
-        // use the plugin that was built on local machine
-        pluginLocation = FileLocation.byWildcardMavenFilename(new File("../../" + plugin + "/build/libs"), plugin + "-*-all.jar");
-      } else {
-        // QA environment downloads the plugin built by the CI job
-        pluginLocation = MavenLocation.of("org.sonarsource.slang", plugin, slangVersion);
-      }
+    Location pluginLocation;
+    String plugin = "sonar-scala-plugin";
+    if (StringUtils.isEmpty(slangVersion)) {
+      // use the plugin that was built on local machine
+      pluginLocation = FileLocation.byWildcardMavenFilename(new File("../../" + plugin + "/build/libs"), plugin + "-*-all.jar");
+    } else {
+      // QA environment downloads the plugin built by the CI job
+      pluginLocation = MavenLocation.of("org.sonarsource.slang", plugin, slangVersion);
+    }
 
-      builder.addPlugin(pluginLocation);
-    });
+    builder.addPlugin(pluginLocation);
   }
 
   @Test
@@ -127,7 +107,7 @@ public class SlangRulingTest {
 
     String projectKey = project.replace("/", "-") + "-project";
     orchestrator.getServer().provisionProject(projectKey, projectKey);
-    LANGUAGES.forEach(lang -> orchestrator.getServer().associateProjectToQualityProfile(projectKey, lang, "rules"));
+    orchestrator.getServer().associateProjectToQualityProfile(projectKey, "scala", "rules");
 
     File actualDirectory = FileLocation.of("build/tmp/actual/" + project).getFile();
     actualDirectory.mkdirs();
