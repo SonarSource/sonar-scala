@@ -1,8 +1,15 @@
 env:
   CIRRUS_CLONE_DEPTH: "20"
   CIRRUS_SHELL: bash
+  # Artifactory settings
   ARTIFACTORY_ACCESS_TOKEN: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-private-reader access_token]
+  ARTIFACTORY_DEPLOY_USERNAME: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer username]
+  ARTIFACTORY_DEPLOY_PASSWORD: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer access_token]
+  ARTIFACTORY_DEPLOY_REPO: sonarsource-public-qa
+  DEPLOY_PULL_REQUEST: "true"
+  # Gradle settings
   GRADLE_USER_HOME: ${CIRRUS_WORKING_DIR}/.gradle
+
 
 eks_container: &CONTAINER_DEFINITION
   image: ${CIRRUS_AWS_ACCOUNT}.dkr.ecr.eu-central-1.amazonaws.com/base:j17-g7-latest
@@ -16,11 +23,8 @@ build_task:
     cpu: 8
     memory: 4G
   env:
-    # Possible values for ARTIFACTORY_DEPLOY_REPO: sonarsource-private-qa, sonarsource-public-qa
-    ARTIFACTORY_DEPLOY_REPO: FIXME
-    ARTIFACTORY_DEPLOY_USERNAME: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer username]
-    ARTIFACTORY_DEPLOY_PASSWORD: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer access_token]
-    DEPLOY_PULL_REQUEST: "true"
+    SONAR_TOKEN: FIXME
+    SONAR_HOST_URL: FIXME
   gradle_cache:
     folder: ${GRADLE_USER_HOME}/caches
     fingerprint_script:
@@ -29,7 +33,15 @@ build_task:
     populate_script: mkdir -p ${GRADLE_USER_HOME}/caches
   build_script:
     - source cirrus-env BUILD
-    - ./gradlew build
+    - function gradle(){ ./gradlew "$@"; }; export -f gradle
+    - gradle --version
+    - source set_gradle_build_version
+    - regular_gradle_build_deploy_analyze --exclude-task sonar
+  on_failure:
+    error_log_artifacts:
+      path: "hs_err_pid*.log"
+    heap_dump_artifacts:
+      path: "*.hprof"
 
 qa_plugin_task:
   depends_on:
@@ -39,11 +51,6 @@ qa_plugin_task:
     cpu: 8
     memory: 8G
   env:
-    # Possible values for ARTIFACTORY_DEPLOY_REPO: sonarsource-private-qa, sonarsource-public-qa
-    ARTIFACTORY_DEPLOY_REPO: FIXME
-    ARTIFACTORY_DEPLOY_USERNAME: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer username]
-    ARTIFACTORY_DEPLOY_PASSWORD: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer access_token]
-    DEPLOY_PULL_REQUEST: "true"
     matrix:
       - SQ_VERSION: "LATEST_RELEASE"
       - SQ_VERSION: "DEV"
@@ -53,8 +60,6 @@ qa_plugin_task:
       - echo $CIRRUS_OS
       - cat **/*.gradle* **/gradle*.properties || true
     populate_script: mkdir -p ${GRADLE_USER_HOME}/caches
-  build_script:
-    - ./gradlew build --exclude-task test
   plugin_script:
     - source cirrus-env QA
     - ./gradlew build --project-prop plugin --info --stacktrace --console=plain --build-cache --no-daemon -Dsonar.runtimeVersion=${SQ_VERSION} -Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}
@@ -67,20 +72,12 @@ qa_ruling_task:
     <<: *CONTAINER_DEFINITION
     cpu: 8
     memory: 8G
-  env:
-    # Possible values for ARTIFACTORY_DEPLOY_REPO: sonarsource-private-qa, sonarsource-public-qa
-    ARTIFACTORY_DEPLOY_REPO: FIXME
-    ARTIFACTORY_DEPLOY_USERNAME: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer username]
-    ARTIFACTORY_DEPLOY_PASSWORD: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer access_token]
-    DEPLOY_PULL_REQUEST: "true"
   gradle_cache:
     folder: ${GRADLE_USER_HOME}/caches
     fingerprint_script:
       - echo $CIRRUS_OS
       - cat **/*.gradle* **/gradle*.properties || true
     populate_script: mkdir -p ${GRADLE_USER_HOME}/caches
-  build_script:
-    - ./gradlew build --exclude-task test
   ruling_script:
     - source cirrus-env QA
     - git submodule update --init its/sources
