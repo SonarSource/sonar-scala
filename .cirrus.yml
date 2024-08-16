@@ -17,6 +17,17 @@ eks_container: &CONTAINER_DEFINITION
   region: eu-central-1
   namespace: default
 
+setup_gradle_cache_template: &SETUP_GRADLE_CACHE
+  gradle_cache:
+    folder: .gradle/caches
+  fingerprint_script:
+    - echo $CIRRUS_OS
+    - cat **/*.gradle* **/gradle*.properties || true
+  create_gradle_directory_script:
+    - mkdir -p "${CIRRUS_WORKING_DIR}/.gradle"
+
+tear_down_gradle_cache_template:
+
 build_task:
   eks_container:
     <<: *CONTAINER_DEFINITION
@@ -25,12 +36,7 @@ build_task:
   env:
     SONAR_TOKEN: FIXME
     SONAR_HOST_URL: FIXME
-  gradle_cache:
-    folder: ${GRADLE_USER_HOME}/caches
-    fingerprint_script:
-      - echo $CIRRUS_OS
-      - cat **/*.gradle* **/gradle*.properties || true
-    populate_script: mkdir -p ${GRADLE_USER_HOME}/caches
+  <<: *SETUP_GRADLE_CACHE
   build_script:
     - source cirrus-env BUILD
     - function gradle(){ ./gradlew "$@"; }; export -f gradle
@@ -54,12 +60,7 @@ qa_plugin_task:
     matrix:
       - SQ_VERSION: "LATEST_RELEASE"
       - SQ_VERSION: "DEV"
-  gradle_cache:
-    folder: ${GRADLE_USER_HOME}/caches
-    fingerprint_script:
-      - echo $CIRRUS_OS
-      - cat **/*.gradle* **/gradle*.properties || true
-    populate_script: mkdir -p ${GRADLE_USER_HOME}/caches
+  <<: *SETUP_GRADLE_CACHE
   plugin_script:
     - source cirrus-env QA
     - ./gradlew build --project-prop plugin --info --stacktrace --console=plain --build-cache --no-daemon -Dsonar.runtimeVersion=${SQ_VERSION} -Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}
@@ -72,12 +73,7 @@ qa_ruling_task:
     <<: *CONTAINER_DEFINITION
     cpu: 8
     memory: 8G
-  gradle_cache:
-    folder: ${GRADLE_USER_HOME}/caches
-    fingerprint_script:
-      - echo $CIRRUS_OS
-      - cat **/*.gradle* **/gradle*.properties || true
-    populate_script: mkdir -p ${GRADLE_USER_HOME}/caches
+  <<: *SETUP_GRADLE_CACHE
   ruling_script:
     - source cirrus-env QA
     - git submodule update --init its/sources
