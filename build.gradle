@@ -225,6 +225,7 @@ subprojects {
 
 sonar {
     properties {
+        property 'sonar.projectKey', 'SonarSource_sonar-scala'
         property 'sonar.projectName', projectTitle
         property 'sonar.links.ci', "${sonarLinksCi}"
         property 'sonar.links.scm', "${sonarLinksScm}"
