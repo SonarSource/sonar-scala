@@ -47,7 +47,7 @@ Then build and run the Integration Tests using the `its` property:
 
 You can also build and run only Ruling Tests using the `ruling` property:
 
-    ./gradlew build -Pruling-scala --info --no-daemon
+    ./gradlew build -Pruling --info --no-daemon
 
 ## License headers
 

@@ -49,19 +49,8 @@ allprojects {
         version = version.replace('-SNAPSHOT', versionSuffix)
     }
 
-    File extraProperties = new File(rootDir, 'private/extraProperties.gradle')
-    if (extraProperties.exists()) {
-        apply from: extraProperties
-    }
-
     repositories {
         mavenLocal()
-        if (new File(rootDir, 'private/build.gradle').exists()) {
-            def repository = project.hasProperty('qa') ? 'sonarsource-qa' : 'sonarsource'
-            maven {
-                url "https://repox.jfrog.io/repox/${repository}"
-            }
-        }
         mavenCentral()
     }
 }
@@ -125,7 +114,7 @@ subprojects {
         testCompile.extendsFrom compileOnly
     }
 
-    if (!project.path.startsWith(":its") && !project.path.startsWith(":private:its")) {
+    if (!project.path.startsWith(":its")) {
         test {
             useJUnitPlatform()
         }
@@ -158,13 +147,8 @@ subprojects {
     // license updater
     spotless {
         java {
-            targetExclude "**/src/test/resources/**", "**/build/**", "its/sources/**", "its/plugin/projects/**", "private/its/sources/**", "private/its/plugin/projects/**"
-
-            if (getPath().startsWith(':private')) {
-                licenseHeaderFile(rootProject.file("private/LICENSE")).updateYearWithLatest(true)
-            } else {
-                licenseHeaderFile(rootProject.file("LICENSE_HEADER")).updateYearWithLatest(true)
-            }
+            targetExclude "**/src/test/resources/**", "**/build/**", "its/sources/**", "its/plugin/projects/**"
+            licenseHeaderFile(rootProject.file("LICENSE_HEADER")).updateYearWithLatest(true)
         }
     }
 
