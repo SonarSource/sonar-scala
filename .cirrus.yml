@@ -26,6 +26,14 @@ setup_gradle_cache_template: &SETUP_GRADLE_CACHE
   create_gradle_directory_script:
     - mkdir -p "${CIRRUS_WORKING_DIR}/.gradle"
 
+only_if_sonarsource_qa_template: &ONLY_IF_SONARSOURCE_QA
+  only_if: $CIRRUS_USER_COLLABORATOR == 'true' && $CIRRUS_TAG == "" && ($CIRRUS_PR != "" || $CIRRUS_BRANCH == "master" || $CIRRUS_BRANCH =~ "branch-.*" || $CIRRUS_BRANCH =~ "dogfood-on-.*")
+
+qa_task_filter_template: &QA_TASK_FILTER
+  depends_on:
+    - build
+  <<: *ONLY_IF_SONARSOURCE_QA
+
 build_task:
   eks_container:
     <<: *CONTAINER_DEFINITION
@@ -48,11 +56,13 @@ build_task:
       path: "*.hprof"
 
 mend_task:
+  depends_on:
+    - build
+  only_if: $CIRRUS_USER_COLLABORATOR == 'true' && ($CIRRUS_BRANCH == "master" || $CIRRUS_BRANCH =~ "branch-.*" || $CIRRUS_BRANCH =~ "mend-.*")
   eks_container:
     <<: *CONTAINER_DEFINITION
     cpu: 8
     memory: 4G
-  only_if: $CIRRUS_USER_COLLABORATOR == 'true' && ($CIRRUS_BRANCH == "master" || $CIRRUS_BRANCH =~ "branch-.*" || $CIRRUS_BRANCH =~ "mend-.*")
   env:
     WS_APIKEY: VAULT[development/kv/data/mend data.apikey]
   <<: SETUP_GRADLE_CACHE
@@ -67,8 +77,7 @@ mend_task:
       path: "whitesource/**/*"
 
 qa_plugin_task:
-  depends_on:
-    - build
+  <<: *QA_TASK_FILTER
   eks_container:
     <<: *CONTAINER_DEFINITION
     cpu: 8
@@ -84,8 +93,7 @@ qa_plugin_task:
 
 
 qa_ruling_task:
-  depends_on:
-    - build
+  <<: *QA_TASK_FILTER
   eks_container:
     <<: *CONTAINER_DEFINITION
     cpu: 8
