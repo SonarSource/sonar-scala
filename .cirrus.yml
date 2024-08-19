@@ -105,5 +105,10 @@ promote_task:
     <<: *CONTAINER_DEFINITION
     cpu: 1
     memory: 1G
+  env:
+    ARTIFACTORY_URL: VAULT[development/kv/data/repox data.url]
+    ARTIFACTORY_PROMOTE_ACCESS_TOKEN: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-promoter access_token]
+    GITHUB_TOKEN: VAULT[development/github/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-promotion token]
   promote_script:
-    - echo "Done!"
+    - function gradle(){ ./gradlew "$@"; }; export -f gradle
+    - cirrus_promote_gradle multi
