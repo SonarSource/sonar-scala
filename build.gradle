@@ -106,7 +106,12 @@ subprojects {
         }
     }
 
-    java.sourceCompatibility = JavaVersion.VERSION_11
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11
+        withSourcesJar()
+        withJavadocJar()
+    }
+
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
         options.release = java.sourceCompatibility.majorVersion as int
@@ -152,16 +157,6 @@ subprojects {
         if (propKeys.contains("buildNumber") && !propKeys.contains("slangVersion")) {
             systemProperties["slangVersion"] = version
         }
-    }
-
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        archiveClassifier = 'sources'
-        from sourceSets.main.allSource
-    }
-
-    task javadocJar(type: Jar, dependsOn: javadoc) {
-        archiveClassifier = 'javadoc'
-        from javadoc.destinationDir
     }
 
     // license updater
