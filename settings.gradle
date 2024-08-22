@@ -5,20 +5,8 @@ pluginManagement {
     }
 }
 
-dependencyResolutionManagement {
-    repositories {
-        mavenCentral()
-    }
-}
-
 rootProject.name = 'sonar-scala'
 
-include 'slang-api'
-include 'slang-testing'
-include 'slang-antlr'
-include 'slang-checks'
-include 'slang-plugin'
 include 'sonar-scala-plugin'
-include 'checkstyle-import'
 include 'its:plugin'
 include 'its:ruling'
