@@ -2,10 +2,16 @@ env:
   CIRRUS_CLONE_DEPTH: "20"
   CIRRUS_SHELL: bash
   # Artifactory settings
+  ARTIFACTORY_URL: VAULT[development/kv/data/repox data.url]
+  ARTIFACTORY_PRIVATE_USERNAME: vault-${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-private-reader
+  ARTIFACTORY_PRIVATE_PASSWORD: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-private-reader access_token]
   ARTIFACTORY_ACCESS_TOKEN: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-private-reader access_token]
   ARTIFACTORY_DEPLOY_USERNAME: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer username]
   ARTIFACTORY_DEPLOY_PASSWORD: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer access_token]
   ARTIFACTORY_DEPLOY_REPO: sonarsource-public-qa
+  ORG_GRADLE_PROJECT_signingKey: VAULT[development/kv/data/sign data.key]
+  ORG_GRADLE_PROJECT_signingPassword: VAULT[development/kv/data/sign data.passphrase]
+  ORG_GRADLE_PROJECT_signingKeyId: VAULT[development/kv/data/sign data.key_id]
   DEPLOY_PULL_REQUEST: "true"
   # Gradle settings
   GRADLE_USER_HOME: ${CIRRUS_WORKING_DIR}/.gradle
@@ -89,8 +95,12 @@ qa_plugin_task:
   <<: *SETUP_GRADLE_CACHE
   plugin_script:
     - source cirrus-env QA
-    - ./gradlew build --project-prop plugin --info --stacktrace --console=plain --build-cache --no-daemon -Dsonar.runtimeVersion=${SQ_VERSION} -Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}
-
+    - ./gradlew ":its:plugin:test" -project-prop plugin      
+      "-Dsonar.runtimeVersion=${SQ_VERSION}"
+      "-Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}"
+      "-DbuildNumber=$BUILD_NUMBER"
+      -I "${GRADLE_HOME}/init.d/repoxAuth.init.gradle.kts"
+      --info --stacktrace --console plain --no-daemon --build-cache
 
 qa_ruling_task:
   <<: *QA_TASK_FILTER
@@ -102,7 +112,12 @@ qa_ruling_task:
   ruling_script:
     - source cirrus-env QA
     - git submodule update --init its/sources
-    - ./gradlew build --project-prop ruling --info --stacktrace --console=plain --build-cache --no-daemon "-Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}"
+    - ./gradlew ":its:ruling:test" -project-prop ruling      
+      "-Dsonar.runtimeVersion=LATEST_RELEASE"
+      "-Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}"
+      "-DbuildNumber=$BUILD_NUMBER"
+      -I "${GRADLE_HOME}/init.d/repoxAuth.init.gradle.kts"
+      --info --stacktrace --console plain --no-daemon --build-cache
 
 promote_task:
   depends_on:
