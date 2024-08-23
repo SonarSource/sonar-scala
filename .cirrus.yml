@@ -95,7 +95,7 @@ qa_plugin_task:
   <<: *SETUP_GRADLE_CACHE
   plugin_script:
     - source cirrus-env QA
-    - ./gradlew ":its:plugin:test" -project-prop plugin      
+    - ./gradlew ":its:plugin:test" --project-prop plugin      
       "-Dsonar.runtimeVersion=${SQ_VERSION}"
       "-Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}"
       "-DbuildNumber=$BUILD_NUMBER"
@@ -112,7 +112,7 @@ qa_ruling_task:
   ruling_script:
     - source cirrus-env QA
     - git submodule update --init its/sources
-    - ./gradlew ":its:ruling:test" -project-prop ruling      
+    - ./gradlew ":its:ruling:test" --project-prop ruling      
       "-Dsonar.runtimeVersion=LATEST_RELEASE"
       "-Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}"
       "-DbuildNumber=$BUILD_NUMBER"
