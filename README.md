@@ -49,6 +49,11 @@ You can also build and run only Ruling Tests using the `ruling` property:
 
     ./gradlew build -Pruling --info --no-daemon
 
+## Validate the published artifact locally
+
+    ./gradlew build -x test publishToMavenLocal
+    find "$HOME/.m2/repository/org/sonarsource/slang/sonar-scala-plugin" -ls
+
 ## License headers
 
 Furthermore, there are files such as `package-info.java` and `module-info.java` that spotless ignores.
