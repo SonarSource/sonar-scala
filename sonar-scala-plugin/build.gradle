@@ -15,11 +15,10 @@ tasks.test.dependsOn processScoverageResources
 sourceSets {
     main {
         scala {
-            // scala output will be a dependency used by java code
-            outputDir = file("$buildDir/classes/scala/main")
+            getOutput().dir(file("$buildDir/classes/scala/main"))
         }
         java {
-            outputDir = file("$buildDir/classes/java/main")
+            getDestinationDirectory().set(file("$buildDir/classes/java/main"))
         }
     }
 }
