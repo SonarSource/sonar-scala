@@ -52,7 +52,7 @@ You can also build and run only Ruling Tests using the `ruling` property:
 ## Validate the published artifact locally
 
     ./gradlew build -x test publishToMavenLocal
-    find "$HOME/.m2/repository/org/sonarsource/slang/sonar-scala-plugin" -mtime -20s -ls
+    find "$HOME/.m2/repository/org/sonarsource/slang/sonar-scala-plugin" -ls
 
 ## License headers
 
