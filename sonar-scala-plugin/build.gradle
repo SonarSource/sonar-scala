@@ -1,7 +1,7 @@
 plugins {
     id "scala"
     id "org.scoverage" version "8.0.3"
-    id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
 }
 
 scoverage {
@@ -55,7 +55,7 @@ dependencies {
     implementation 'org.sonarsource.slang:slang-api'
     implementation 'org.sonarsource.slang:slang-checks'
     implementation 'org.sonarsource.slang:slang-plugin'
-    implementation('org.scalameta:scalameta_2.13:4.8.10') {
+    implementation('org.scalameta:scalameta_2.13') {
         exclude group: 'org.scalameta', module: 'semanticdb_2.13'
         exclude group: 'com.lihaoyi', module: 'fansi_2.13'
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
