@@ -29,15 +29,6 @@ allprojects {
     ext {
         buildNumber = System.getProperty("buildNumber")
 
-         slangDependenciesVersion = '1.16.0.6202'
-         analyzerCommonsVersion = '2.13.0.3004'
-         pluginApiVersion = '10.10.0.2391'
-         sonarqubeVersion = '10.0.0.68432'
-         orchestratorVersion = '3.42.0.312'
-         sonarlintVersion = '9.0.0.74282'
-        // slf4j is provided by SQ, SC or SL, should be aligned with sonar-plugin-api
-         slf4jApiVersion = '1.7.30'
-
         sonarLinksCi = 'https://cirrus-ci.com/github/SonarSource/sonar-scala'
         sonarLinksScm = 'https://github.com/SonarSource/sonar-scala'
 
