@@ -103,7 +103,7 @@ subprojects {
             dependency 'org.mockito:mockito-core:5.13.0'
             dependency 'org.assertj:assertj-core:3.26.3'
 
-            dependency 'org.scalameta:scalameta_2.13:4.8.10'
+            dependency 'org.scalameta:scalameta_2.13:4.9.4'
         }
     }
 
