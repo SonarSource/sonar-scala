@@ -47,28 +47,32 @@ jacocoTestReport {
 }
 
 dependencies {
-    compileOnly 'org.sonarsource.api.plugin:sonar-plugin-api'
-    testImplementation 'org.sonarsource.sonarqube:sonar-plugin-api-impl'
-    testImplementation 'org.sonarsource.api.plugin:sonar-plugin-api-test-fixtures'
-    implementation 'org.sonarsource.analyzer-commons:sonar-analyzer-commons'
-    implementation 'org.sonarsource.analyzer-commons:sonar-xml-parsing'
-    implementation 'org.sonarsource.slang:slang-api'
-    implementation 'org.sonarsource.slang:slang-checks'
-    implementation 'org.sonarsource.slang:slang-plugin'
-    implementation('org.scalameta:scalameta_2.13') {
+    compileOnly libs.sonar.plugin.api
+
+    implementation libs.sonar.analyzer.commons
+    implementation libs.slang.plugin
+    implementation libs.slang.checks
+    implementation libs.slang.api
+    implementation libs.sonar.xml.parsing
+
+    implementation (libs.scalameta) {
         exclude group: 'org.scalameta', module: 'semanticdb_2.13'
         exclude group: 'com.lihaoyi', module: 'fansi_2.13'
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
         exclude group: 'org.jline', module: 'jline'
         // FIXME: next time we update scalameta, check if transitive dependencies are still vulnerable on mend
     }
-    testImplementation 'org.sonarsource.slang:slang-testing'
-    testImplementation 'org.sonarsource.slang:slang-antlr'
-    testImplementation "org.junit.jupiter:junit-jupiter-api"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
-    testImplementation 'org.assertj:assertj-core'
-    testImplementation 'org.mockito:mockito-core'
-    testImplementation 'io.github.classgraph:classgraph'
+
+    testImplementation testLibs.slang.antlr
+    testImplementation testLibs.assertj.core
+    testImplementation testLibs.mockito.core
+    testImplementation testLibs.classgraph
+    testImplementation testLibs.slang.testing
+    testImplementation testLibs.junit.jupiter.api
+    testImplementation testLibs.sonar.plugin.api.impl
+    testImplementation testLibs.sonar.plugin.api.test.fixtures
+
+    testRuntimeOnly testLibs.junit.jupiter.engine
 
     constraints {
         zinc('org.apache.logging.log4j:log4j-api:2.17.2') {
