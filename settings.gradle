@@ -25,8 +25,6 @@ dependencyResolutionManagement {
             library("slang-plugin", "org.sonarsource.slang", "slang-plugin").version(slangDependenciesVersion)
             library("slf4j-api", "org.slf4j", "slf4j-api").version(slf4jApiVersion)
             library("scalameta", "org.scalameta", "scalameta_2.13").version("4.9.4")
-
-            //library("checkstyle-import", "org.sonarsource.slang", "checkstyle-import").version(slangDependenciesVersion)
         }
 
         testLibs {
@@ -42,9 +40,6 @@ dependencyResolutionManagement {
             library("classgraph", "io.github.classgraph", "classgraph").version("4.8.162")
             library("junit-jupiter-api", "org.junit.jupiter", "junit-jupiter-api").version("5.11.0")
             library("junit-jupiter-engine", "org.junit.jupiter", "junit-jupiter-engine").version("5.11.0")
-
-            library("junit", "junit", "junit").version("4.13.2")
-            //dependency "org.sonarsource.analyzer-commons:sonar-analyzer-test-commons:${analyzerCommonsVersion}"
         }
     }
 }
