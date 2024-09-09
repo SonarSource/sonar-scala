@@ -50,7 +50,9 @@ dependencies {
     compileOnly libs.sonar.plugin.api
 
     implementation libs.sonar.analyzer.commons
-    implementation libs.slang.plugin
+    implementation  (libs.slang.plugin) {
+        exclude(group: 'org.assertj', module: 'assertj-core')
+    }
     implementation libs.slang.checks
     implementation libs.slang.api
     implementation libs.sonar.xml.parsing
@@ -140,7 +142,7 @@ shadowJar {
     exclude '**/*.proto'
     exclude '**/*.txt'
     doLast {
-        enforceJarSizeAndCheckContent(shadowJar.archiveFile.get().asFile, 20_000_000L, 22_5000_000L)
+        enforceJarSizeAndCheckContent(shadowJar.archiveFile.get().asFile, 17_000_000L, 18_000_000L)
     }
 }
 
