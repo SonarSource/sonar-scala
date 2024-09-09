@@ -140,7 +140,7 @@ shadowJar {
     exclude '**/*.proto'
     exclude '**/*.txt'
     doLast {
-        enforceJarSizeAndCheckContent(shadowJar.archiveFile.get().asFile, 22_000_000L, 22_5000_000L)
+        enforceJarSizeAndCheckContent(shadowJar.archiveFile.get().asFile, 20_000_000L, 22_5000_000L)
     }
 }
 
