@@ -102,7 +102,7 @@ jar {
                 'Plugin-Homepage': 'http://redirect.sonarsource.com/plugins/scala.html',
                 'Plugin-IssueTrackerUrl': 'https://jira.sonarsource.com/browse/SONARSCALA',
                 'Plugin-Key': 'sonarscala',
-                'Plugin-License': 'GNU LGPL 3',
+                'Plugin-License': 'SONAR Source-Available License v1.0',
                 'Plugin-Name': 'Scala Code Quality and Security',
                 'Plugin-Organization': 'SonarSource',
                 'Plugin-OrganizationUrl': 'http://www.sonarsource.com',
