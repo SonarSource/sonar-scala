@@ -59,8 +59,17 @@ You can also build and run only Ruling Tests using the `ruling` property:
 
 ## License headers
 
-Furthermore, there are files such as `package-info.java` and `module-info.java` that spotless ignores.
+However, there are files such as `package-info.java` and `module-info.java` that spotless ignores.
 Scala source files are not handled.
 For those files use a manual script like below to update the license. E.g., for Scala files (on Mac):
 
     `find . -type f -name "*.scala" -exec sed -i '' 's/2018-2023/2018-2024/' "{}" \;`
+
+## License
+Copyright 2012-2024 SonarSource.
+
+SonarQube analyzers released after November 29, 2024, including patch fixes for prior versions,
+are published under the [Sonar Source-Available License Version 1 (SSALv1)](LICENSE.txt).
+
+See individual files for details that specify the license applicable to each file.
+Files subject to the SSALv1 will be noted in their headers.
