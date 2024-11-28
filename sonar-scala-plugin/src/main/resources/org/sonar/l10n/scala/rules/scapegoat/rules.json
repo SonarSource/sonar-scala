@@ -1,5 +1,12 @@
 [
   {
+    "key": "com.sksamuel.scapegoat.inspections.AvoidRequire",
+    "name": "Use of require",
+    "type": "CODE_SMELL",
+    "severity": "MAJOR",
+    "url": "https://github.com/sksamuel/scapegoat/blob/master/README.md#inspections"
+  },
+  {
     "key": "com.sksamuel.scapegoat.inspections.AvoidToMinusOne",
     "name": "Checks for loops that use `x to n-1` instead of `x until n`",
     "type": "CODE_SMELL",
@@ -769,6 +776,13 @@
   {
     "key": "com.sksamuel.scapegoat.inspections.style.SimplifyBooleanExpression",
     "name": "`b \u003d\u003d false` can be simplified to `!b`",
+    "type": "CODE_SMELL",
+    "severity": "MINOR",
+    "url": "https://github.com/sksamuel/scapegoat/blob/master/README.md#inspections"
+  },
+  {
+    "key": "com.sksamuel.scapegoat.inspections.traits.AbstractTrait",
+    "name": "Check if trait is abstract",
     "type": "CODE_SMELL",
     "severity": "MINOR",
     "url": "https://github.com/sksamuel/scapegoat/blob/master/README.md#inspections"
