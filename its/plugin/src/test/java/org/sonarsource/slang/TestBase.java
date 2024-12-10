@@ -16,7 +16,7 @@
  */
 package org.sonarsource.slang;
 
-import com.sonar.orchestrator.Orchestrator;
+import com.sonar.orchestrator.junit4.OrchestratorRule;
 import com.sonar.orchestrator.build.SonarScanner;
 import java.io.File;
 import java.util.Arrays;
@@ -41,7 +41,7 @@ import static java.util.Collections.singletonList;
 public abstract class TestBase {
 
   @ClassRule
-  public static final Orchestrator ORCHESTRATOR = Tests.ORCHESTRATOR;
+  public static final OrchestratorRule ORCHESTRATOR = Tests.ORCHESTRATOR;
 
   protected SonarScanner getSonarScanner(String projectKey, String directoryToScan, String languageKey) {
     return getSonarScanner(projectKey, directoryToScan, languageKey, null);
