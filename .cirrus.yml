@@ -9,6 +9,8 @@ env:
   ARTIFACTORY_DEPLOY_USERNAME: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer username]
   ARTIFACTORY_DEPLOY_PASSWORD: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-qa-deployer access_token]
   ARTIFACTORY_DEPLOY_REPO: sonarsource-public-qa
+  DEVELOCITY_TOKEN: VAULT[development/kv/data/develocity data.token]
+  DEVELOCITY_ACCESS_KEY: develocity.sonar.build=${DEVELOCITY_TOKEN}
   DEPLOY_PULL_REQUEST: "true"
   # Gradle settings
   GRADLE_USER_HOME: ${CIRRUS_WORKING_DIR}/.gradle
@@ -28,6 +30,9 @@ setup_gradle_cache_template: &SETUP_GRADLE_CACHE
     - cat **/*.gradle* **/gradle*.properties || true
   create_gradle_directory_script:
     - mkdir -p "${CIRRUS_WORKING_DIR}/.gradle"
+
+log_develocity_url_script: &log_develocity_url_script |
+  echo "Develocity URL: https://develocity.sonar.build/scans?search.publicHostnames=cirrus-ci-task-${CIRRUS_TASK_ID}"
 
 only_if_sonarsource_qa_template: &ONLY_IF_SONARSOURCE_QA
   only_if: $CIRRUS_USER_COLLABORATOR == 'true' && $CIRRUS_TAG == "" && ($CIRRUS_PR != "" || $CIRRUS_BRANCH == "master" || $CIRRUS_BRANCH =~ "branch-.*" || $CIRRUS_BRANCH =~ "dogfood-on-.*")
@@ -50,6 +55,7 @@ build_task:
     ORG_GRADLE_PROJECT_signingKeyId: VAULT[development/kv/data/sign data.key_id]
   <<: *SETUP_GRADLE_CACHE
   build_script:
+    - *log_develocity_url_script
     - source cirrus-env BUILD
     - function gradle(){ ./gradlew "$@"; }; export -f gradle
     - gradle --version
@@ -73,6 +79,7 @@ mend_task:
     WS_APIKEY: VAULT[development/kv/data/mend data.apikey]
   <<: SETUP_GRADLE_CACHE
   scan_script:
+    - *log_develocity_url_script
     - source cirrus-env QA
     - ./gradlew clean build --exclude-task test
     - source export_ws_variables_from_gradle
@@ -94,6 +101,7 @@ qa_plugin_task:
       - SQ_VERSION: "DEV"
   <<: *SETUP_GRADLE_CACHE
   plugin_script:
+    - *log_develocity_url_script
     - source cirrus-env QA
     - ./gradlew ":its:plugin:test" --project-prop plugin      
       "-Dsonar.runtimeVersion=${SQ_VERSION}"
@@ -110,6 +118,7 @@ qa_ruling_task:
     memory: 8G
   <<: *SETUP_GRADLE_CACHE
   ruling_script:
+    - *log_develocity_url_script
     - source cirrus-env QA
     - git submodule update --init its/sources
     - ./gradlew ":its:ruling:test" --project-prop ruling      
@@ -133,5 +142,6 @@ promote_task:
     ARTIFACTORY_PROMOTE_ACCESS_TOKEN: VAULT[development/artifactory/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-promoter access_token]
     GITHUB_TOKEN: VAULT[development/github/token/${CIRRUS_REPO_OWNER}-${CIRRUS_REPO_NAME}-promotion token]
   promote_script:
+    - *log_develocity_url_script
     - function gradle(){ ./gradlew "$@"; }; export -f gradle
     - cirrus_promote_gradle multi
