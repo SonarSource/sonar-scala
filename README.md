@@ -67,7 +67,7 @@ For those files use a manual script like below to update the license. E.g., for 
     `find . -type f -name "*.scala" -exec sed -i '' 's/2018-2023/2018-2024/' "{}" \;`
 
 ## License
-Copyright 2018-2024 SonarSource.
+Copyright 2018-2025 SonarSource.
 
 SonarQube analyzers released after November 29, 2024, including patch fixes for prior versions,
 are published under the [Sonar Source-Available License Version 1 (SSALv1)](LICENSE).
