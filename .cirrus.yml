@@ -90,8 +90,8 @@ qa_plugin_task:
     memory: 8G
   env:
     matrix:
-      - SQ_VERSION: "LATEST_RELEASE"
-      - SQ_VERSION: "DEV"
+      - SQ_VERSION: "LATEST_RELEASE[25.1]"
+      - SQ_VERSION: "DEV[25.1"
   <<: *SETUP_GRADLE_CACHE
   plugin_script:
     - source cirrus-env QA
@@ -113,7 +113,7 @@ qa_ruling_task:
     - source cirrus-env QA
     - git submodule update --init its/sources
     - ./gradlew ":its:ruling:test" --project-prop ruling      
-      "-Dsonar.runtimeVersion=LATEST_RELEASE"
+      "-Dsonar.runtimeVersion=LATEST_RELEASE[25.1]"
       "-Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}"
       "-DbuildNumber=$BUILD_NUMBER"
       -I "${GRADLE_HOME}/init.d/repoxAuth.init.gradle.kts"
