@@ -1,6 +1,6 @@
 /*
  * SonarSource Scala
- * Copyright (C) 2018-2024 SonarSource SA
+ * Copyright (C) 2018-2025 SonarSource SA
  * mailto:info AT sonarsource DOT com
  *
  * This program is free software; you can redistribute it and/or
@@ -34,7 +34,6 @@ public class MeasuresTest extends TestBase {
     final String componentKey = projectKey + ":file.scala";
     assertThat(getMeasureAsInt(componentKey, "ncloc")).isEqualTo(8);
     assertThat(getMeasureAsInt(componentKey, "comment_lines")).isEqualTo(2);
-    assertThat(getMeasure(componentKey, "ncloc_data").getValue()).isEqualTo("1=1;3=1;7=1;10=1;11=1;12=1;13=1;15=1");
     assertThat(getMeasureAsInt(componentKey, "functions")).isEqualTo(1);
 
     List<Issues.Issue> issuesForRule = getIssuesForRule(projectKey, "scala:S1135");

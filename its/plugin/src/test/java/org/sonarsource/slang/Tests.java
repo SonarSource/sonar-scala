@@ -1,6 +1,6 @@
 /*
  * SonarSource Scala
- * Copyright (C) 2018-2024 SonarSource SA
+ * Copyright (C) 2018-2025 SonarSource SA
  * mailto:info AT sonarsource DOT com
  *
  * This program is free software; you can redistribute it and/or
@@ -16,8 +16,8 @@
  */
 package org.sonarsource.slang;
 
-import com.sonar.orchestrator.Orchestrator;
-import com.sonar.orchestrator.OrchestratorBuilder;
+import com.sonar.orchestrator.junit4.OrchestratorRule;
+import com.sonar.orchestrator.junit4.OrchestratorRuleBuilder;
 import com.sonar.orchestrator.locator.FileLocation;
 import com.sonar.orchestrator.locator.Location;
 import com.sonar.orchestrator.locator.MavenLocation;
@@ -46,10 +46,10 @@ public class Tests {
   private static final Set<String> LANGUAGES = new HashSet<>(Collections.singletonList("scala"));
 
   @ClassRule
-  public static final Orchestrator ORCHESTRATOR;
+  public static final OrchestratorRule ORCHESTRATOR;
 
   static {
-    OrchestratorBuilder orchestratorBuilder = Orchestrator.builderEnv();
+    OrchestratorRuleBuilder orchestratorBuilder = OrchestratorRule.builderEnv();
     addLanguagePlugins(orchestratorBuilder);
     ORCHESTRATOR = orchestratorBuilder
       .useDefaultAdminCredentialsForBuilds(true)
@@ -59,7 +59,7 @@ public class Tests {
       .build();
   }
 
-  static void addLanguagePlugins(OrchestratorBuilder builder) {
+  static void addLanguagePlugins(OrchestratorRuleBuilder builder) {
     String slangVersion = System.getProperty("slangVersion");
 
     LANGUAGES.forEach(language -> {
