@@ -6,7 +6,7 @@ on:
 
 jobs:
   stale:
-    runs-on: ubuntu-latest
+    runs-on: github-ubuntu-latest-s
     permissions:
       issues: write
       pull-requests: write
