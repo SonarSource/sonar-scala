@@ -29,7 +29,7 @@ allprojects {
     ext {
         buildNumber = System.getProperty("buildNumber")
 
-        sonarLinksCi = 'https://cirrus-ci.com/github/SonarSource/sonar-scala'
+        sonarLinksCi = 'https://github.com/SonarSource/sonar-scala/actions/workflows/build.yml'
         sonarLinksScm = 'https://github.com/SonarSource/sonar-scala'
 
         artifactsToPublish = ''
@@ -116,6 +116,7 @@ subprojects {
         systemProperties = System.properties.subMap(propKeys)
         if (propKeys.contains("buildNumber") && !propKeys.contains("slangVersion")) {
             systemProperties["slangVersion"] = version
+            logger.lifecycle("slangVersion property set to: ${version}")
         }
     }
 
@@ -165,7 +166,7 @@ subprojects {
         def signingPassword = findProperty("signingPassword")
         useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
         required {
-            def branch = System.getenv()["CIRRUS_BRANCH"]
+            def branch = System.getenv()["GITHUB_REF_NAME"]
             return (branch == 'master' || branch ==~ 'branch-[\\d.]+') &&
                     gradle.taskGraph.hasTask(":artifactoryPublish")
         }
@@ -174,7 +175,7 @@ subprojects {
 
     tasks.withType(Sign) {
         onlyIf {
-            def branch = System.getenv()["CIRRUS_BRANCH"]
+            def branch = System.getenv()["GITHUB_REF_NAME"]
             return !artifactoryPublish.skip &&
                     (branch == 'master' || branch ==~ 'branch-[\\d.]+') &&
                     gradle.taskGraph.hasTask(":artifactoryPublish")
@@ -184,6 +185,7 @@ subprojects {
 
 sonar {
     properties {
+        property 'sonar.organization', 'sonarsource'
         property 'sonar.projectKey', 'SonarSource_sonar-scala'
         property 'sonar.projectName', projectTitle
         property 'sonar.links.ci', "${sonarLinksCi}"
