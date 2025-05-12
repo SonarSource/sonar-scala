@@ -5,7 +5,7 @@ plugins {
 }
 
 scoverage {
-    scoverageVersion='2.0.11'
+    scoverageVersion='2.3.0'
     scoverageScalaVersion='2.13.12'
 }
 
