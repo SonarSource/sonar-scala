@@ -53,6 +53,7 @@ public abstract class TestBase {
       ORCHESTRATOR.getServer().associateProjectToQualityProfile(projectKey, languageKey, profileName);
     }
     return SonarScanner.create()
+      .setProperty("sonar.scanner.skipJreProvisioning", "true")
       .setProjectDir(new File(directoryToScan, languageKey))
       .setProjectKey(projectKey)
       .setProjectName(projectKey)
