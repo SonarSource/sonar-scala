@@ -96,6 +96,7 @@ qa_plugin_task:
     cpu: 8
     memory: 8G
   env:
+    GITHUB_TOKEN: VAULT[development/github/token/licenses-ro token]
     matrix:
       - SQ_VERSION: "LATEST_RELEASE"
       - SQ_VERSION: "DEV"
@@ -116,6 +117,8 @@ qa_ruling_task:
     <<: *CONTAINER_DEFINITION
     cpu: 8
     memory: 8G
+  env:
+    GITHUB_TOKEN: VAULT[development/github/token/licenses-ro token]
   <<: *SETUP_GRADLE_CACHE
   ruling_script:
     - *log_develocity_url_script
