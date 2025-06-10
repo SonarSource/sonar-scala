@@ -16,6 +16,7 @@
  */
 package org.sonarsource.slang;
 
+import com.sonar.orchestrator.container.Edition;
 import com.sonar.orchestrator.junit4.OrchestratorRule;
 import com.sonar.orchestrator.junit4.OrchestratorRuleBuilder;
 import com.sonar.orchestrator.locator.FileLocation;
@@ -53,6 +54,8 @@ public class Tests {
     addLanguagePlugins(orchestratorBuilder);
     ORCHESTRATOR = orchestratorBuilder
       .useDefaultAdminCredentialsForBuilds(true)
+      .setEdition(Edition.ENTERPRISE_LW)
+      .activateLicense()
       .setSonarVersion(System.getProperty(SQ_VERSION_PROPERTY, DEFAULT_SQ_VERSION))
       .restoreProfileAtStartup(FileLocation.of("src/test/resources/nosonar-scala.xml"))
       .restoreProfileAtStartup(FileLocation.of("src/test/resources/norule.xml"))
