@@ -67,6 +67,36 @@ build_task:
     heap_dump_artifacts:
       path: "*.hprof"
 
+sonar_shadow_scan_and_issue_replication_task:
+  depends_on:
+    - build
+  # Only run when triggered by the cirrus-ci cron job named "nightly"
+  only_if: $CIRRUS_CRON == "nightly"
+  eks_container:
+    <<: *CONTAINER_DEFINITION
+    cpu: 8
+    memory: 4G
+  env:
+    SONAR_PROJECT_KEY: "SonarSource_sonar-scala"
+    SHADOW_ORGANIZATION: "sonarsource"
+    SHADOW_PROJECT_KEY: "SonarSource_sonar-scala"
+    # to replicate issue states from next
+    SONAR_TOKEN: VAULT[development/kv/data/next data.token]
+    SONAR_HOST_URL: https://next.sonarqube.com/sonarqube
+    matrix:
+      - name: "sonarcloud.io"
+        SHADOW_SONAR_TOKEN: VAULT[development/kv/data/sonarcloud data.token]
+        SHADOW_SONAR_HOST_URL: "https://sonarcloud.io"
+      - name: "sonarqube.us"
+        SHADOW_SONAR_TOKEN: VAULT[development/kv/data/sonarqube-us data.token]
+        SHADOW_SONAR_HOST_URL: "https://sonarqube.us"
+  <<: *SETUP_GRADLE_CACHE
+  build_script:
+    - *log_develocity_url_script
+    - source cirrus-env BUILD
+    - source set_gradle_build_version
+    - ./shadow-scan-and-issue-replication.sh
+
 mend_task:
   depends_on:
     - build
@@ -134,6 +164,7 @@ qa_ruling_task:
 promote_task:
   depends_on:
     - build
+    - sonar_shadow_scan_and_issue_replication
     - qa_plugin
     - qa_ruling
   eks_container:
