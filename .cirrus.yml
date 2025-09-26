@@ -97,28 +97,6 @@ sonar_shadow_scan_and_issue_replication_task:
     - source set_gradle_build_version
     - ./shadow-scan-and-issue-replication.sh
 
-mend_task:
-  depends_on:
-    - build
-  only_if: $CIRRUS_USER_COLLABORATOR == 'true' && ($CIRRUS_BRANCH == "master" || $CIRRUS_BRANCH =~ "branch-.*" || $CIRRUS_BRANCH =~ "mend-.*")
-  eks_container:
-    <<: *CONTAINER_DEFINITION
-    cpu: 8
-    memory: 4G
-  env:
-    WS_APIKEY: VAULT[development/kv/data/mend data.apikey]
-  <<: SETUP_GRADLE_CACHE
-  scan_script:
-    - *log_develocity_url_script
-    - source cirrus-env QA
-    - ./gradlew clean build --exclude-task test
-    - source export_ws_variables_from_gradle
-    - source ws_scan.sh
-  allow_failures: "true"
-  always:
-    ws_artifacts:
-      path: "whitesource/**/*"
-
 qa_plugin_task:
   <<: *QA_TASK_FILTER
   eks_container:
