@@ -116,6 +116,7 @@ subprojects {
         systemProperties = System.properties.subMap(propKeys)
         if (propKeys.contains("buildNumber") && !propKeys.contains("slangVersion")) {
             systemProperties["slangVersion"] = version
+            logger.lifecycle("slangVersion property set to: ${version}")
         }
     }
 
