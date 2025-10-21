@@ -1,5 +1,5 @@
 # sonar-scala
-[![Build Status](https://api.cirrus-ci.com/github/SonarSource/sonar-scala.svg?branch=master)](https://cirrus-ci.com/github/SonarSource/sonar-scala)
+[![Build Status](https://github.com/SonarSource/sonar-scala/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/SonarSource/sonar-scala/actions/workflows/build.yml)
 [![Quality Gate Status](https://next.sonarqube.com/sonarqube/api/project_badges/measure?project=SonarSource_sonar-scala&metric=alert_status&token=sqb_6e2451e1b8f2da87264cb9638302eaed1d9eb87a)](https://next.sonarqube.com/sonarqube/dashboard?id=SonarSource_sonar-scala)
 [![Coverage](https://next.sonarqube.com/sonarqube/api/project_badges/measure?project=SonarSource_sonar-scala&metric=coverage&token=sqb_6e2451e1b8f2da87264cb9638302eaed1d9eb87a)](https://next.sonarqube.com/sonarqube/dashboard?id=SonarSource_sonar-scala)
 
