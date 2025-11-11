@@ -29,7 +29,7 @@ allprojects {
     ext {
         buildNumber = System.getProperty("buildNumber")
 
-        sonarLinksCi = 'https://cirrus-ci.com/github/SonarSource/sonar-scala'
+        sonarLinksCi = 'https://github.com/SonarSource/sonar-scala/actions/workflows/build.yml'
         sonarLinksScm = 'https://github.com/SonarSource/sonar-scala'
 
         artifactsToPublish = ''
