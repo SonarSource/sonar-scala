@@ -29,7 +29,8 @@ import scala.collection.JavaConverters._
 import scala.meta._
 import scala.meta.internal.tokenizers.keywords
 import scala.meta.parsers.Parsed.{Error, Success}
-import scala.meta.tokens.Token.{CR, Comment, LF, Space, Tab}
+import scala.meta.tokens.Token.Indentation.{Outdent, Indent}
+import scala.meta.tokens.Token.{CR, Comment, LF, Space, Tab, CRLF, MultiHS, FF, MultiNL}
 
 class ScalaConverter extends ASTConverter {
   val BINARY_OPERATOR_MAP = Map(
@@ -93,7 +94,8 @@ class ScalaConverter extends ASTConverter {
 
       val allTokens = metaTree.tokens
         .filter(t => t.isNot[Comment])
-        .filter(t => t.pos.start < t.pos.end && t.isNot[Space] && t.isNot[Tab] && t.isNot[CR] && t.isNot[LF])
+        .filter(t => t.pos.start < t.pos.end && t.isNot[Space] && t.isNot[Tab] && t.isNot[CR] && t.isNot[LF] && t.isNot[CRLF] &&
+          t.isNot[MultiHS] && t.isNot[FF] && t.isNot[MultiNL] && t.isNot[Indent] && t.isNot[Outdent])
         .map(t => new TokenImpl(textRange(t.pos), t.text, tokenType(t)))
         .asInstanceOf[IndexedSeq[Token]]
         .asJava
