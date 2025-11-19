@@ -82,8 +82,8 @@ TopLevelTree {                                                                  
               }                                                                          |                     |
             }                                                                            |                     |
           }                                                                              |                     |
-          ClassDeclarationTree {                                                         | class … )           | 25:5 … 26:1
-            ?ScalaNativeKind(class scala.meta.Defn$Class$DefnClassImpl)? {               | class … )           | 25:5 … 26:1
+          ClassDeclarationTree {                                                         | class … )           | 25:5 … 25:20
+            ?ScalaNativeKind(class scala.meta.Defn$Class$DefnClassImpl)? {               | class … )           | 25:5 … 25:20
               IdentifierTree                                                             | B                   | 25:11 … 25:12
               FunctionDeclarationTree {                                                  | ( … )               | 25:12 … 25:20
                 ParameterTree {                                                          | b … Int             | 25:13 … 25:19

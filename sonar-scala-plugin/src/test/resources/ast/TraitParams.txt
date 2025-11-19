@@ -30,7 +30,7 @@ TopLevelTree {                                                                  
       ClassDeclarationTree {                                                                                 | class … )         | 8:3 … 8:33
         ?ScalaNativeKind(class scala.meta.Defn$Class$DefnClassImpl)? {                                       | class … )         | 8:3 … 8:33
           IdentifierTree                                                                                     | B                 | 8:9 … 8:10
-          ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                        | extends … )       | 8:11 … 10:112
+          ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                        | extends … )       | 8:11 … 8:33
             ?ScalaNativeKind(class scala.meta.Init$InitImpl)? {                                              | Base … )          | 8:19 … 8:33
               IdentifierTree                                                                                 | Base              | 8:19 … 8:23
               ?ScalaNativeKind(class scala.meta.Term$ArgClause$TermArgClauseImpl)? {                         | ( … )             | 8:23 … 8:33
