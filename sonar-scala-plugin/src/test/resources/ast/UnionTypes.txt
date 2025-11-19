@@ -37,8 +37,8 @@ TopLevelTree {                                                                  
               IdentifierTree                                                                   | Double                  | 5:36 … 5:42
             }                                                                                  |                         |
           }                                                                                    |                         |
-          ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                          | extends … Division      | 5:44 … 7:67
-            ?ScalaNativeKind(class scala.meta.Init$InitImpl)? {                                | Division                | 5:52 … 7:67
+          ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                          | extends … Division      | 5:44 … 5:60
+            ?ScalaNativeKind(class scala.meta.Init$InitImpl)? {                                | Division                | 5:52 … 5:60
               IdentifierTree                                                                   | Division                | 5:52 … 5:60
             }                                                                                  |                         |
           }                                                                                    |                         |
@@ -106,8 +106,8 @@ TopLevelTree {                                                                  
               }                                                                                |                         |
             }                                                                                  |                         |
           }                                                                                    |                         |
-          ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                          | extends … ]             | 12:47 … 13:1
-            ?ScalaNativeKind(class scala.meta.Init$InitImpl)? {                                | List … ]                | 12:55 … 13:1
+          ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                          | extends … ]             | 12:47 … 12:62
+            ?ScalaNativeKind(class scala.meta.Init$InitImpl)? {                                | List … ]                | 12:55 … 12:62
               ?ScalaNativeKind(class scala.meta.Type$Apply$TypeApplyImpl)? {                   | List … ]                | 12:55 … 12:62
                 IdentifierTree                                                                 | List                    | 12:55 … 12:59
                 ?ScalaNativeKind(class scala.meta.Type$ArgClause$TypeArgClauseImpl)? {         | [ … ]                   | 12:59 … 12:62
