@@ -29,7 +29,7 @@ import scala.collection.JavaConverters._
 import scala.meta._
 import scala.meta.internal.tokenizers.keywords
 import scala.meta.parsers.Parsed.{Error, Success}
-import scala.meta.tokens.Token.{CR, Comment, LF, Space, Tab, CRLF, MultiHS}
+import scala.meta.tokens.Token.{CR, Comment, LF, Space, Tab, CRLF, MultiHS, FF, MultiNL, Indentation}
 
 class ScalaConverter extends ASTConverter {
   val BINARY_OPERATOR_MAP = Map(
@@ -93,7 +93,7 @@ class ScalaConverter extends ASTConverter {
 
       val allTokens = metaTree.tokens
         .filter(t => t.isNot[Comment])
-        .filter(t => t.pos.start < t.pos.end && t.isNot[Space] && t.isNot[Tab] && t.isNot[CR] && t.isNot[LF] && t.isNot[CRLF] && t.isNot[MultiHS])
+        .filter(t => t.pos.start < t.pos.end && t.isNot[Space] && t.isNot[Tab] && t.isNot[CR] && t.isNot[LF] && t.isNot[CRLF] && t.isNot[MultiHS] && t.isNot[FF] && t.isNot[MultiNL] && t.isNot[Indentation])
         .map(t => new TokenImpl(textRange(t.pos), t.text, tokenType(t)))
         .asInstanceOf[IndexedSeq[Token]]
         .asJava
@@ -139,8 +139,8 @@ class ScalaConverter extends ASTConverter {
       metaTree match {
         case scala.meta.Source(stats) =>
           createTopLevelTree(metaData, stats)
-        case scala.meta.Pkg(ref, stats) =>
-          new PackageDeclarationTreeImpl(metaData, convert(ref :: stats))
+        case scala.meta.Pkg.After_4_9_9(ref, body) =>
+          new PackageDeclarationTreeImpl(metaData, convert(ref :: body.stats))
         case scala.meta.Import(importers) =>
           new ImportDeclarationTreeImpl(metaData, convert(importers))
         case lit: scala.meta.Lit.String =>
@@ -167,7 +167,7 @@ class ScalaConverter extends ASTConverter {
           new BlockTreeImpl(metaData, convert(stats))
         case Term.Assign(lhs, rhs) if metaTree.parent.exists(p => p.isNot[Term.Apply] && p.isNot[Init] && p.isNot[Term.ArgClause]) =>
           new AssignmentExpressionTreeImpl(metaData, slang.api.AssignmentExpressionTree.Operator.EQUAL, convert(lhs), convert(rhs));
-        case Term.If(cond, thenp, elsep) =>
+        case Term.If.After_4_4_0(cond, thenp, elsep, mods) =>
           createIfTree(metaData, cond, thenp, elsep)
         case Term.While(expr, body) =>
           val convertedExpr = convert(expr)
@@ -175,8 +175,8 @@ class ScalaConverter extends ASTConverter {
         case Term.Do(body, expr) =>
           val convertedBody = convert(body)
           new LoopTreeImpl(metaData, convert(expr), convertedBody, LoopKind.DOWHILE, keyword(metaData.textRange.start, start(convertedBody)))
-        case Term.For(enums, body) =>
-          val convertedEnums = createNativeTree(enums, ScalaForConditionKind)
+        case Term.For.After_4_9_9(enumsBlock, body) =>
+          val convertedEnums = createNativeTree(enumsBlock.enums, ScalaForConditionKind)
           new LoopTreeImpl(metaData, convertedEnums, convert(body), LoopKind.FOR, keyword(metaData.textRange.start, start(convertedEnums)))
         case matchTree: Term.Match =>
           createMatchTree(metaData, matchTree)
@@ -201,8 +201,8 @@ class ScalaConverter extends ASTConverter {
             case Some(operator) => new UnaryExpressionTreeImpl(metaData, operator, convert(unaryExpression.arg))
             case None => createNativeTree(metaData, unaryExpression)
           }
-        case Term.Try(expr, catchp, finallyp) =>
-          val catchBlock = Some(catchp).filter(_.nonEmpty).map(createNativeTree(_, ScalaCatchBlockKind))
+        case Term.Try.After_4_9_9(expr, catchClause, finallyp) =>
+          val catchBlock = catchClause.map(cb => createNativeTree(cb.cases, ScalaCatchBlockKind))
           createExceptionHandlingTree(metaData, expr, catchBlock, finallyp)
         case Term.TryWithHandler(expr, catchp, finallyp) =>
           createExceptionHandlingTree(metaData, expr, Some(convert(catchp)), finallyp)
@@ -397,7 +397,7 @@ class ScalaConverter extends ASTConverter {
     }
 
     private def createMatchTree(metaData: TreeMetaData, matchTree: Term.Match): api.Tree = {
-      val convertedCases = matchTree.cases.map(createCaseTree)
+      val convertedCases = matchTree.casesBlock.cases.map(createCaseTree)
       val convertedExpression = convert(matchTree.expr)
       val matchKeyword = keyword(convertedExpression.textRange.end, start(convertedCases.head))
       new MatchTreeImpl(metaData, convertedExpression, convertedCases.asJava, matchKeyword)
