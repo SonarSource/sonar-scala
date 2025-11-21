@@ -4,7 +4,7 @@ AST node class                                                     | first…las
       ClassDeclarationTree {                                           | class … }         | 4:1 … 17:2
         ?ScalaNativeKind(class scala.meta.Defn$Class$DefnClassImpl)? { | class … }         | 4:1 … 17:2
           IdentifierTree                                               | A                 | 4:7 … 4:8
-          ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {  | extends … }       | 4:9 … 16:4
+          ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {  | extends … }       | 4:9 … 17:2
             FunctionDeclarationTree {                                  | def … }           | 7:3 … 9:4
               LiteralTree                                              | false             | 7:12 … 7:17
               IdentifierTree                                           | f                 | 7:7 … 7:8

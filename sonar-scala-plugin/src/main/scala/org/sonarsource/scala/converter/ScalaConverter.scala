@@ -183,9 +183,9 @@ class ScalaConverter extends ASTConverter {
         case classDecl: Defn.Class =>
           val identifier = convert(classDecl.name).asInstanceOf[IdentifierTree]
           new ClassDeclarationTreeImpl(metaData, identifier, createNativeTree(metaData, classDecl))
-        case v: Defn.Val if grandParentIsNewAnonymous(v) =>
+        case v: Defn.Val if greatGrandParentIsNewAnonymous(v) =>
           createNativeTree(metaData, metaTree)
-        case v: Defn.Var if grandParentIsNewAnonymous(v) =>
+        case v: Defn.Var if greatGrandParentIsNewAnonymous(v) =>
           createNativeTree(metaData, metaTree)
         case Defn.Val(List(), List(Pat.Var(name)), decltpe, rhs) =>
           createVariableDeclarationTree(metaData, name, decltpe, convert(rhs), isVal = true)
@@ -221,8 +221,17 @@ class ScalaConverter extends ASTConverter {
       }
     }
 
-    def grandParentIsNewAnonymous(variable: Stat) = {
-      variable.parent.exists(p => p.is[Template] && p.parent.exists(gp => gp.is[Term.NewAnonymous]))
+    def greatGrandParentIsNewAnonymous(variable: Stat) = {
+      variable.parent.exists(p => {
+        val isTempBdy = p.is[Template.Body];
+        val grandParentIsTemplate = p.parent.exists({
+          gp => gp.is[Template]
+        })
+
+        val greatGreatParents = p.parent.flatMap(gp => gp.parent)
+        val greatGrandParentIsNewAnonymous = greatGreatParents.exists(ggp =>ggp.is[Term.NewAnonymous])
+        isTempBdy && grandParentIsTemplate && greatGrandParentIsNewAnonymous
+      })
     }
 
     def convertModImplicit(metaTree: Mod.Implicit): slang.api.Tree = {
@@ -300,7 +309,22 @@ class ScalaConverter extends ASTConverter {
 
     private def createNativeTree(metaData: TreeMetaData, metaTree: Tree) = {
       val nativeKind = ScalaNativeKind(metaTree.getClass)
-      new NativeTreeImpl(metaData, nativeKind, convert(metaTree.children))
+      var children = metaTree.children
+
+      // TODO : check that all those types are introduced in scalameta 4.10
+      val updatedChildren = children.flatMap {
+        case temp: Template.Body =>
+          temp.children
+        case block: Term.EnumeratorsBlock =>
+          block.children
+        case block: Term.CasesBlock =>
+          block.children
+        case stat: Stat.Block =>
+          stat.children
+        case child =>
+          child :: Nil
+      }
+      new NativeTreeImpl(metaData, nativeKind, convert(updatedChildren))
     }
 
     private def createTopLevelTree(metaData: TreeMetaData, stats: List[Stat]) = {

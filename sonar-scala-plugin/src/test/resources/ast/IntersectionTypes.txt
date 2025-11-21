@@ -3,11 +3,11 @@ AST node class                                                                  
 TopLevelTree {                                                                               | object … }        | 1:1 … 34:2
   ?ScalaNativeKind(class scala.meta.Defn$Object$DefnObjectImpl)? {                           | object … }        | 4:1 … 34:2
     IdentifierTree                                                                           | IntersectionTypes | 4:8 … 4:25
-    ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                              | { … }             | 4:26 … 33:4
+    ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                              | { … }             | 4:26 … 34:2
       ?ScalaNativeKind(class scala.meta.Defn$Trait$DefnTraitImpl)? {                         | sealed … }        | 6:3 … 9:4
         ?ScalaNativeKind(class scala.meta.Mod$Sealed$ModSealedImpl)?                         | sealed            | 6:3 … 6:9
         IdentifierTree                                                                       | X                 | 6:16 … 6:17
-        ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                          | { … X             | 6:18 … 8:15
+        ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                          | { … }             | 6:18 … 9:4
           ?ScalaNativeKind(class scala.meta.Decl$Def$DeclDefImpl)? {                         | def … Double      | 7:5 … 7:18
             IdentifierTree                                                                   | x                 | 7:9 … 7:10
             IdentifierTree                                                                   | Double            | 7:12 … 7:18
@@ -21,7 +21,7 @@ TopLevelTree {                                                                  
       ?ScalaNativeKind(class scala.meta.Defn$Trait$DefnTraitImpl)? {                         | sealed … }        | 11:3 … 14:4
         ?ScalaNativeKind(class scala.meta.Mod$Sealed$ModSealedImpl)?                         | sealed            | 11:3 … 11:9
         IdentifierTree                                                                       | Y                 | 11:16 … 11:17
-        ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                          | { … Y             | 11:18 … 13:15
+        ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                          | { … }             | 11:18 … 14:4
           ?ScalaNativeKind(class scala.meta.Decl$Def$DeclDefImpl)? {                         | def … Double      | 12:5 … 12:18
             IdentifierTree                                                                   | y                 | 12:9 … 12:10
             IdentifierTree                                                                   | Double            | 12:12 … 12:18
@@ -63,7 +63,7 @@ TopLevelTree {                                                                  
               IdentifierTree                                                                 | Double            | 19:40 … 19:46
             }                                                                                |                   |
           }                                                                                  |                   |
-          ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                        | extends … ???     | 19:48 … 20:34
+          ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                        | extends … }     | 19:48 … 21:4
             ?ScalaNativeKind(class scala.meta.Init$InitImpl)? {                              | X                 | 19:56 … 19:57
               IdentifierTree                                                                 | X                 | 19:56 … 19:57
             }                                                                                |                   |

@@ -3,13 +3,13 @@ AST node class                                                                  
 TopLevelTree {                                                                                                 | object … }              | 1:1 … 103:2
   ?ScalaNativeKind(class scala.meta.Defn$Object$DefnObjectImpl)? {                                             | object … }              | 5:1 … 103:2
     IdentifierTree                                                                                             | PatternMatching         | 5:8 … 5:23
-    ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                                | { … }                   | 5:24 … 102:4
+    ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                                | { … }                   | 5:24 … 103:2
       ?ScalaNativeKind(class scala.meta.Defn$Object$DefnObjectImpl)? {                                         | object … }              | 7:3 … 13:4
         IdentifierTree                                                                                         | booleanPattern          | 7:10 … 7:24
-        ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                            | { … }                   | 7:25 … 11:6
+        ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                            | { … }                   | 7:25 … 13:4
           ?ScalaNativeKind(class scala.meta.Defn$Object$DefnObjectImpl)? {                                     | object … }              | 9:5 … 11:6
             IdentifierTree                                                                                     | Even                    | 9:12 … 9:16
-            ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                        | { … 0                   | 9:17 … 10:58
+            ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                        | { … }                   | 9:17 … 11:6
               FunctionDeclarationTree {                                                                        | def … 0                 | 10:7 … 10:58
                 IdentifierTree                                                                                 | Boolean                 | 10:31 … 10:38
                 IdentifierTree                                                                                 | unapply                 | 10:11 … 10:18
@@ -39,7 +39,7 @@ TopLevelTree {                                                                  
       }                                                                                                        |                         |
       ?ScalaNativeKind(class scala.meta.Defn$Object$DefnObjectImpl)? {                                         | object … }              | 15:3 … 33:4
         IdentifierTree                                                                                         | productPattern          | 15:10 … 15:24
-        ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                            | { … }                   | 15:25 … 31:6
+        ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                            | { … }                   | 15:25 … 33:4
           ClassDeclarationTree {                                                                               | class … }               | 17:5 … 27:6
             ?ScalaNativeKind(class scala.meta.Defn$Class$DefnClassImpl)? {                                     | class … }               | 17:5 … 27:6
               IdentifierTree                                                                                   | Person                  | 17:11 … 17:17
@@ -53,7 +53,7 @@ TopLevelTree {                                                                  
                   IdentifierTree                                                                               | Int                     | 17:37 … 17:40
                 }                                                                                              |                         |
               }                                                                                                |                         |
-              ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                      | extends … ???           | 17:42 … 26:44
+              ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                      | extends … }             | 17:42 … 27:6
                 ?ScalaNativeKind(class scala.meta.Init$InitImpl)? {                                            | Product                 | 17:50 … 17:57
                   IdentifierTree                                                                               | Product                 | 17:50 … 17:57
                 }                                                                                              |                         |
@@ -103,7 +103,7 @@ TopLevelTree {                                                                  
           }                                                                                                    |                         |
           ?ScalaNativeKind(class scala.meta.Defn$Object$DefnObjectImpl)? {                                     | object … }              | 29:5 … 31:6
             IdentifierTree                                                                                     | Person                  | 29:12 … 29:18
-            ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                        | { … )                   | 29:19 … 30:69
+            ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                        | { … }                   | 29:19 … 31:6
               FunctionDeclarationTree {                                                                        | def … )                 | 30:7 … 30:69
                 IdentifierTree                                                                                 | Person                  | 30:38 … 30:44
                 IdentifierTree                                                                                 | unapply                 | 30:11 … 30:18
@@ -138,10 +138,10 @@ TopLevelTree {                                                                  
       }                                                                                                        |                         |
       ?ScalaNativeKind(class scala.meta.Defn$Object$DefnObjectImpl)? {                                         | object … }              | 35:3 … 46:4
         IdentifierTree                                                                                         | seqPattern              | 35:10 … 35:20
-        ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                            | { … }                   | 35:21 … 44:6
+        ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                            | { … }                   | 35:21 … 46:4
           ?ScalaNativeKind(class scala.meta.Defn$Object$DefnObjectImpl)? {                                     | object … }              | 38:5 … 44:6
             IdentifierTree                                                                                     | Names                   | 38:12 … 38:17
-            ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                        | { … }                   | 38:18 … 43:8
+            ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                        | { … }                   | 38:18 … 44:6
               FunctionDeclarationTree {                                                                        | def … }                 | 39:7 … 43:8
                 ?ScalaNativeKind(class scala.meta.Type$Apply$TypeApplyImpl)? {                                 | Option … ]              | 39:37 … 39:56
                   IdentifierTree                                                                               | Option                  | 39:37 … 39:43
@@ -236,7 +236,7 @@ TopLevelTree {                                                                  
       }                                                                                                        |                         |
       ?ScalaNativeKind(class scala.meta.Defn$Object$DefnObjectImpl)? {                                         | object … }              | 48:3 … 59:4
         IdentifierTree                                                                                         | namePattern             | 48:10 … 48:21
-        ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                            | { … }                   | 48:22 … 57:6
+        ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                            | { … }                   | 48:22 … 59:4
           ClassDeclarationTree {                                                                               | class … }               | 50:5 … 53:6
             ?ScalaNativeKind(class scala.meta.Defn$Class$DefnClassImpl)? {                                     | class … }               | 50:5 … 53:6
               IdentifierTree                                                                                   | Name                    | 50:11 … 50:15
@@ -247,7 +247,7 @@ TopLevelTree {                                                                  
                   IdentifierTree                                                                               | String                  | 50:26 … 50:32
                 }                                                                                              |                         |
               }                                                                                                |                         |
-              ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                      | { … isEmpty             | 50:34 … 52:33
+              ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                      | { … }                   | 50:34 … 53:6
                 FunctionDeclarationTree {                                                                      | def … name              | 51:7 … 51:29
                   IdentifierTree                                                                               | String                  | 51:16 … 51:22
                   IdentifierTree                                                                               | get                     | 51:11 … 51:14
@@ -269,7 +269,7 @@ TopLevelTree {                                                                  
           }                                                                                                    |                         |
           ?ScalaNativeKind(class scala.meta.Defn$Object$DefnObjectImpl)? {                                     | object … }              | 55:5 … 57:6
             IdentifierTree                                                                                     | Name                    | 55:12 … 55:16
-            ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                        | { … )                   | 55:17 … 56:49
+            ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                        | { … }                   | 55:17 … 57:6
               FunctionDeclarationTree {                                                                        | def … )                 | 56:7 … 56:49
                 IdentifierTree                                                                                 | Name                    | 56:31 … 56:35
                 IdentifierTree                                                                                 | unapply                 | 56:11 … 56:18
@@ -302,7 +302,7 @@ TopLevelTree {                                                                  
               ?ScalaNativeKind(class scala.meta.Importee$Wildcard$ImporteeWildcardImpl)?                       | _                       | 63:27 … 63:28
             }                                                                                                  |                         |
           }                                                                                                    |                         |
-          MatchTree {                                                                                          | "even" … )              | 65:5 … 67:63
+          MatchTree {                                                                                          | "even" … }              | 65:5 … 68:6
             StringLiteralTree                                                                                  | "even"                  | 65:5 … 65:11
             MatchCaseTree {                                                                                    | case … )                | 66:7 … 66:73
               ?ScalaNativeKind(class scala.meta.Pat$Bind$PatBindImpl)? {                                       | s … )                   | 66:12 … 66:22
@@ -353,8 +353,8 @@ TopLevelTree {                                                                  
                 }                                                                                              |                         |
               }                                                                                                |                         |
             }                                                                                                  |                         |
-            BlockTree {                                                                                        | list … false            | 71:57 … 74:24
-              MatchTree {                                                                                      | list … false            | 71:57 … 74:24
+            BlockTree {                                                                                        | list … }                | 71:57 … 75:6
+              MatchTree {                                                                                      | list … }                | 71:57 … 75:6
                 IdentifierTree                                                                                 | list                    | 71:57 … 71:61
                 MatchCaseTree {                                                                                | case … )                | 72:7 … 72:92
                   ?ScalaNativeKind(class scala.meta.Pat$Extract$PatExtractImpl)? {                             | List … )                | 72:12 … 72:31
@@ -462,7 +462,7 @@ TopLevelTree {                                                                  
               ?ScalaNativeKind(class scala.meta.Importee$Wildcard$ImporteeWildcardImpl)?                       | _                       | 80:27 … 80:28
             }                                                                                                  |                         |
           }                                                                                                    |                         |
-          MatchTree {                                                                                          | ( … )                   | 81:5 … 82:57
+          MatchTree {                                                                                          | ( … }                   | 81:5 … 83:6
             ?ScalaNativeKind(class scala.meta.Term$Tuple$TermTupleImpl)? {                                     | ( … )                   | 81:5 … 81:17
               StringLiteralTree                                                                                | "john"                  | 81:6 … 81:12
               IntegerLiteralTree                                                                               | 42                      | 81:14 … 81:16
@@ -505,8 +505,8 @@ TopLevelTree {                                                                  
               IdentifierTree                                                                                   | fullName                | 87:15 … 87:23
               IdentifierTree                                                                                   | String                  | 87:25 … 87:31
             }                                                                                                  |                         |
-            BlockTree {                                                                                        | fullName … our name!"   | 87:35 … 89:66
-              MatchTree {                                                                                      | fullName … our name!"   | 87:35 … 89:66
+            BlockTree {                                                                                        | fullName … }            | 87:35 … 90:6
+              MatchTree {                                                                                      | fullName … }            | 87:35 … 90:6
                 IdentifierTree                                                                                 | fullName                | 87:35 … 87:43
                 MatchCaseTree {                                                                                | case … "!"              | 88:7 … 88:100
                   ?ScalaNativeKind(class scala.meta.Pat$Extract$PatExtractImpl)? {                             | Names … )               | 88:12 … 88:45
@@ -580,7 +580,7 @@ TopLevelTree {                                                                  
               ?ScalaNativeKind(class scala.meta.Importee$Wildcard$ImporteeWildcardImpl)?                       | _                       | 96:24 … 96:25
             }                                                                                                  |                         |
           }                                                                                                    |                         |
-          MatchTree {                                                                                          | "alice" … )             | 97:5 … 99:38
+          MatchTree {                                                                                          | "alice" … }             | 97:5 … 100:6
             StringLiteralTree                                                                                  | "alice"                 | 97:5 … 97:12
             MatchCaseTree {                                                                                    | case … )                | 98:7 … 98:45
               ?ScalaNativeKind(class scala.meta.Pat$Extract$PatExtractImpl)? {                                 | Name … )                | 98:12 … 98:19

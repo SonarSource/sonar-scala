@@ -3,7 +3,7 @@ AST node class                                                                  
 TopLevelTree {                                                                                                 | object … }          | 1:1 … 28:2
   ?ScalaNativeKind(class scala.meta.Defn$Object$DefnObjectImpl)? {                                             | object … }          | 5:1 … 28:2
     IdentifierTree                                                                                             | StructuralTypes     | 5:8 … 5:23
-    ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                                | { … }               | 5:24 … 27:4
+    ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                                | { … }               | 5:24 … 28:2
       ClassDeclarationTree {                                                                                   | case … }            | 7:3 … 9:4
         ?ScalaNativeKind(class scala.meta.Defn$Class$DefnClassImpl)? {                                         | case … }            | 7:3 … 9:4
           ?ScalaNativeKind(class scala.meta.Mod$Case$ModCaseImpl)?                                             | case                | 7:3 … 7:7
@@ -19,7 +19,7 @@ TopLevelTree {                                                                  
               }                                                                                                |                     |
             }                                                                                                  |                     |
           }                                                                                                    |                     |
-          ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                          | extends … _2        | 7:44 … 8:75
+          ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                          | extends … }         | 7:44 … 9:4
             ?ScalaNativeKind(class scala.meta.Init$InitImpl)? {                                                | Selectable          | 7:52 … 7:62
               IdentifierTree                                                                                   | Selectable          | 7:52 … 7:62
             }                                                                                                  |                     |
@@ -61,7 +61,7 @@ TopLevelTree {                                                                  
       }                                                                                                        |                     |
       ?ScalaNativeKind(class scala.meta.Defn$Type$DefnTypeImpl)? {                                             | type … =            | 11:3 … 11:17
         IdentifierTree                                                                                         | Person              | 11:8 … 11:14
-        ?ScalaNativeKind(class scala.meta.Type$Refine$TypeRefineImpl)? {                                       | Record … Int        | 11:17 … 13:17
+        ?ScalaNativeKind(class scala.meta.Type$Refine$TypeRefineImpl)? {                                       | Record … }          | 11:17 … 14:4
           IdentifierTree                                                                                       | Record              | 11:17 … 11:23
           ?ScalaNativeKind(class scala.meta.Decl$Val$DeclValImpl)? {                                           | val … String        | 12:5 … 12:21
             ?ScalaNativeKind(class scala.meta.Pat$Var$PatVarImpl)? {                                           | name                | 12:9 … 12:13
