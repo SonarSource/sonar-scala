@@ -138,9 +138,7 @@ class ScalaConverterTest extends AbstractScalaConverterTest {
     Tree defaultMatchCase = tree.descendants().filter(t -> t instanceof MatchCaseTree).skip(1).findFirst().get();
     assertRange(firstMatchCase.metaData().textRange()).hasRange(4,6,6,9);
     assertRange(defaultMatchCase.metaData().textRange()).hasRange(7,6,8,9);
-    // note that the parent 'matchTree' ends when the last child ends (not on the next line, with the ending curly brace token)
-    // normally it should end at line 9 column 5
-    assertRange(matchTree.metaData().textRange()).hasRange(3,4,8,9);
+    assertRange(matchTree.metaData().textRange()).hasRange(3,4,9,5);
   }
 
   @Test
