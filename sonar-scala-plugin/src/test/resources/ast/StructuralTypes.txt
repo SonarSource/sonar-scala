@@ -59,7 +59,7 @@ TopLevelTree {                                                                  
           }                                                                                                    |                     |
         }                                                                                                      |                     |
       }                                                                                                        |                     |
-      ?ScalaNativeKind(class scala.meta.Defn$Type$DefnTypeImpl)? {                                             | type … =            | 11:3 … 11:17
+      ?ScalaNativeKind(class scala.meta.Defn$Type$DefnTypeImpl)? {                                             | type … Person       | 11:3 … 11:15
         IdentifierTree                                                                                         | Person              | 11:8 … 11:14
         ?ScalaNativeKind(class scala.meta.Type$Refine$TypeRefineImpl)? {                                       | Record … }          | 11:17 … 14:4
           IdentifierTree                                                                                       | Record              | 11:17 … 11:23
