@@ -57,11 +57,13 @@ class ScalaCodeVerifier extends slang.api.CodeVerifier {
       case Term.New(Init(_, _, List())) => true
       case Term.Apply(name, arg::_) if name.pos.startLine == arg.pos.startLine && name.pos.endColumn < arg.pos.startColumn - 1 => true
       case Term.Assign(Term.Select(_,_), _) => true
+      case Term.Assign(Term.SelectPostfix(_,_), _) => true
       case Term.Return(expr) if isSimpleExpression(expr) => true
       case Term.Try(expr, List(), None) if isSimpleExpression(expr) => true
       case _ => (tree.is[Lit]
         || tree.is[Term.Name]
         || tree.is[Term.Select]
+        || tree.is[Term.SelectPostfix]
         || tree.is[Term.ApplyInfix]
         || tree.is[Term.ApplyType]
         || tree.is[Term.Ascribe]
