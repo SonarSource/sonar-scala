@@ -16,6 +16,7 @@
  */
 package org.sonarsource.scala.plugin;
 
+import java.util.Set;
 import org.sonar.api.Plugin;
 import org.sonar.api.SonarProduct;
 import org.sonar.api.config.PropertyDefinition;
@@ -68,7 +69,7 @@ public class ScalaPlugin implements Plugin {
           .subCategory(GENERAL)
           .category(SCALA_CATEGORY)
           .multiValues(true)
-          .onQualifiers(Qualifiers.PROJECT)
+          .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
           .build(),
 
         PropertyDefinition.builder(COVERAGE_REPORT_PATHS_KEY)
@@ -76,7 +77,7 @@ public class ScalaPlugin implements Plugin {
           .description("Path to Scoverage report file(s) (scoverage.xml). Usually in target\\scala-X.X\\scoverage-report")
           .category(SCALA_CATEGORY)
           .subCategory(TEST_COVERAGE_SUBCATEGORY)
-          .onQualifiers(Qualifiers.PROJECT)
+          .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
           .multiValues(true)
           .build(),
 
@@ -85,7 +86,7 @@ public class ScalaPlugin implements Plugin {
             .description("Paths (absolute or relative) to scalastyle xml files with Scalastyle issues.")
             .category(EXTERNAL_ANALYZERS_CATEGORY)
             .subCategory(SCALA_CATEGORY)
-            .onQualifiers(Qualifiers.PROJECT)
+            .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
             .multiValues(true)
             .build(),
 
@@ -94,7 +95,7 @@ public class ScalaPlugin implements Plugin {
             .description("Paths (absolute or relative) to scapegoat xml files using scalastyle format. For example: scapegoat-scalastyle.xml")
             .category(EXTERNAL_ANALYZERS_CATEGORY)
             .subCategory(SCALA_CATEGORY)
-            .onQualifiers(Qualifiers.PROJECT)
+            .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
             .multiValues(true)
             .build()
           );
