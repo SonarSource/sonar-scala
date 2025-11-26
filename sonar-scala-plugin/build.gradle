@@ -54,14 +54,7 @@ dependencies {
     implementation libs.slang.checks
     implementation libs.slang.api
     implementation libs.sonar.xml.parsing
-
-    implementation (libs.scalameta) {
-        exclude group: 'org.scalameta', module: 'semanticdb_2.13'
-        exclude group: 'com.lihaoyi', module: 'fansi_2.13'
-        exclude group: 'com.google.protobuf', module: 'protobuf-java'
-        exclude group: 'org.jline', module: 'jline'
-        // FIXME: next time we update scalameta, check if transitive dependencies are still vulnerable on mend
-    }
+    implementation libs.scalameta
 
     testImplementation testLibs.slang.antlr
     testImplementation testLibs.assertj.core
