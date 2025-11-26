@@ -119,7 +119,7 @@ class ScalaConverter extends ASTConverter {
     t.is[Space] || t.is[Tab] || t.is[CR] || t.is[LF] || t.is[CRLF] ||
       t.is[MultiHS] || t.is[FF] || t.is[MultiNL] || t.is[Indent] || t.is[Outdent]
   }
-  
+
   private def collectAnnotations(tree: Tree): List[Annotation] = tree match {
     case Mod.Annot(init) =>
       List(new AnnotationImpl(getShortName(init.tpe), init.argss.flatten.map(_.toString()).asJava, textRange(tree.pos)))
@@ -189,9 +189,9 @@ class ScalaConverter extends ASTConverter {
         case classDecl: Defn.Class =>
           val identifier = convert(classDecl.name).asInstanceOf[IdentifierTree]
           new ClassDeclarationTreeImpl(metaData, identifier, createNativeTree(metaData, classDecl))
-        case v: Defn.Val if greatGrandParentIsNewAnonymous(v) =>
+        case v: Defn.Val if greatGrandParentIsNewAnonymous(v) => // values inside anonymous structures are treated as native trees, as it is scala specific
           createNativeTree(metaData, metaTree)
-        case v: Defn.Var if greatGrandParentIsNewAnonymous(v) =>
+        case v: Defn.Var if greatGrandParentIsNewAnonymous(v) => // variables inside anonymous structures are treated as native trees, as it is scala specific
           createNativeTree(metaData, metaTree)
         case Defn.Val(List(), List(Pat.Var(name)), decltpe, rhs) =>
           createVariableDeclarationTree(metaData, name, decltpe, convert(rhs), isVal = true)
@@ -234,8 +234,8 @@ class ScalaConverter extends ASTConverter {
           gp => gp.is[Template]
         })
 
-        val greatGreatParents = p.parent.flatMap(gp => gp.parent)
-        val greatGrandParentIsNewAnonymous = greatGreatParents.exists(ggp => ggp.is[Term.NewAnonymous])
+        val greatGreatParent = p.parent.map(gp => gp.parent)
+        val greatGrandParentIsNewAnonymous = greatGreatParent.exists(ggp => ggp.is[Term.NewAnonymous])
         isTempBdy && grandParentIsTemplate && greatGrandParentIsNewAnonymous
       })
     }
