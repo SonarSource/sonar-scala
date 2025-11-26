@@ -94,8 +94,7 @@ class ScalaConverter extends ASTConverter {
 
       val allTokens = metaTree.tokens
         .filter(t => t.isNot[Comment])
-        .filter(t => t.pos.start < t.pos.end && t.isNot[Space] && t.isNot[Tab] && t.isNot[CR] && t.isNot[LF] && t.isNot[CRLF] &&
-          t.isNot[MultiHS] && t.isNot[FF] && t.isNot[MultiNL] && t.isNot[Indent] && t.isNot[Outdent])
+        .filter(t => t.pos.start < t.pos.end && ! isWhiteSpace(t))
         .map(t => new TokenImpl(textRange(t.pos), t.text, tokenType(t)))
         .asInstanceOf[IndexedSeq[Token]]
         .asJava
@@ -116,6 +115,11 @@ class ScalaConverter extends ASTConverter {
     parse(code, fileName = null)
   }
 
+  private def isWhiteSpace(t : scala.meta.tokens.Token): Boolean  = {
+    t.is[Space] || t.is[Tab] || t.is[CR] || t.is[LF] || t.is[CRLF] ||
+      t.is[MultiHS] || t.is[FF] || t.is[MultiNL] || t.is[Indent] || t.is[Outdent]
+  }
+  
   private def collectAnnotations(tree: Tree): List[Annotation] = tree match {
     case Mod.Annot(init) =>
       List(new AnnotationImpl(getShortName(init.tpe), init.argss.flatten.map(_.toString()).asJava, textRange(tree.pos)))
