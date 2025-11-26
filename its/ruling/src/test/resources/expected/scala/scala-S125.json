@@ -188,6 +188,9 @@
 32,
 34,
 ],
+'scala-project:sources/scala/linkerd/linkerd/protocol/h2/src/e2e/scala/io/buoyant/linkerd/protocol/h2/StreamClassificationEndToEndTest.scala':[
+52,
+],
 'scala-project:sources/scala/linkerd/linkerd/protocol/h2/src/main/scala/io/buoyant/linkerd/protocol/H2Config.scala':[
 57,
 ],

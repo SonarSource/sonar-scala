@@ -28,10 +28,10 @@ TopLevelTree {                                                                  
   }                                                                                                |                         |              
   ?ScalaNativeKind(class scala.meta.Defn$Object$DefnObjectImpl)? {                                 | object … }              | 9:1 … 47:2   
     IdentifierTree                                                                                 | ContextQueries          | 9:8 … 9:22   
-    ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                    | { … }                   | 9:71 … 45:4  
+    ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                    | { … }                   | 9:71 … 47:2
       ?ScalaNativeKind(class scala.meta.Defn$Object$DefnObjectImpl)? {                             | object … }              | 11:3 … 19:4  
         IdentifierTree                                                                             | context                 | 11:10 … 11:17
-        ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                | { … )                   | 11:18 … 18:79
+        ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                | { … }                   | 11:18 … 19:4
           ?ScalaNativeKind(class scala.meta.Defn$Type$DefnTypeImpl)? {                             | type … T                | 13:5 … 13:48 
             IdentifierTree                                                                         | Contextual              | 13:10 … 13:20
             ?ScalaNativeKind(class scala.meta.Type$ParamClause$TypeParamClauseImpl)? {             | [ … ]                   | 13:20 … 13:23
@@ -110,7 +110,7 @@ TopLevelTree {                                                                  
       }                                                                                            |                         |
       ?ScalaNativeKind(class scala.meta.Defn$Object$DefnObjectImpl)? {                             | object … }              | 21:3 … 35:4
         IdentifierTree                                                                             | parse                   | 21:10 … 21:15
-        ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                | { … }                   | 21:16 … 34:6
+        ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                | { … }                   | 21:16 … 35:4
           ?ScalaNativeKind(class scala.meta.Defn$Type$DefnTypeImpl)? {                             | type … ]                | 23:5 … 23:68
             IdentifierTree                                                                         | Parseable               | 23:10 … 23:19
             ?ScalaNativeKind(class scala.meta.Type$ParamClause$TypeParamClauseImpl)? {             | [ … ]                   | 23:19 … 23:22

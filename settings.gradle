@@ -44,7 +44,7 @@ dependencyResolutionManagement {
             library("slang-checks", "org.sonarsource.slang", "slang-checks").version(slangDependenciesVersion)
             library("slang-plugin", "org.sonarsource.slang", "slang-plugin").version(slangDependenciesVersion)
             library("slf4j-api", "org.slf4j", "slf4j-api").version(slf4jApiVersion)
-            library("scalameta", "org.scalameta", "scalameta_2.13").version("4.8.10")
+            library("scalameta", "org.scalameta", "scalameta_2.13").version("4.14.1")
         }
 
         testLibs {

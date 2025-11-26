@@ -3,7 +3,7 @@ AST node class                                                                  
 TopLevelTree {                                                                                 | object … }              | 1:1 … 42:2
   ?ScalaNativeKind(class scala.meta.Defn$Object$DefnObjectImpl)? {                             | object … }              | 1:1 … 42:2
     IdentifierTree                                                                             | UnionTypes              | 1:8 … 1:18
-    ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                | { … }                   | 1:19 … 41:4
+    ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                | { … }                   | 1:19 … 42:2
       ?ScalaNativeKind(class scala.meta.Defn$Trait$DefnTraitImpl)? {                           | sealed … Division       | 3:3 … 3:24
         ?ScalaNativeKind(class scala.meta.Mod$Sealed$ModSealedImpl)?                           | sealed                  | 3:3 … 3:9
         IdentifierTree                                                                         | Division                | 3:16 … 3:24
@@ -37,8 +37,8 @@ TopLevelTree {                                                                  
               IdentifierTree                                                                   | Double                  | 5:36 … 5:42
             }                                                                                  |                         |
           }                                                                                    |                         |
-          ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                          | extends … Division      | 5:44 … 7:67
-            ?ScalaNativeKind(class scala.meta.Init$InitImpl)? {                                | Division                | 5:52 … 7:67
+          ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                          | extends … Division      | 5:44 … 5:60
+            ?ScalaNativeKind(class scala.meta.Init$InitImpl)? {                                | Division                | 5:52 … 5:60
               IdentifierTree                                                                   | Division                | 5:52 … 5:60
             }                                                                                  |                         |
           }                                                                                    |                         |
@@ -106,8 +106,8 @@ TopLevelTree {                                                                  
               }                                                                                |                         |
             }                                                                                  |                         |
           }                                                                                    |                         |
-          ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                          | extends … ]             | 12:47 … 13:1
-            ?ScalaNativeKind(class scala.meta.Init$InitImpl)? {                                | List … ]                | 12:55 … 13:1
+          ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                          | extends … ]             | 12:47 … 12:62
+            ?ScalaNativeKind(class scala.meta.Init$InitImpl)? {                                | List … ]                | 12:55 … 12:62
               ?ScalaNativeKind(class scala.meta.Type$Apply$TypeApplyImpl)? {                   | List … ]                | 12:55 … 12:62
                 IdentifierTree                                                                 | List                    | 12:55 … 12:59
                 ?ScalaNativeKind(class scala.meta.Type$ArgClause$TypeArgClauseImpl)? {         | [ … ]                   | 12:59 … 12:62
@@ -161,8 +161,8 @@ TopLevelTree {                                                                  
           IdentifierTree                                                                       | division                | 18:22 … 18:30
           IdentifierTree                                                                       | Division                | 18:32 … 18:40
         }                                                                                      |                         |
-        BlockTree {                                                                            | division … )            | 18:44 … 20:32
-          MatchTree {                                                                          | division … )            | 18:44 … 20:32
+        BlockTree {                                                                            | division … }            | 18:44 … 21:4
+          MatchTree {                                                                          | division … }            | 18:44 … 21:4
             IdentifierTree                                                                     | division                | 18:44 … 18:52
             MatchCaseTree {                                                                    | case … )                | 19:5 … 19:38
               ?ScalaNativeKind(class scala.meta.Pat$Extract$PatExtractImpl)? {                 | DivisionBy … )          | 19:10 … 19:27

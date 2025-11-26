@@ -3,7 +3,7 @@ AST node class                                                                  
 TopLevelTree {                                                                           | object … }        | 1:1 … 19:2
   ?ScalaNativeKind(class scala.meta.Defn$Object$DefnObjectImpl)? {                       | object … }        | 4:1 … 19:2
     IdentifierTree                                                                       | TypeLambdas       | 4:8 … 4:19
-    ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                          | { … }             | 4:20 … 17:4
+    ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                          | { … }             | 4:20 … 19:2
       ?ScalaNativeKind(class scala.meta.Defn$Type$DefnTypeImpl)? {                       | type … ]          | 6:3 … 6:28
         IdentifierTree                                                                   | T                 | 6:8 … 6:9
         ?ScalaNativeKind(class scala.meta.Type$ParamClause$TypeParamClauseImpl)? {       | [ … ]             | 6:9 … 6:16

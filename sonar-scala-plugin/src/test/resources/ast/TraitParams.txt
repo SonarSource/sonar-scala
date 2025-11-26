@@ -3,7 +3,7 @@ AST node class                                                                  
 TopLevelTree {                                                                                               | object … }        | 1:1 … 21:2
   ?ScalaNativeKind(class scala.meta.Defn$Object$DefnObjectImpl)? {                                           | object … }        | 4:1 … 21:2
     IdentifierTree                                                                                           | TraitParams       | 4:8 … 4:19
-    ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                              | { … }             | 4:20 … 20:4
+    ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                              | { … }             | 4:20 … 21:2
       ?ScalaNativeKind(class scala.meta.Defn$Trait$DefnTraitImpl)? {                                         | trait … )         | 6:3 … 6:30
         IdentifierTree                                                                                       | Base              | 6:9 … 6:13
         FunctionDeclarationTree {                                                                            | ( … )             | 6:13 … 6:30
@@ -30,7 +30,7 @@ TopLevelTree {                                                                  
       ClassDeclarationTree {                                                                                 | class … )         | 8:3 … 8:33
         ?ScalaNativeKind(class scala.meta.Defn$Class$DefnClassImpl)? {                                       | class … )         | 8:3 … 8:33
           IdentifierTree                                                                                     | B                 | 8:9 … 8:10
-          ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                        | extends … )       | 8:11 … 10:112
+          ?ScalaNativeKind(class scala.meta.Template$TemplateImpl)? {                                        | extends … )       | 8:11 … 8:33
             ?ScalaNativeKind(class scala.meta.Init$InitImpl)? {                                              | Base … )          | 8:19 … 8:33
               IdentifierTree                                                                                 | Base              | 8:19 … 8:23
               ?ScalaNativeKind(class scala.meta.Term$ArgClause$TermArgClauseImpl)? {                         | ( … )             | 8:23 … 8:33
