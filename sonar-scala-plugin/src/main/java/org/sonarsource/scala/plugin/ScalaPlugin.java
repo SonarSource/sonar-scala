@@ -19,7 +19,7 @@ package org.sonarsource.scala.plugin;
 import org.sonar.api.Plugin;
 import org.sonar.api.SonarProduct;
 import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.resources.Qualifiers;
+import org.sonar.api.config.PropertyDefinition.ConfigScope;
 import org.sonarsource.scala.externalreport.scalastyle.ScalastyleRulesDefinition;
 import org.sonarsource.scala.externalreport.scalastyle.ScalastyleSensor;
 import org.sonarsource.scala.externalreport.scapegoat.ScapegoatRulesDefinition;
@@ -68,7 +68,7 @@ public class ScalaPlugin implements Plugin {
           .subCategory(GENERAL)
           .category(SCALA_CATEGORY)
           .multiValues(true)
-          .onQualifiers(Qualifiers.PROJECT)
+          .onConfigScopes(ConfigScope.PROJECT)
           .build(),
 
         PropertyDefinition.builder(COVERAGE_REPORT_PATHS_KEY)
@@ -76,7 +76,7 @@ public class ScalaPlugin implements Plugin {
           .description("Path to Scoverage report file(s) (scoverage.xml). Usually in target\\scala-X.X\\scoverage-report")
           .category(SCALA_CATEGORY)
           .subCategory(TEST_COVERAGE_SUBCATEGORY)
-          .onQualifiers(Qualifiers.PROJECT)
+          .onConfigScopes(ConfigScope.PROJECT)
           .multiValues(true)
           .build(),
 
@@ -85,7 +85,7 @@ public class ScalaPlugin implements Plugin {
             .description("Paths (absolute or relative) to scalastyle xml files with Scalastyle issues.")
             .category(EXTERNAL_ANALYZERS_CATEGORY)
             .subCategory(SCALA_CATEGORY)
-            .onQualifiers(Qualifiers.PROJECT)
+            .onConfigScopes(ConfigScope.PROJECT)
             .multiValues(true)
             .build(),
 
@@ -94,7 +94,7 @@ public class ScalaPlugin implements Plugin {
             .description("Paths (absolute or relative) to scapegoat xml files using scalastyle format. For example: scapegoat-scalastyle.xml")
             .category(EXTERNAL_ANALYZERS_CATEGORY)
             .subCategory(SCALA_CATEGORY)
-            .onQualifiers(Qualifiers.PROJECT)
+            .onConfigScopes(ConfigScope.PROJECT)
             .multiValues(true)
             .build()
           );
