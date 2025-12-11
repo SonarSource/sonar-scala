@@ -21,10 +21,12 @@ import java.util.Arrays;
 import java.util.List;
 import org.sonarsource.scala.checks.AllBranchesIdenticalScalaCheck;
 import org.sonarsource.scala.checks.DuplicateBranchScalaCheck;
+import org.sonarsource.scala.checks.ElseIfWithoutElseScalaCheck;
 import org.sonarsource.scala.checks.UnusedPrivateMethodScalaCheck;
 import org.sonarsource.slang.checks.AllBranchesIdenticalCheck;
 import org.sonarsource.slang.checks.CheckList;
 import org.sonarsource.slang.checks.DuplicateBranchCheck;
+import org.sonarsource.slang.checks.ElseIfWithoutElseCheck;
 import org.sonarsource.slang.checks.MatchWithoutElseCheck;
 import org.sonarsource.slang.checks.OctalValuesCheck;
 import org.sonarsource.slang.checks.RedundantParenthesesCheck;
@@ -45,13 +47,15 @@ public final class ScalaCheckList {
     // Language specific implementation is provided.
     UnusedPrivateMethodCheck.class,
     AllBranchesIdenticalCheck.class,
-    DuplicateBranchCheck.class
+    DuplicateBranchCheck.class,
+    ElseIfWithoutElseCheck.class
   };
 
   static final List<Class<?>> SCALA_LANGUAGE_SPECIFIC_CHECKS = Arrays.asList(
     UnusedPrivateMethodScalaCheck.class,
     AllBranchesIdenticalScalaCheck.class,
-    DuplicateBranchScalaCheck.class);
+    DuplicateBranchScalaCheck.class,
+    ElseIfWithoutElseScalaCheck.class);
 
   public static List<Class<?>> checks() {
     List<Class<?>> list = new ArrayList<>(CheckList.excludeChecks(SCALA_CHECK_BLACK_LIST));
