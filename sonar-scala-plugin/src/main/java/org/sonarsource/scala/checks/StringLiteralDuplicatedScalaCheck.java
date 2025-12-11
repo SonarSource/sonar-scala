@@ -20,9 +20,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.sonar.check.Rule;
-import org.sonar.check.RuleProperty;
 import org.sonarsource.slang.api.NativeTree;
 import org.sonarsource.slang.api.StringLiteralTree;
 import org.sonarsource.slang.api.TopLevelTree;
@@ -36,7 +38,6 @@ import org.sonarsource.slang.checks.api.SecondaryLocation;
 public class StringLiteralDuplicatedScalaCheck extends StringLiteralDuplicatedCheck {
 
 
-  private static final int DEFAULT_THRESHOLD = 3;
   private static final int MINIMAL_LITERAL_LENGTH = 5;
   private static final Pattern NO_SEPARATOR_REGEXP = Pattern.compile("\\w++");
   private static final String ANNOTATION_QUALIFIED_NAME = "ScalaNativeKind(class scala.meta.Mod$Annot$ModAnnotImpl)";
@@ -46,10 +47,7 @@ public class StringLiteralDuplicatedScalaCheck extends StringLiteralDuplicatedCh
     init.register(TopLevelTree.class, (ctx, tree) -> {
       Map<String, List<StringLiteralTree>> occurrences = new HashMap<>();
 
-      var annotationsStringLiterals = tree.descendants()
-        .filter(t -> t instanceof NativeTree nativeTree && nativeTree.nativeKind().toString().equals(ANNOTATION_QUALIFIED_NAME))
-        .flatMap(Tree::descendants)
-        .filter(StringLiteralTree.class::isInstance).toList();
+      Set<StringLiteralTree> annotationsStringLiterals = getStringLiteralsWithinAnnotation(tree);
 
       tree.descendants()
         .filter(StringLiteralTree.class::isInstance)
@@ -59,6 +57,15 @@ public class StringLiteralDuplicatedScalaCheck extends StringLiteralDuplicatedCh
         .forEach(literal -> occurrences.computeIfAbsent(literal.content(), key -> new LinkedList<>()).add(literal));
       check(ctx, occurrences, threshold);
     });
+  }
+
+  private static Set<StringLiteralTree> getStringLiteralsWithinAnnotation(TopLevelTree tree) {
+    return tree.descendants()
+      .filter(t -> t instanceof NativeTree nativeTree && nativeTree.nativeKind().toString().equals(ANNOTATION_QUALIFIED_NAME))
+      .flatMap(Tree::descendants)
+      .filter(StringLiteralTree.class::isInstance)
+      .map(StringLiteralTree.class::cast)
+      .collect(Collectors.toSet());
   }
 
   private static void check(CheckContext ctx, Map<String, List<StringLiteralTree>> occurrencesMap, int threshold) {
