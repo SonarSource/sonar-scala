@@ -27,13 +27,13 @@ import org.sonarsource.slang.api.ThrowTree;
 import org.sonarsource.slang.api.Token;
 import org.sonarsource.slang.api.Tree;
 import org.sonarsource.slang.api.VariableDeclarationTree;
-import org.sonarsource.slang.checks.ElseIfWithoutElseCheck;
 import org.sonarsource.slang.checks.api.CheckContext;
 import org.sonarsource.slang.checks.api.InitContext;
+import org.sonarsource.slang.checks.api.SlangCheck;
 import org.sonarsource.slang.impl.TextRangeImpl;
 
 @Rule(key = "S126")
-public class ElseIfWithoutElseScalaCheck extends ElseIfWithoutElseCheck {
+public class ElseIfWithoutElseScalaCheck implements SlangCheck {
 
   private static final String MESSAGE = "Add the missing \"else\" clause.";
 
