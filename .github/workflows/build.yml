@@ -71,17 +71,13 @@ jobs:
         with:
           secrets: |
             development/github/token/licenses-ro token | GITHUB_TOKEN;
-            development/artifactory/token/{REPO_OWNER_NAME_DASH}-private-reader access_token | ARTIFACTORY_ACCESS_TOKEN;
       - name: Configure Gradle
-        uses: SonarSource/ci-github-actions/build-gradle@v1
+        uses: SonarSource/ci-github-actions/config-gradle@v1
         with:
-          gradle-args: "-x build -x sonar -x artifactoryPublish"  # Skip everything to only configure Gradle and Artifactory access
           artifactory-reader-role: private-reader
-          artifactory-deployer-role: qa-deployer
       - name: Run QA Tests
         env:
           GITHUB_TOKEN: ${{ fromJSON(steps.secrets.outputs.vault).GITHUB_TOKEN }}
-          ARTIFACTORY_ACCESS_TOKEN: ${{ fromJSON(steps.secrets.outputs.vault).ARTIFACTORY_ACCESS_TOKEN }}
           SUITE: ${{ matrix.item.suite }}
           SQ_VERSION: ${{ matrix.item.sq_version }}
         run: |
