@@ -49,9 +49,9 @@ public class ElseIfWithoutElseScalaCheck implements SlangCheck {
       }
       IfTree prevTree = ifTree;
       boolean endsWithReturn = endsWithReturnBreakOrThrow(ifTree);
-      while (ifTree.elseBranch() instanceof IfTree) {
+      while (ifTree.elseBranch() instanceof IfTree elseBranch) {
         prevTree = ifTree;
-        ifTree = (IfTree) (ifTree.elseBranch());
+        ifTree = elseBranch;
         endsWithReturn = endsWithReturn && endsWithReturnBreakOrThrow(ifTree);
       }
 
@@ -79,18 +79,18 @@ public class ElseIfWithoutElseScalaCheck implements SlangCheck {
 
   private static boolean isTopLevelIf(CheckContext ctx, IfTree ifTree) {
     Tree firstAncestor = ctx.ancestors().getFirst();
-    if (firstAncestor instanceof IfTree) {
+    if (firstAncestor instanceof IfTree firstAncestorIfTree) {
       // if ifTree is different from the else branch of firstAncestor, it means that ifTree is a statement inside
       // firstAncestor and so ifTree is the top level "if"
-      return ((IfTree) firstAncestor).elseBranch() != ifTree;
+      return firstAncestorIfTree.elseBranch() != ifTree;
     }
     return true;
   }
 
   private static boolean endsWithReturnBreakOrThrow(IfTree ifTree) {
     Tree thenBranch = ifTree.thenBranch();
-    if (thenBranch instanceof BlockTree) {
-      List<Tree> statements = ((BlockTree) thenBranch).statementOrExpressions();
+    if (thenBranch instanceof BlockTree thenBlockTree) {
+      List<Tree> statements = thenBlockTree.statementOrExpressions();
       if (!statements.isEmpty()) {
         Tree lastStmt = statements.get(statements.size() - 1);
         return isReturnBreakOrThrow(lastStmt);
