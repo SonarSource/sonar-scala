@@ -26,7 +26,7 @@ sourceSets {
 // java code depends on scala code
 tasks.compileScala.classpath = sourceSets.main.compileClasspath
 tasks.compileJava.classpath += files(sourceSets.main.scala.classesDirectory)
-tasks.compileScoverageJava.enabled(false)
+tasks.compileScoverageJava.enabled = false
 
 sonarqube {
     properties {
