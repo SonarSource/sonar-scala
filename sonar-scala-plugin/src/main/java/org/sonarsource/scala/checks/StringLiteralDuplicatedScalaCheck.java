@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.sonar.check.Rule;
 import org.sonarsource.slang.api.NativeTree;
 import org.sonarsource.slang.api.StringLiteralTree;
