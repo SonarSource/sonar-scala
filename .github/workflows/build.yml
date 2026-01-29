@@ -36,6 +36,7 @@ jobs:
           deploy-pull-request: true
           artifactory-reader-role: private-reader    # Override for public repo using private access
           artifactory-deployer-role: qa-deployer     # Override for public repo using private access
+          use-develocity: true
 
   qa:
     needs: [build]
@@ -75,6 +76,7 @@ jobs:
         uses: SonarSource/ci-github-actions/config-gradle@v1
         with:
           artifactory-reader-role: private-reader
+          use-develocity: true
       - name: Run QA Tests
         env:
           GITHUB_TOKEN: ${{ fromJSON(steps.secrets.outputs.vault).GITHUB_TOKEN }}
