@@ -15,6 +15,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+env:
+  DEVELOCITY_URL: https://develocity-public.sonar.build/
+
 jobs:
   build:
     runs-on: github-ubuntu-latest-s  # Public repository runner
@@ -37,6 +40,7 @@ jobs:
           artifactory-reader-role: private-reader    # Override for public repo using private access
           artifactory-deployer-role: qa-deployer     # Override for public repo using private access
           use-develocity: true
+          develocity-url: ${{ env.DEVELOCITY_URL }}
 
   qa:
     needs: [build]
@@ -77,6 +81,7 @@ jobs:
         with:
           artifactory-reader-role: private-reader
           use-develocity: true
+          develocity-url: ${{ env.DEVELOCITY_URL }}
       - name: Run QA Tests
         env:
           GITHUB_TOKEN: ${{ fromJSON(steps.secrets.outputs.vault).GITHUB_TOKEN }}
@@ -88,6 +93,7 @@ jobs:
             "-Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}" \
             "-DbuildNumber=${BUILD_NUMBER}" \
             --info --stacktrace --console plain --no-daemon --build-cache
+
   promote:
     name: Promote
     needs:
