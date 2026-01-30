@@ -41,6 +41,7 @@ jobs:
           artifactory-deployer-role: qa-deployer     # Override for public repo using private access
           use-develocity: true
           develocity-url: ${{ env.DEVELOCITY_URL }}
+          gradle-args: --no-build-cache
 
   qa:
     needs: [build]
@@ -93,7 +94,7 @@ jobs:
             "-Dsonar.runtimeVersion=${SQ_VERSION}" \
             "-Dorchestrator.artifactory.accessToken=${ARTIFACTORY_ACCESS_TOKEN}" \
             "-DbuildNumber=${BUILD_NUMBER}" \
-            --info --stacktrace --console plain --no-daemon --build-cache
+            --info --stacktrace --console plain --no-daemon --no-build-cache
 
   promote:
     name: Promote
