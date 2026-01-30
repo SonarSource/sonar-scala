@@ -69,6 +69,7 @@ jobs:
         run: rm -r ./its/sources/kotlin
       - uses: jdx/mise-action@5ac50f778e26fac95da98d50503682459e86d566 # v3.2.0
         with:
+          cache_save: false
           version: 2025.7.12
       - name: Get GitHub Token for QA Licenses
         id: secrets
