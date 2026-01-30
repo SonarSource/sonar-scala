@@ -21,7 +21,7 @@ env:
 jobs:
   build:
 #    runs-on: github-ubuntu-latest-s  # Public repository runner
-    runs-on: sonar-xs  # Private repos default
+    runs-on: sonar-m  # Private repos default
     name: Build
     permissions:
       id-token: write  # Required for Vault OIDC authentication
