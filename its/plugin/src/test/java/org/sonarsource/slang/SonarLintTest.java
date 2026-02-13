@@ -31,7 +31,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.CheckForNull;
 import org.apache.commons.io.FileUtils;
 import org.assertj.core.groups.Tuple;
 import org.jetbrains.annotations.NotNull;
@@ -100,13 +99,14 @@ public class SonarLintTest {
   @Test
   public void test_scala() throws Exception {
     ClientInputFile inputFile = prepareInputFile("foo.scala",
-      "object Code {\n"
-        + "  def foo_bar() = {\n"                   // scala:S100 (Method name)
-        + "    if (true) { \n"                      // scala:S1145 (Useless if(true))
-        + "        val password = \"blabla\"\n"     // scala:S181 (Unused variable)
-        + "    } \n"
-        + "  }\n"
-        + "}",
+      """
+      object Code {
+        def foo_bar() = {                   // scala:S100 (Method name)
+          if (true) {                       // scala:S1145 (Useless if(true))
+                val password = "blabla"     // scala:S181 (Unused variable)
+          }
+        }
+      }""",
       false, "scala");
     
     assertIssues(analyzeWithSonarLint(inputFile),
@@ -119,14 +119,15 @@ public class SonarLintTest {
   @Test
   public void test_scala_nosonar() throws Exception {
     ClientInputFile scalaInputFile = prepareInputFile("foo.scala",
-      "package main"
-        + "object Code {\n"
-        + "  def foo_bar() = { // NOSONAR\n"                  // skipped scala:S100 (Method name)
-        + "    if (true) { // NOSONAR\n"                      // skipped scala:S1145 (Useless if(true))
-        + "        val password = \"blabla\" // NOSONAR\n"    // skipped scala:S181 (Unused variable)
-        + "    } \n"
-        + "  }\n"
-        + "}",
+      """
+      package main
+      object Code {
+        def foo_bar() = { // NOSONAR                 // skipped scala:S100 (Method name)
+          if (true) { // NOSONAR                     // skipped scala:S1145 (Useless if(true))
+              val password = "blabla" // NOSONAR     // skipped scala:S181 (Unused variable)
+          }
+        }
+      }""",
       false, "scala");
     assertThat(analyzeWithSonarLint(scalaInputFile)).isEmpty();
   }

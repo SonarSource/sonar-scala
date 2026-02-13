@@ -86,8 +86,7 @@ public class SlangRulingTest {
   }
 
   @Test
-  // @Ignore because it should only be run manually
-  @Ignore
+  @Ignore("should only be run manually")
   public void scala_manual_keep_sonarqube_server_up() throws IOException {
     keepSonarqubeRunning = true;
     test_scala();

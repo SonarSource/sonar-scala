@@ -23,7 +23,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -51,11 +50,11 @@ public class ExternalReportTest extends TestBase {
     ORCHESTRATOR.executeBuild(sonarScanner);
     List<Issue> issues = getExternalIssues(projectKey);
     assertThat(issues).hasSize(2);
-    assertThat(issues.stream().map(Issue::getRule).sorted().collect(Collectors.toList())).containsExactly(
+    assertThat(issues.stream().map(Issue::getRule).sorted().toList()).containsExactly(
       "external_scalastyle:org.scalastyle.file.HeaderMatchesChecker",
       "external_scalastyle:org.scalastyle.file.RegexChecker"
     );
-    assertThat(issues.stream().map(Issue::getLine).sorted().collect(Collectors.toList())).containsExactly(
+    assertThat(issues.stream().map(Issue::getLine).sorted().toList()).containsExactly(
       1,
       6
     );
@@ -75,12 +74,12 @@ public class ExternalReportTest extends TestBase {
     ORCHESTRATOR.executeBuild(sonarScanner);
     List<Issue> issues = getExternalIssues(projectKey);
     assertThat(issues).hasSize(3);
-    assertThat(issues.stream().map(Issue::getRule).sorted().collect(Collectors.toList())).containsExactly(
+    assertThat(issues.stream().map(Issue::getRule).sorted().toList()).containsExactly(
       "external_scapegoat:com.sksamuel.scapegoat.inspections.EmptyCaseClass",
       "external_scapegoat:com.sksamuel.scapegoat.inspections.FinalModifierOnCaseClass",
       "external_scapegoat:com.sksamuel.scapegoat.inspections.unsafe.IsInstanceOf"
     );
-    assertThat(issues.stream().map(Issue::getLine).sorted().collect(Collectors.toList())).containsExactly(
+    assertThat(issues.stream().map(Issue::getLine).sorted().toList()).containsExactly(
       5,
       9,
       9
@@ -93,7 +92,7 @@ public class ExternalReportTest extends TestBase {
     return newWsClient().issues().search(new SearchRequest().setComponentKeys(Collections.singletonList(componentKey)))
       .getIssuesList().stream()
       .filter(issue -> issue.getRule().startsWith("external_"))
-      .collect(Collectors.toList());
+      .toList();
   }
 
   private Path createTemporaryReportFromTemplate(Path sourceReportPath, String placeHolder, String newValue) throws IOException {
@@ -102,22 +101,6 @@ public class ExternalReportTest extends TestBase {
     Path destReportPath = tmpDir.newFile(sourceReportPath.getFileName().toString()).toPath().toRealPath();
     Files.write(destReportPath, reportContent.getBytes(UTF_8));
     return destReportPath;
-  }
-
-  private static String formatIssues(List<Issue> issues) {
-    return issues.stream()
-      .map(issue -> filePath(issue) + "|" +
-        issue.getRule() + "|" +
-        issue.getSeverity().name() + "|" +
-        issue.getDebt() + "|" +
-        "line:" + issue.getLine() + "|" +
-        issue.getMessage())
-      .sorted()
-      .collect(Collectors.joining("\n"));
-  }
-
-  private static String filePath(Issue issue) {
-    return issue.getComponent().substring(issue.getComponent().indexOf(':') + 1);
   }
 
 }
