@@ -4,8 +4,6 @@ dependencies {
     testImplementation testLibs.sonar.orchestrator
 }
 
-sonarqube.skipProject = true
-
 test {
     onlyIf {
         project.hasProperty("its") || project.hasProperty("ruling")
