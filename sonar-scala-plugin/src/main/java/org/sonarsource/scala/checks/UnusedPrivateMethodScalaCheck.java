@@ -78,7 +78,7 @@ public class UnusedPrivateMethodScalaCheck extends UnusedPrivateMethodCheck {
 
   private static boolean isObjectCompanionForClass(String className, NativeTreeImpl nativeTree) {
     return nativeTree.nativeKind().toString().contains("scala.meta.Defn$Object$DefnObjectImpl") &&
-      nativeTree.children().stream().anyMatch(i -> i instanceof IdentifierTree && ((IdentifierTree)i).identifier().equals(className));
+      nativeTree.children().stream().anyMatch(i -> i instanceof IdentifierTree identifierTree && identifierTree.identifier().equals(className));
   }
 
   // Two ancestors: PackageDeclarationTree and TopLevelTree

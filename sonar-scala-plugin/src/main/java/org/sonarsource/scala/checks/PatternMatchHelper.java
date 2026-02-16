@@ -37,8 +37,8 @@ class PatternMatchHelper {
   }
 
   static boolean caseConditionContainsVariableDeclarationUsedInTheBody(Tree caseCondition, Tree caseBody) {
-    if (caseCondition instanceof NativeTree &&
-      PATTERN_VARIABLE.equals(((NativeTree) caseCondition).nativeKind().toString())) {
+    if (caseCondition instanceof NativeTree nativeTree &&
+      PATTERN_VARIABLE.equals(nativeTree.nativeKind().toString())) {
       Optional<IdentifierTree> variableDeclaration = caseCondition.descendants()
         .filter(IdentifierTree.class::isInstance)
         .map(IdentifierTree.class::cast)
@@ -46,12 +46,12 @@ class PatternMatchHelper {
       return variableDeclaration.filter(variable -> variableIsUsedIn(variable, caseBody)).isPresent();
     }
     return caseCondition.children().stream()
-        .anyMatch(caseConditionChild -> caseConditionContainsVariableDeclarationUsedInTheBody(caseConditionChild, caseBody));
+      .anyMatch(caseConditionChild -> caseConditionContainsVariableDeclarationUsedInTheBody(caseConditionChild, caseBody));
   }
 
   private static boolean variableIsUsedIn(IdentifierTree variableDeclaration, Tree caseBody) {
-    if (caseBody instanceof IdentifierTree) {
-      return ((IdentifierTree) caseBody).name().equals(variableDeclaration.name());
+    if (caseBody instanceof IdentifierTree identifierTree) {
+      return identifierTree.name().equals(variableDeclaration.name());
     }
     return caseBody.children().stream().anyMatch(caseBodyChild -> variableIsUsedIn(variableDeclaration, caseBodyChild));
   }

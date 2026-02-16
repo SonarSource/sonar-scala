@@ -36,7 +36,7 @@ public class ScalaSensor extends SlangSensor {
   public ScalaSensor(SonarRuntime sonarRuntime, CheckFactory checkFactory, FileLinesContextFactory fileLinesContextFactory, NoSonarFilter noSonarFilter, ScalaLanguage language) {
     super(sonarRuntime, noSonarFilter, fileLinesContextFactory, language);
     checks = checkFactory.create(ScalaPlugin.SCALA_REPOSITORY_KEY);
-    checks.addAnnotatedChecks((Iterable<?>) ScalaCheckList.checks());
+    checks.addAnnotatedChecks(ScalaCheckList.checks());
     checks.addAnnotatedChecks(new CommentedCodeCheck(new ScalaCodeVerifier()));
   }
 

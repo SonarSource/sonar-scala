@@ -33,7 +33,7 @@ public class AllBranchesIdenticalScalaCheck extends AllBranchesIdenticalCheck {
   }
 
   private static boolean hasPatternMatchCase(Tree tree) {
-    return tree instanceof MatchTree &&
-      ((MatchTree)tree).cases().stream().anyMatch(PatternMatchHelper::hasPatternMatchedVariable);
+    return tree instanceof MatchTree matchTree &&
+      matchTree.cases().stream().anyMatch(PatternMatchHelper::hasPatternMatchedVariable);
   }
 }
