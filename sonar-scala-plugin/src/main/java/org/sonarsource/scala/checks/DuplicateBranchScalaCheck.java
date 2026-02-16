@@ -66,9 +66,9 @@ public class DuplicateBranchScalaCheck extends DuplicateBranchCheck {
     return Optional.empty();
   }
 
-  private static boolean hasPatternMatchCondition(Tree matchTree, Tree caseBody) {
-    if (matchTree instanceof MatchTree) {
-      Optional<MatchCaseTree> matchCaseTree = getMatchCaseTree((MatchTree)matchTree, caseBody);
+  private static boolean hasPatternMatchCondition(Tree tree, Tree caseBody) {
+    if (tree instanceof MatchTree matchTree) {
+      Optional<MatchCaseTree> matchCaseTree = getMatchCaseTree(matchTree, caseBody);
       return matchCaseTree.isPresent() && PatternMatchHelper.hasPatternMatchedVariable(matchCaseTree.get());
     }
     return false;
