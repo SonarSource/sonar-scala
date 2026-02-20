@@ -6,14 +6,6 @@ on:
         description: "Short description for the REL ticket"
         required: true
         type: string
-      sqc-integration:
-        description: "Integrate into SQC"
-        type: boolean
-        default: true
-      sqs-integration:
-        description: "Integrate into SQS"
-        type: boolean
-        default: true
       branch:
         description: "Branch from which to do the release"
         required: true
@@ -35,7 +27,15 @@ on:
       dry-run:
         description: "Test mode: uses Jira sandbox and creates draft GitHub release"
         type: boolean
-        default: false
+        default: true
+      sqc-integration:
+        description: "Integrate into SQC"
+        type: boolean
+        default: true
+      sqs-integration:
+        description: "Integrate into SQS"
+        type: boolean
+        default: true
 
 jobs:
   release:
@@ -51,6 +51,7 @@ jobs:
       project-name: "SonarScala"
       plugin-name: "scala"
       jira-project-key: "SONARSCALA"
+      runner-environment: "github-ubuntu-latest-s"
       rule-props-changed: ${{ github.event.inputs.rule-props-changed }}
       short-description: ${{ github.event.inputs.short-description }}
       new-version: ${{ github.event.inputs.new-version }}
@@ -66,7 +67,7 @@ jobs:
   bump_versions:
     name: Bump versions
     needs: release
-    uses: ./.github/workflows/bump-versions.yaml
+    uses: ./.github/workflows/bump-versions.yml
     permissions:
       contents: write
       pull-requests: write

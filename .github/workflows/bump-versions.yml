@@ -28,7 +28,7 @@ jobs:
         with:
           author: ${{ github.actor }} <${{ github.actor }}>
           commit-message: Prepare next development iteration
-          title: Prepare next development iteration
+          title: "Prepare next development iteration ${{ inputs.version }}"
           branch: bot/bump-project-version
           branch-suffix: timestamp
           base: master
