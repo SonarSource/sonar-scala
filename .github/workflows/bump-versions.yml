@@ -25,3 +25,9 @@ jobs:
         uses: SonarSource/release-github-actions/bump-version@v1
         with:
           version: ${{ inputs.version }}
+
+      - name: Show PR URL
+        env:
+          URL: ${{ steps.bump.outputs.pull-request-url }}
+        run: |
+          echo "PR URL: $URL"
