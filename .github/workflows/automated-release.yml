@@ -71,5 +71,6 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      id-token: write
     with:
       version: ${{ needs.release.outputs.new-version }}
