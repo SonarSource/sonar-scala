@@ -1,0 +1,32 @@
+name: bump-versions
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      version:
+        description: The new version (without -SNAPSHOT)
+        required: true
+        type: string
+
+jobs:
+  bump-version:
+    runs-on: sonar-xs
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - name: Bump version
+        id: bump
+        uses: SonarSource/release-github-actions/bump-version@v1
+        with:
+          version: ${{ inputs.version }}
+
+      - name: Show PR URL
+        env:
+          PR_URL: ${{ steps.bump.outputs.pull-request-url }}
+        run: echo "PR URL: $PR_URL"
