@@ -14,7 +14,7 @@ on:
 
 jobs:
   bump-version:
-    runs-on: sonar-xs
+    runs-on: github-ubuntu-latest-s
     permissions:
       contents: write
       pull-requests: write
@@ -25,8 +25,3 @@ jobs:
         uses: SonarSource/release-github-actions/bump-version@v1
         with:
           version: ${{ inputs.version }}
-
-      - name: Show PR URL
-        env:
-          PR_URL: ${{ steps.bump.outputs.pull-request-url }}
-        run: echo "PR URL: $PR_URL"
