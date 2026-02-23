@@ -18,18 +18,15 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      id-token: write
     steps:
-      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
-      - env:
-          VERSION: "${{ inputs.version }}-SNAPSHOT"
-        run: |
-          sed -i "s/version=.*-SNAPSHOT/version=${VERSION}/" gradle.properties
-      - uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
+      - name: Bump version
+        id: bump
+        uses: SonarSource/release-github-actions/bump-version@v1
         with:
-          author: ${{ github.actor }} <${{ github.actor }}>
-          commit-message: Prepare next development iteration
-          title: "Prepare next development iteration ${{ inputs.version }}"
-          branch: bot/bump-project-version
-          branch-suffix: timestamp
-          base: master
-          reviewers: ${{ github.actor }}
+          version: ${{ inputs.version }}
+
+      - name: Show PR URL
+        env:
+          PR_URL: ${{ steps.bump.outputs.pull-request-url }}
+        run: echo "PR URL: $PR_URL"
