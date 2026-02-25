@@ -170,8 +170,8 @@ public class SonarLintTest {
             .addInputFile(inputFile)
             .addActiveRules(
                     new ActiveRule("scala:S100", languageKey),
-                    new ActiveRule("scala:S1145", languageKey)),
-                    new ActiveRule("scala:S1481", languageKey)
+                    new ActiveRule("scala:S1145", languageKey),
+                    new ActiveRule("scala:S1481", languageKey))
             .build();
     List<Issue> issues = new ArrayList<>();
     var analyzeCommand = new AnalyzeCommand(MODULE_KEY, analysisConfiguration, issues::add, NOOP_LOG_OUTPUT);
