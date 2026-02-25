@@ -16,13 +16,11 @@
  */
 package org.sonarsource.slang;
 
-import com.google.common.io.Files;
 import com.sonar.orchestrator.container.Edition;
 import com.sonar.orchestrator.junit4.OrchestratorRule;
 import com.sonar.orchestrator.junit4.OrchestratorRuleBuilder;
 import com.sonar.orchestrator.locator.Locators;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -38,7 +36,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.apache.commons.io.FileUtils;
 import org.assertj.core.groups.Tuple;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -77,7 +74,6 @@ public class SonarLintTest {
       // ignore
     }
   };
-  private final ProgressMonitor progressMonitor = new ProgressMonitor(null);
 
   private static AnalysisEngine sonarlintEngine;
 
@@ -162,6 +158,7 @@ public class SonarLintTest {
   }
 
   private List<Issue> analyzeWithSonarLint(ClientInputFile inputFile) throws ExecutionException, InterruptedException {
+    ProgressMonitor progressMonitor = new ProgressMonitor(null);
     ClientModuleFileSystem clientFileSystem = new TestClientModuleFileSystem(inputFile);
     sonarlintEngine.post(new RegisterModuleCommand(new ClientModuleInfo(MODULE_KEY, clientFileSystem)), progressMonitor).get();
     var languageKey = SonarLanguage.SCALA.name();
@@ -187,7 +184,7 @@ public class SonarLintTest {
 
   private ClientInputFile prepareInputFile(String relativePath, String content, final boolean isTest, String language) throws IOException {
     File file = baseDir.newFile(relativePath);
-    FileUtils.write(file, content, StandardCharsets.UTF_8);
+    java.nio.file.Files.writeString(file.toPath(), content);
     return new TestClientInputFile(baseDir.getRoot().toPath(), file.toPath(), isTest, language);
   }
 
@@ -224,12 +221,12 @@ public class SonarLintTest {
 
     @Override
     public InputStream inputStream() throws IOException {
-      return new FileInputStream(path.toFile());
+      return java.nio.file.Files.newInputStream(path);
     }
 
     @Override
     public String contents() throws IOException {
-      return Files.asCharSource(path.toFile(), StandardCharsets.UTF_8).read();
+      return java.nio.file.Files.readString(path);
     }
   }
 
