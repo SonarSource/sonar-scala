@@ -43,6 +43,7 @@ import org.assertj.core.groups.Tuple;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.sonar.api.batch.fs.InputFile;
@@ -66,7 +67,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 public class SonarLintTest {
-
   @ClassRule
   public static TemporaryFolder temp = new TemporaryFolder();
 
@@ -81,7 +81,8 @@ public class SonarLintTest {
 
   private static AnalysisEngine sonarlintEngine;
 
-  private static File baseDir;
+  @Rule
+  public TemporaryFolder baseDir = new TemporaryFolder();
 
   @BeforeClass
   public static void prepare() throws Exception {
@@ -96,7 +97,6 @@ public class SonarLintTest {
     var loadedPlugins = pluginLoader.getLoadedPlugins();
 
     sonarlintEngine = new AnalysisEngine(analysisEngineConfiguration, loadedPlugins, NOOP_LOG_OUTPUT);
-    baseDir = temp.newFolder();
   }
 
   private static @Nonnull Set<Path> getPluginJarLocations() {
@@ -166,7 +166,7 @@ public class SonarLintTest {
     sonarlintEngine.post(new RegisterModuleCommand(new ClientModuleInfo(MODULE_KEY, clientFileSystem)), progressMonitor).get();
     var languageKey = SonarLanguage.SCALA.name();
     var analysisConfiguration = AnalysisConfiguration.builder()
-            .setBaseDir(baseDir.toPath())
+            .setBaseDir(baseDir.getRoot().toPath())
             .addInputFile(inputFile)
             .addActiveRules(
                     new ActiveRule("scala:S100", languageKey),
@@ -186,12 +186,12 @@ public class SonarLintTest {
   }
 
   private ClientInputFile prepareInputFile(String relativePath, String content, final boolean isTest, String language) throws IOException {
-    File file = new File(baseDir, relativePath);
+    File file = baseDir.newFile(relativePath);
     FileUtils.write(file, content, StandardCharsets.UTF_8);
-    return new TestClientInputFile(file.toPath(), isTest, language);
+    return new TestClientInputFile(baseDir.getRoot().toPath(), file.toPath(), isTest, language);
   }
 
-  private record TestClientInputFile(Path path, boolean isTest, String fileLanguage) implements ClientInputFile {
+  private record TestClientInputFile(Path base, Path path, boolean isTest, String fileLanguage) implements ClientInputFile {
     @Override
     public String getPath() {
       return path.toString();
@@ -199,7 +199,7 @@ public class SonarLintTest {
 
     @Override
     public String relativePath() {
-      return baseDir.toPath().relativize(path).toString();
+      return base.relativize(path).toString();
     }
 
     @Override
