@@ -87,7 +87,6 @@ public class SonarLintTest {
   public static void prepare() throws Exception {
     SonarLintLogger.setTarget(NOOP_LOG_OUTPUT);
     var pluginJarLocations = getPluginJarLocations();
-    pluginJarLocations.forEach(path -> System.out.println("GENEVA 2: " + path));
     var pluginConfiguration = new PluginsLoader.Configuration(pluginJarLocations, Set.of(SonarLanguage.SCALA), false, Optional.empty());
     // Closing pluginLoader here in prepare would make analysisEngine see 0 plugins during analysis
     var pluginLoader = new PluginsLoader().load(pluginConfiguration, Set.of());
