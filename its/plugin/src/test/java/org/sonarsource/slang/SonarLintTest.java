@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -184,7 +185,7 @@ public class SonarLintTest {
 
   private ClientInputFile prepareInputFile(String relativePath, String content, final boolean isTest, String language) throws IOException {
     File file = baseDir.newFile(relativePath);
-    java.nio.file.Files.writeString(file.toPath(), content);
+    Files.writeString(file.toPath(), content);
     return new TestClientInputFile(baseDir.getRoot().toPath(), file.toPath(), isTest, language);
   }
 
@@ -221,12 +222,12 @@ public class SonarLintTest {
 
     @Override
     public InputStream inputStream() throws IOException {
-      return java.nio.file.Files.newInputStream(path);
+      return Files.newInputStream(path);
     }
 
     @Override
     public String contents() throws IOException {
-      return java.nio.file.Files.readString(path);
+      return Files.readString(path);
     }
   }
 
