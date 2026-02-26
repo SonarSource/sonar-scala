@@ -29,39 +29,74 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import org.apache.commons.io.FileUtils;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.assertj.core.groups.Tuple;
-import org.jetbrains.annotations.NotNull;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.sonarsource.sonarlint.core.StandaloneSonarLintEngineImpl;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonarsource.sonarlint.core.analysis.AnalysisEngine;
+import org.sonarsource.sonarlint.core.analysis.api.ActiveRule;
+import org.sonarsource.sonarlint.core.analysis.api.AnalysisConfiguration;
+import org.sonarsource.sonarlint.core.analysis.api.AnalysisEngineConfiguration;
 import org.sonarsource.sonarlint.core.analysis.api.ClientInputFile;
-import org.sonarsource.sonarlint.core.client.api.common.analysis.Issue;
-import org.sonarsource.sonarlint.core.client.api.standalone.StandaloneAnalysisConfiguration;
-import org.sonarsource.sonarlint.core.client.api.standalone.StandaloneGlobalConfiguration;
-import org.sonarsource.sonarlint.core.client.api.standalone.StandaloneSonarLintEngine;
-import org.sonarsource.sonarlint.core.commons.IssueSeverity;
-import org.sonarsource.sonarlint.core.commons.Language;
+import org.sonarsource.sonarlint.core.analysis.api.ClientModuleFileSystem;
+import org.sonarsource.sonarlint.core.analysis.api.ClientModuleInfo;
+import org.sonarsource.sonarlint.core.analysis.api.Issue;
+import org.sonarsource.sonarlint.core.analysis.command.AnalyzeCommand;
+import org.sonarsource.sonarlint.core.analysis.command.RegisterModuleCommand;
+import org.sonarsource.sonarlint.core.commons.api.SonarLanguage;
+import org.sonarsource.sonarlint.core.commons.log.LogOutput;
+import org.sonarsource.sonarlint.core.commons.log.SonarLintLogger;
+import org.sonarsource.sonarlint.core.commons.progress.ProgressMonitor;
+import org.sonarsource.sonarlint.core.plugin.commons.PluginsLoader;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 public class SonarLintTest {
-
   @ClassRule
   public static TemporaryFolder temp = new TemporaryFolder();
 
-  private static StandaloneSonarLintEngine sonarlintEngine;
+  private static final String MODULE_KEY = "myModule";
+  private static final LogOutput NOOP_LOG_OUTPUT = new LogOutput() {
+    @Override
+    public void log(@Nullable String formattedMessage, @Nonnull Level level, @Nullable String stacktrace) {
+      // ignore
+    }
+  };
 
-  private static File baseDir;
+  private static AnalysisEngine sonarlintEngine;
+
+  @Rule
+  public TemporaryFolder baseDir = new TemporaryFolder();
 
   @BeforeClass
   public static void prepare() throws Exception {
+    SonarLintLogger.setTarget(NOOP_LOG_OUTPUT);
+    var pluginJarLocations = getPluginJarLocations();
+    var pluginConfiguration = new PluginsLoader.Configuration(pluginJarLocations, Set.of(SonarLanguage.SCALA), false, Optional.empty());
+    // Closing pluginLoader here in prepare would make analysisEngine see 0 plugins during analysis
+    var pluginLoader = new PluginsLoader().load(pluginConfiguration, Set.of());
+    var analysisEngineConfiguration = AnalysisEngineConfiguration.builder()
+      .setWorkDir(temp.newFolder().toPath())
+      .build();
+    var loadedPlugins = pluginLoader.getLoadedPlugins();
+
+    sonarlintEngine = new AnalysisEngine(analysisEngineConfiguration, loadedPlugins, NOOP_LOG_OUTPUT);
+  }
+
+  private static @Nonnull Set<Path> getPluginJarLocations() {
     // Orchestrator is used only to retrieve plugin artifacts from filesystem or maven
     OrchestratorRuleBuilder orchestratorBuilder = OrchestratorRule.builderEnv();
     Tests.addLanguagePlugins(orchestratorBuilder);
@@ -73,26 +108,16 @@ public class SonarLintTest {
       .build();
 
     Locators locators = orchestrator.getOrchestrator().getLocators();
-    StandaloneGlobalConfiguration.Builder sonarLintConfigBuilder = StandaloneGlobalConfiguration.builder();
-    orchestrator.getDistribution().getPluginLocations().stream()
+
+    return orchestrator.getDistribution().getPluginLocations().stream()
       .filter(location -> !location.toString().contains("sonar-reset-data-plugin"))
       .map(plugin -> locators.locate(plugin).toPath())
-      .forEach(sonarLintConfigBuilder::addPlugin);
-
-    sonarLintConfigBuilder
-      .setSonarLintUserHome(temp.newFolder().toPath())
-      .setLogOutput((formattedMessage, level) -> {
-        /* Don't pollute logs */
-      });
-    StandaloneGlobalConfiguration configuration = sonarLintConfigBuilder
-      .addEnabledLanguage(Language.SCALA)
-      .build();
-    sonarlintEngine = new StandaloneSonarLintEngineImpl(configuration);
-    baseDir = temp.newFolder();
+      .collect(Collectors.toSet());
   }
 
   @AfterClass
   public static void stop() {
+    SonarLintLogger.setTarget(null);
     sonarlintEngine.stop();
   }
 
@@ -108,11 +133,12 @@ public class SonarLintTest {
         }
       }""",
       false, "scala");
-    
+
+    String path = inputFile.uri().getPath();
     assertIssues(analyzeWithSonarLint(inputFile),
-        tuple("scala:S100", 2, inputFile.getPath(), IssueSeverity.MINOR),
-        tuple("scala:S1145", 3, inputFile.getPath(), IssueSeverity.MAJOR),
-        tuple("scala:S1481", 4, inputFile.getPath(), IssueSeverity.MINOR)
+        tuple("scala:S100", 2, path),
+        tuple("scala:S1145", 3, path),
+        tuple("scala:S1481", 4, path)
       );
   }
 
@@ -132,80 +158,88 @@ public class SonarLintTest {
     assertThat(analyzeWithSonarLint(scalaInputFile)).isEmpty();
   }
 
-  private List<Issue> analyzeWithSonarLint(ClientInputFile inputFile) {
+  private List<Issue> analyzeWithSonarLint(ClientInputFile inputFile) throws ExecutionException, InterruptedException {
+    ProgressMonitor progressMonitor = new ProgressMonitor(null);
+    ClientModuleFileSystem clientFileSystem = new TestClientModuleFileSystem(inputFile);
+    sonarlintEngine.post(new RegisterModuleCommand(new ClientModuleInfo(MODULE_KEY, clientFileSystem)), progressMonitor).get();
+    var languageKey = SonarLanguage.SCALA.name();
+    var analysisConfiguration = AnalysisConfiguration.builder()
+            .setBaseDir(baseDir.getRoot().toPath())
+            .addInputFile(inputFile)
+            .addActiveRules(
+                    new ActiveRule("scala:S100", languageKey),
+                    new ActiveRule("scala:S1145", languageKey),
+                    new ActiveRule("scala:S1481", languageKey))
+            .build();
     List<Issue> issues = new ArrayList<>();
-    StandaloneAnalysisConfiguration analysisConfiguration = StandaloneAnalysisConfiguration.builder()
-      .setBaseDir(baseDir.toPath())
-      .addInputFiles(Collections.singletonList(inputFile))
-      .build();
-
-    sonarlintEngine.analyze(analysisConfiguration, issues::add, null, null);
-
+    var analyzeCommand = new AnalyzeCommand(MODULE_KEY, analysisConfiguration, issues::add, NOOP_LOG_OUTPUT);
+    sonarlintEngine.post(analyzeCommand, progressMonitor).get();
     return issues;
   }
 
   private void assertIssues(List<Issue> issues, Tuple... expectedIssues) {
     assertThat(issues)
-      .extracting(Issue::getRuleKey, Issue::getStartLine, issue -> issue.getInputFile().getPath(), Issue::getSeverity)
+      .extracting(Issue::getRuleKey, Issue::getStartLine, issue -> issue.getInputFile().uri().getPath())
       .containsExactlyInAnyOrder(expectedIssues);
   }
 
   private ClientInputFile prepareInputFile(String relativePath, String content, final boolean isTest, String language) throws IOException {
-    File file = new File(baseDir, relativePath);
-    FileUtils.write(file, content, StandardCharsets.UTF_8);
-    return createInputFile(file.toPath(), isTest, language);
+    File file = baseDir.newFile(relativePath);
+    Files.writeString(file.toPath(), content);
+    return new TestClientInputFile(baseDir.getRoot().toPath(), file.toPath(), isTest, language);
   }
 
-  private ClientInputFile createInputFile(final Path path, final boolean isTest, String language) {
-    return new ClientInputFile() {
+  private record TestClientInputFile(Path base, Path path, boolean isTest, String fileLanguage) implements ClientInputFile {
+    @Override
+    public String getPath() {
+      return path.toString();
+    }
 
-      @Override
-      public URI uri() {
-        return path.toUri();
-      }
+    @Override
+    public String relativePath() {
+      return base.relativize(path).toString();
+    }
 
-      @Override
-      public String getPath() {
-        return path.toString();
-      }
+    @Override
+    public URI uri() {
+      return path.toUri();
+    }
 
-      @Override
-      public boolean isTest() {
-        return isTest;
-      }
+    @Override
+    public boolean isTest() {
+      return isTest;
+    }
 
-      @Override
-      public Charset getCharset() {
-        return StandardCharsets.UTF_8;
-      }
+    @Override
+    public Charset getCharset() {
+      return StandardCharsets.UTF_8;
+    }
 
+    @Override
+    public <G> G getClientObject() {
+      return null;
+    }
 
-      @Override
-      public <G> G getClientObject() {
-        return null;
-      }
+    @Override
+    public InputStream inputStream() throws IOException {
+      return Files.newInputStream(path);
+    }
 
-      @Override
-      public String contents() throws IOException {
-        return new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
-      }
-
-      @Override
-      public String relativePath() {
-        return path.toString();
-      }
-
-      @Override
-      public InputStream inputStream() throws IOException {
-        return Files.newInputStream(path);
-      }
-
-      @NotNull
-      @Override
-      public Language language() {
-        return Language.forKey(language).orElse(Language.APEX);
-      }
-    };
+    @Override
+    public String contents() throws IOException {
+      return Files.readString(path);
+    }
   }
 
+  private record TestClientModuleFileSystem(ClientInputFile inputFile) implements ClientModuleFileSystem {
+    @Override
+    public Stream<ClientInputFile> files(String s, InputFile.Type type) {
+      return Stream.of(inputFile);
+    }
+
+    @Override
+    public Stream<ClientInputFile> files() {
+      return Stream.of(inputFile);
+    }
+  }
 }
