@@ -45,7 +45,7 @@ on:
 jobs:
   release:
     name: Release
-    uses: SonarSource/release-github-actions/.github/workflows/automated-release.yml@v1
+    uses: SonarSource/release-github-actions/.github/workflows/automated-release.yml@tt/normalize-version-bump
     permissions:
       statuses: read
       id-token: write
@@ -69,14 +69,5 @@ jobs:
       use-jira-sandbox: ${{ github.event.inputs.dry-run == 'true' }}
       is-draft-release: ${{ github.event.inputs.dry-run == 'true' }}
       issue-categories: ${{ github.event.inputs.issue-categories }}
-
-  bump_versions:
-    name: Bump versions
-    needs: release
-    uses: ./.github/workflows/bump-versions.yml
-    permissions:
-      contents: write
-      pull-requests: write
-      id-token: write
-    with:
-      version: ${{ needs.release.outputs.new-version }}
+      bump-version: true
+      bump-version-normalize: false
