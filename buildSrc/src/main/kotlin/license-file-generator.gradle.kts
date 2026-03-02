@@ -51,6 +51,9 @@ tasks.register("validateLicenseFiles") {
     // generateLicenseReport is the task exposed by `com.github.jk1.dependency-license-report`
     dependsOn("generateLicenseReport")
 
+    // Skip validation when generateLicenseResources is being run (it will update the files)
+    onlyIf { !gradle.taskGraph.hasTask(":${project.name}:generateLicenseResources") }
+
     doLast {
         if (!areDirectoriesEqual(buildLicenseOutputToCopyDir.asFile, resourceThirdPartyDir.asFile, logger)) {
             val message = """
