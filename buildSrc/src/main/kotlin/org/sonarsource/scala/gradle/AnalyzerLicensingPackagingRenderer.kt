@@ -1,6 +1,6 @@
 /*
- * SonarQube Scala Plugin
- * Copyright (C) 2018-2026 SonarSource SA
+ * SonarSource Scala
+ * Copyright (C) 2018-2026 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
  * This program is free software; you can redistribute it and/or
