@@ -132,9 +132,9 @@ shadowJar {
     exclude '**/*.js'
     exclude '**/*.properties'
     exclude '**/*.proto'
-    exclude '**/*.txt'
+    exclude { it.path.endsWith('.txt') && !it.path.startsWith('licenses/') }
     doLast {
-        enforceJarSizeAndCheckContent(shadowJar.archiveFile.get().asFile, 14_000_000L, 16_000_000L)
+        enforceJarSizeAndCheckContent(shadowJar.archiveFile.get().asFile, 15_000_000L, 17_000_000L)
     }
 }
 
