@@ -60,6 +60,18 @@ allprojects {
     }
 }
 
+// license updater for buildSrc Kotlin sources
+spotless {
+    kotlin {
+        target 'buildSrc/src/**/*.kt'
+        licenseHeaderFile(rootProject.file("LICENSE_HEADER")).updateYearWithLatest(true)
+    }
+    kotlinGradle {
+        target 'buildSrc/src/**/*.kts'
+        licenseHeaderFile(rootProject.file("LICENSE_HEADER"), '(package |@file|import |plugins )').updateYearWithLatest(true)
+    }
+}
+
 subprojects {
     // do not publish to Artifactory by default
     artifactoryPublish.skip = true
