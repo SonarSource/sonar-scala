@@ -4,12 +4,21 @@ should be followed by an <code>else</code> statement.</p>
 <p>The requirement for a final <code>else</code> statement is defensive programming.</p>
 <p>The <code>else</code> statement should either take appropriate action or contain a suitable comment as to why no action is taken. This is
 consistent with the requirement to have a final <code>case _</code> clause in a <code>match</code>.</p>
+<p>In Scala, this rule also applies when an <code>if</code> statement without an <code>else</code> clause appears on the right-hand side of an
+assignment. Since Scala treats <code>if</code> as an expression that returns a value, omitting the <code>else</code> clause results in the assignment
+receiving <code>Unit</code> (represented as <code>()</code>) when the condition is false, which is typically unintended and can lead to type errors or
+unexpected behavior.</p>
 <h3>Noncompliant code example</h3>
 <pre>
 if (x == 0) {
   doSomething
 } else if (x == 1) {
   doSomethingElse
+}
+</pre>
+<pre>
+val result = if (x == 0) {
+  "zero"
 }
 </pre>
 <h3>Compliant solution</h3>
@@ -20,6 +29,13 @@ if (x == 0) {
   doSomethingElse
 } else {
   throw new IllegalStateException
+}
+</pre>
+<pre>
+val result = if (x == 0) {
+  "zero"
+} else {
+  "not zero"
 }
 </pre>
 <h3>Exceptions</h3>
