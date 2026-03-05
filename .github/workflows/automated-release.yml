@@ -15,11 +15,6 @@ on:
         description: "New version to release (without -SNAPSHOT; if left empty, the current minor version will be auto-incremented)"
         required: false
         type: string
-      rule-props-changed:
-        description: >
-          "@RuleProperty" changed? See SC-4654
-        type: boolean
-        default: false
       verbose:
         description: "Enable verbose logging"
         type: boolean
@@ -40,11 +35,6 @@ on:
         description: "Create PR to bump the next iteration version"
         type: boolean
         default: true
-      issue-categories:
-        description: "Jira issue categories to include in the release notes"
-        required: false
-        type: string
-        default: "Feature,False Positive,False Negative,Bug,Security,Maintenance"
 
 jobs:
   release:
@@ -61,7 +51,7 @@ jobs:
       plugin-name: "scala"
       jira-project-key: "SONARSCALA"
       runner-environment: "github-ubuntu-latest-s"
-      rule-props-changed: ${{ github.event.inputs.rule-props-changed }}
+      rule-props-changed: false
       short-description: ${{ github.event.inputs.short-description }}
       new-version: ${{ github.event.inputs.new-version }}
       sqc-integration: ${{ github.event.inputs.sqc-integration == 'true' }}
@@ -72,6 +62,6 @@ jobs:
       verbose: ${{ github.event.inputs.verbose == 'true' }}
       use-jira-sandbox: ${{ github.event.inputs.dry-run == 'true' }}
       is-draft-release: ${{ github.event.inputs.dry-run == 'true' }}
-      issue-categories: ${{ github.event.inputs.issue-categories }}
+      issue-categories: "Feature,False Positive,False Negative,Bug,Security,Maintenance"
       bump-version: ${{ github.event.inputs.bump-version == 'true' }}
       bump-version-normalize: true
