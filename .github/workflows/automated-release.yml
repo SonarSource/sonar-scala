@@ -37,7 +37,7 @@ on:
         type: boolean
         default: true
       bump-version:
-        description: "Create PR bumping up the next iteration"
+        description: "Create PR to bump the next iteration version"
         type: boolean
         default: true
       issue-categories:
