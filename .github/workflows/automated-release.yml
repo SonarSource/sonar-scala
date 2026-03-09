@@ -36,6 +36,10 @@ on:
         description: "Integrate into SQS"
         type: boolean
         default: true
+      bump-version:
+        description: "Create PR to bump the next iteration version"
+        type: boolean
+        default: true
       issue-categories:
         description: "Jira issue categories to include in the release notes"
         required: false
@@ -69,14 +73,5 @@ jobs:
       use-jira-sandbox: ${{ github.event.inputs.dry-run == 'true' }}
       is-draft-release: ${{ github.event.inputs.dry-run == 'true' }}
       issue-categories: ${{ github.event.inputs.issue-categories }}
-
-  bump_versions:
-    name: Bump versions
-    needs: release
-    uses: ./.github/workflows/bump-versions.yml
-    permissions:
-      contents: write
-      pull-requests: write
-      id-token: write
-    with:
-      version: ${{ needs.release.outputs.new-version }}
+      bump-version: ${{ github.event.inputs.bump-version == 'true' }}
+      bump-version-normalize: true
