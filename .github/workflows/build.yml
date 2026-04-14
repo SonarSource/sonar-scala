@@ -68,7 +68,7 @@ jobs:
             sq_version: "LATEST_RELEASE"
         exclude:
           # DEV is tested only in nightly to reduce Repox usage
-          - item: { suite: "plugin", sq_version: "DEV", is_nightly: true }
+          - item: { suite: "plugin", sq_version: "DEV", is_nightly: false }
     name: "QA Tests [${{ matrix.item.suite }}] - SQ : ${{ matrix.item.sq_version }}"
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
