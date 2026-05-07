@@ -44,6 +44,7 @@ If you want to run them, you need first to retrieve the related projects which a
 
     git submodule update --init its/sources
 
+`SonarLintIntegrationTest` requires that you first build the plugin (`./gradlew build`).
 Then build and run the Integration Tests using the `its` property:
 
     ./gradlew build -Pits --info --no-daemon
