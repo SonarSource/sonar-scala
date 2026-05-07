@@ -62,6 +62,7 @@ import org.sonarsource.sonarlint.core.commons.progress.ProgressMonitor;
 import org.sonarsource.sonarlint.core.plugin.commons.PluginsLoader;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.Assertions.tuple;
 
 public class SonarLintTest {
@@ -140,6 +141,7 @@ public class SonarLintTest {
         tuple("scala:S1145", 3, path),
         tuple("scala:S1481", 4, path)
       );
+    fail("Yes it fails");
   }
 
   @Test
