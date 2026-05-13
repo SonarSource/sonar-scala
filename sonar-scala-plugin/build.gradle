@@ -74,13 +74,13 @@ dependencies {
 
     constraints {
         zinc('org.apache.logging.log4j:log4j-api:2.25.4') {
-            because 'Address CVE-2021-44832 vulnerability'
+            because 'Address CVE-2021-44832 and subsequent vulnerabilities'
         }
         zinc('org.apache.logging.log4j:log4j-core:2.25.4') {
-            because 'Address CVE-2021-44832 vulnerability'
+            because 'Address CVE-2021-44832 and subsequent vulnerabilities'
         }
         zinc('com.google.protobuf:protobuf-java:4.34.1') {
-            because 'Address CVE-2022-3171 vulnerability'
+            because 'Address CVE-2022-3171 and subsequent vulnerabilities'
         }
     }
 }
