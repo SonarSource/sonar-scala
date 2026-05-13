@@ -1,7 +1,7 @@
 plugins {
     id "scala"
     id "org.scoverage" version "8.1"
-    id 'com.gradleup.shadow' version '9.3.2'
+    id 'com.gradleup.shadow' version '9.4.1'
     id "org.sonarsource.cloud-native.license-file-generator"
 }
 
@@ -73,14 +73,14 @@ dependencies {
     testRuntimeOnly testLibs.junit.platform.launcher
 
     constraints {
-        zinc('org.apache.logging.log4j:log4j-api:2.17.2') {
-            because 'Address CVE-2021-44832 vulnerability'
+        zinc('org.apache.logging.log4j:log4j-api:2.25.4') {
+            because 'Address CVE-2021-44832 and subsequent vulnerabilities'
         }
-        zinc('org.apache.logging.log4j:log4j-core:2.17.2') {
-            because 'Address CVE-2021-44832 vulnerability'
+        zinc('org.apache.logging.log4j:log4j-core:2.25.4') {
+            because 'Address CVE-2021-44832 and subsequent vulnerabilities'
         }
         zinc('com.google.protobuf:protobuf-java:4.34.1') {
-            because 'Address CVE-2022-3171 vulnerability'
+            because 'Address CVE-2022-3171 and subsequent vulnerabilities'
         }
     }
 }
