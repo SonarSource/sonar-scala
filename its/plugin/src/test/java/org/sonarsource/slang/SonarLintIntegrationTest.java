@@ -46,6 +46,7 @@ import org.sonarsource.sonarlint.core.test.utils.junit5.SonarLintTestHarness;
 import org.sonarsource.sonarlint.core.test.utils.plugins.Plugin;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.awaitility.Awaitility.await;
 
@@ -126,6 +127,8 @@ public class SonarLintIntegrationTest {
       .extracting(RaisedIssueDto::getRuleKey, RaisedIssueDto::getTextRange)
       .usingRecursiveFieldByFieldElementComparator()
       .containsExactly(tuple("scala:S1145", new TextRangeDto(4, 8, 4, 12)));
+
+    fail("To Validate CI behaviour (new Junit5 test)");
   }
 
   private List<RaisedIssueDto> analyzeFileAndGetIssues(URI fileUri) {
