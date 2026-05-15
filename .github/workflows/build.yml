@@ -21,7 +21,7 @@ env:
 
 jobs:
   build:
-    runs-on: github-ubuntu-latest-s  # Public repository runner
+    runs-on: warp-custom-ubuntu-24-04  # Public repository runner
     name: Build
     permissions:
       id-token: write  # Required for Vault OIDC authentication
@@ -48,7 +48,7 @@ jobs:
   qa:
     needs: [build]
     if: ${{ needs.build.outputs.deployed }}
-    runs-on: github-ubuntu-latest-s  # Public repository runner
+    runs-on: warp-custom-ubuntu-24-04  # Public repository runner
     permissions:
       id-token: write  # Required for Vault OIDC authentication
       contents: read  # Required for repository access
@@ -122,7 +122,7 @@ jobs:
     needs:
       - build
       - qa
-    runs-on: github-ubuntu-latest-s  # Public repository runner
+    runs-on: warp-custom-ubuntu-24-04  # Public repository runner
     if: ${{ needs.build.outputs.deployed }}
     permissions:
       id-token: write  # Required for Vault OIDC authentication
