@@ -54,6 +54,7 @@ public class SonarLintIntegrationTest {
 
   private static final String FILE_CONTENTS_SONAR =
           """
+          package main
           object Code {
             def foo_bar() = {                   // scala:S100 (Method name)
               if (true) {                       // scala:S1145 (Useless if(true))
