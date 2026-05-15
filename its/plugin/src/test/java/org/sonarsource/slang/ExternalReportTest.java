@@ -31,8 +31,6 @@ import org.sonarqube.ws.client.issues.SearchRequest;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-
 public class ExternalReportTest extends TestBase {
 
   private static final String BASE_DIRECTORY = "projects/externalreport/";
@@ -88,8 +86,6 @@ public class ExternalReportTest extends TestBase {
     );
     Issue first = issues.get(0);
     assertThat(first.getDebt()).isEqualTo("5min");
-
-    fail("fail() in plugin/scapegoat");
   }
 
   private List<Issue> getExternalIssues(String componentKey) {
