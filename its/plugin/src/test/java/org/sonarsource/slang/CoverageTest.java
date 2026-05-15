@@ -26,7 +26,6 @@ import org.junit.rules.TemporaryFolder;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 
 public class CoverageTest extends TestBase {
 
@@ -64,8 +63,6 @@ public class CoverageTest extends TestBase {
     assertThat(getMeasureAsInt(componentKey, "uncovered_lines")).isEqualTo(1);
     assertThat(getMeasureAsInt(componentKey, "conditions_to_cover")).isNull();
     assertThat(getMeasureAsInt(componentKey, "uncovered_conditions")).isNull();
-
-    fail("To Validate CI behaviour (old Junit4 test)");
   }
 
 }
