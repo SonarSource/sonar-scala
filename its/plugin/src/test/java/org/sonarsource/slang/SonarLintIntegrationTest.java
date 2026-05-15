@@ -108,10 +108,10 @@ public class SonarLintIntegrationTest {
       .extracting(RaisedIssueDto::getRuleKey, RaisedIssueDto::getTextRange)
       .usingRecursiveFieldByFieldElementComparator()
       .containsExactlyInAnyOrder(
-        tuple("scala:S100", new TextRangeDto(2, 6, 2, 13)),
-        tuple("scala:S1145", new TextRangeDto(3, 8, 3, 12)),
-        tuple("scala:S1481", new TextRangeDto(4, 14, 4, 22)),
-        tuple("scala:S2068", new TextRangeDto(4, 14, 4, 22))
+        tuple("scala:S100", new TextRangeDto(3, 6, 3, 13)),
+        tuple("scala:S1145", new TextRangeDto(4, 8, 4, 12)),
+        tuple("scala:S1481", new TextRangeDto(5, 14, 5, 22)),
+        tuple("scala:S2068", new TextRangeDto(5, 14, 5, 22))
       );
   }
 
