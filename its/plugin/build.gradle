@@ -8,50 +8,19 @@ dependencies {
     testImplementation testLibs.sonarlint.core.test.utils
     testImplementation testLibs.sonar.orchestrator
     testRuntimeOnly testLibs.junit.jupiter.engine
+    testRuntimeOnly testLibs.junit.vintage.engine
     testRuntimeOnly testLibs.junit.platform.launcher
 }
 
 test {
+    useJUnitPlatform()
     onlyIf {
         project.hasProperty("plugin") || project.hasProperty("its")
     }
     filter {
         includeTestsMatching 'org.sonarsource.slang.Tests'
-    }
-    systemProperty 'java.awt.headless', 'true'
-    outputs.upToDateWhen {false}
-}
-
-tasks.register('sonarlintTest', Test) {
-    description = 'Runs SonarLint integration tests on the JUnit 5 platform.'
-    group = 'verification'
-    onlyIf {
-        project.hasProperty("plugin") || project.hasProperty("its")
-    }
-    testClassesDirs = sourceSets.test.output.classesDirs
-    classpath = sourceSets.test.runtimeClasspath
-    useJUnitPlatform()
-    filter {
         includeTestsMatching 'org.sonarsource.slang.SonarLintIntegrationTest'
     }
     systemProperty 'java.awt.headless', 'true'
-
-    def propKeys = System.properties.findAll {
-        it.key.startsWith("orchestrator") || it.key.startsWith("sonar") || it.key == "buildNumber" || it.key == "slangVersion"
-    }.collect { it.key as String }
-    propKeys.each { String key -> systemProperty key, System.properties[key] as String }
-    if (propKeys.contains("buildNumber") && !propKeys.contains("slangVersion")) {
-        systemProperty "slangVersion", version
-        logger.lifecycle("slangVersion property set to: ${version}")
-    }
-
-    outputs.upToDateWhen { false }
-}
-
-tasks.named('test').configure {
-    finalizedBy 'sonarlintTest'
-}
-
-tasks.named('check').configure {
-    dependsOn 'sonarlintTest'
+    outputs.upToDateWhen {false}
 }
