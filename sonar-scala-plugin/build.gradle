@@ -73,10 +73,10 @@ dependencies {
     testRuntimeOnly testLibs.junit.platform.launcher
 
     constraints {
-        zinc('org.apache.logging.log4j:log4j-api:2.25.4') {
+        zinc('org.apache.logging.log4j:log4j-api:2.26.0') {
             because 'Address CVE-2021-44832 and subsequent vulnerabilities'
         }
-        zinc('org.apache.logging.log4j:log4j-core:2.25.4') {
+        zinc('org.apache.logging.log4j:log4j-core:2.26.0') {
             because 'Address CVE-2021-44832 and subsequent vulnerabilities'
         }
         zinc('com.google.protobuf:protobuf-java:4.34.1') {
