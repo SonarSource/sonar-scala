@@ -102,6 +102,20 @@ class ScalaSensorTest extends AbstractSensorTest {
     assertThat(issues).hasSize(2);
   }
 
+  @Test
+  void hardcoded_credentials_suppressed_on_heuristic_test_file() {
+    String source = "object A { val password = \"aX9!zQ2m#Lp7\" }";
+    InputFile mainFile = createInputFile("Config.scala", source);
+    InputFile specFile = createInputFile("ConfigSpec.scala", source);
+    context.fileSystem().add(mainFile);
+    context.fileSystem().add(specFile);
+    sensor(checkFactory("S2068")).execute(context);
+
+    Collection<Issue> issues = context.allIssues();
+    assertThat(issues).hasSize(1);
+    assertThat(issues.iterator().next().primaryLocation().inputComponent()).isEqualTo(mainFile);
+  }
+
   @Override
   protected String repositoryKey() {
     return ScalaPlugin.SCALA_REPOSITORY_KEY;
