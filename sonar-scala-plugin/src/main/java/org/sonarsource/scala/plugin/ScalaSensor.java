@@ -57,9 +57,8 @@ public class ScalaSensor extends SlangSensor {
 
   @Override
   protected String[] testFilePathPatterns() {
-    // Adds common Scala test-suite filename conventions to the inherited test directories, so the
-    // heuristic recognises test files even when "sonar.tests" is not configured.
-    return new String[] {"**/test/**", "**/tests/**", "**/*Spec.scala", "**/*Test.scala", "**/*Suite.scala"};
+    // Common test-suite filename patterns to be used when "sonar.tests" is not configured.
+    return new String[] {"**/test/**/*Spec.scala", "**/test/**/*Test.scala", "**/test/**/*Suite.scala"};
   }
 
 }
