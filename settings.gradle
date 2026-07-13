@@ -30,7 +30,7 @@ dependencyResolutionManagement {
     def slangDependenciesVersion = '1.20.1.7876'
     def analyzerCommonsVersion = '2.22.0.4796'
     def pluginApiVersion = '13.2.0.3137'
-    def sonarqubeVersion = '25.10.0.114319'
+    def sonarqubeVersion = '26.7.0.124771'
     def orchestratorVersion = '6.1.0.3962'
     def sonarlintVersion = '11.3.0.85510'
     // slf4j is provided by SQ, SC or SL, should be aligned with sonar-plugin-api
