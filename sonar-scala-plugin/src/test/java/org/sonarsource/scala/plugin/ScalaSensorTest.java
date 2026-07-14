@@ -18,6 +18,8 @@ package org.sonarsource.scala.plugin;
 
 import java.util.Collection;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.TextPointer;
 import org.sonar.api.batch.rule.CheckFactory;
@@ -100,6 +102,25 @@ class ScalaSensorTest extends AbstractSensorTest {
     sensor(checkFactory).execute(context);
     Collection<Issue> issues = context.allIssues();
     assertThat(issues).hasSize(2);
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {
+    "src/test/scala/ConfigSpec.scala",
+    "src/test/scala/ConfigTest.scala",
+    "src/test/scala/ConfigSuite.scala"
+  })
+  void hardcoded_credentials_suppressed_on_heuristic_test_file(String testFilePath) {
+    String source = "object A { val password = \"aX9!zQ2m#Lp7\" }";
+    InputFile mainFile = createInputFile("src/main/scala/Config.scala", source);
+    InputFile testFile = createInputFile(testFilePath, source);
+    context.fileSystem().add(mainFile);
+    context.fileSystem().add(testFile);
+    sensor(checkFactory("S2068")).execute(context);
+
+    Collection<Issue> issues = context.allIssues();
+    assertThat(issues).hasSize(1);
+    assertThat(issues.iterator().next().primaryLocation().inputComponent()).isEqualTo(mainFile);
   }
 
   @Override

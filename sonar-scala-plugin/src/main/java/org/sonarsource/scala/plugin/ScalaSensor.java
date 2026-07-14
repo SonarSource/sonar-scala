@@ -55,4 +55,10 @@ public class ScalaSensor extends SlangSensor {
     return ScalaPlugin.SCALA_REPOSITORY_KEY;
   }
 
+  @Override
+  protected String[] testFilePathPatterns() {
+    // Common test-suite filename patterns to be used when "sonar.tests" is not configured.
+    return new String[] {"**/test/**/*Spec.scala", "**/test/**/*Test.scala", "**/test/**/*Suite.scala"};
+  }
+
 }
