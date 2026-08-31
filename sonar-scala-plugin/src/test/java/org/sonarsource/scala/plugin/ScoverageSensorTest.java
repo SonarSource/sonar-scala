@@ -16,6 +16,11 @@
  */
 package org.sonarsource.scala.plugin;
 
+import com.sonarsource.scanner.engine.sensor.test.fixtures.SensorContextTester;
+import com.sonarsource.scanner.engine.sensor.test.fixtures.TestInputFile;
+import com.sonarsource.scanner.engine.sensor.test.fixtures.TestInputFileBuilder;
+import com.sonarsource.scanner.engine.sensor.test.fixtures.TestSensorDescriptor;
+import com.sonarsource.scanner.engine.sensor.test.fixtures.TestSensorDescriptorImpl;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,12 +34,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.slf4j.event.Level;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
-import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
-import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
-import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.config.internal.MapSettings;
+import org.sonar.scanner.plugin.api.impl.config.MapSettings;
+import org.sonar.scanner.plugin.api.impl.fs.DefaultFileSystem;
 import org.sonarsource.slang.testing.ThreadLocalLogTester;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -56,7 +57,7 @@ class ScoverageSensorTest {
 
   @Test
   void test_descriptor() {
-    DefaultSensorDescriptor sensorDescriptor = new DefaultSensorDescriptor();
+    TestSensorDescriptor sensorDescriptor = new TestSensorDescriptorImpl();
     newSCoverageSensor().describe(sensorDescriptor);
     assertThat(sensorDescriptor.name()).isEqualTo("Scoverage sensor for Scala coverage");
   }
@@ -179,7 +180,7 @@ class ScoverageSensorTest {
     DefaultFileSystem defaultFileSystem = new DefaultFileSystem(new File(MODULE_KEY));
     createReportFiles(coverageReportPath, baseDir, defaultFileSystem);
     for (String fileName : fileNames) {
-      DefaultInputFile inputFile = createInputFile(fileName, fileContent(baseDir, fileName));
+      TestInputFile inputFile = createInputFile(fileName, fileContent(baseDir, fileName));
       defaultFileSystem.add(inputFile);
     }
 
@@ -194,7 +195,7 @@ class ScoverageSensorTest {
       reportPath = reportPath.trim();
       if (!Paths.get(coverageReportPath).isAbsolute()) {
         try {
-          DefaultInputFile coverageFile = createInputFile(reportPath, fileContent(baseDir, reportPath));
+          TestInputFile coverageFile = createInputFile(reportPath, fileContent(baseDir, reportPath));
           defaultFileSystem.add(coverageFile);
         } catch (NoSuchFileException e) {
           // tests can simulate non-existing file, this is OK
@@ -203,7 +204,7 @@ class ScoverageSensorTest {
     }
   }
 
-  private DefaultInputFile createInputFile(String fileName, String content) {
+  private TestInputFile createInputFile(String fileName, String content) {
     return TestInputFileBuilder.create(MODULE_KEY, fileName)
         .setType(InputFile.Type.MAIN)
         .initMetadata(content)

@@ -27,10 +27,13 @@ buildCache {
 }
 
 dependencyResolutionManagement {
-    def slangDependenciesVersion = '1.21.0.8303'
+    def slangDependenciesVersion = '1.22.0.8388'
     def analyzerCommonsVersion = '2.30.0.5193'
     def pluginApiVersion = '13.2.0.3137'
-    def sonarqubeVersion = '25.10.0.114319'
+    def sonarqubeVersion = '26.8.0.126808'
+    // Sensor test fixtures moved out of sonar-plugin-api-impl into the scanner engine in SQ 26.x.
+    // Pinned to the last release built for Java 17; 13.7+ requires Java 21.
+    def scannerEngineVersion = '13.6.1.4395'
     def orchestratorVersion = '6.1.0.3962'
     def sonarlintVersion = '11.3.0.85510'
     // slf4j is provided by SQ, SC or SL, should be aligned with sonar-plugin-api
@@ -51,6 +54,7 @@ dependencyResolutionManagement {
         testLibs {
             library("sonar-plugin-api-test-fixtures", "org.sonarsource.api.plugin", "sonar-plugin-api-test-fixtures").version(pluginApiVersion)
             library("sonar-plugin-api-impl", "org.sonarsource.sonarqube", "sonar-plugin-api-impl").version(sonarqubeVersion)
+            library("sensor-test-fixtures", "org.sonarsource.scanner.engine", "sensor-test-fixtures").version(scannerEngineVersion)
             library("sonar-orchestrator", "org.sonarsource.orchestrator", "sonar-orchestrator-junit4").version(orchestratorVersion)
             library("sonarlint-core", "org.sonarsource.sonarlint.core", "sonarlint-core").version(sonarlintVersion)
             library("sonarlint-core-test-utils", "org.sonarsource.sonarlint.core", "sonarlint-core-test-utils").version(sonarlintVersion)

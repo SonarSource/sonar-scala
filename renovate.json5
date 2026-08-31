@@ -7,5 +7,10 @@
       matchPackageNames: [ "org.scalameta*" ],
       enabled: false
     },
+    {
+      // 13.7+ is built for Java 21, this project still targets Java 17.
+      matchPackageNames: [ "org.sonarsource.scanner.engine:*" ],
+      allowedVersions: "<13.7"
+    },
   ],
 }
