@@ -26,9 +26,8 @@ import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.error.AnalysisError;
 import org.sonar.api.batch.sensor.issue.Issue;
 import org.sonar.api.batch.sensor.issue.IssueLocation;
-import org.sonar.api.batch.sensor.issue.internal.DefaultNoSonarFilter;
 import org.sonar.api.config.internal.MapSettings;
-import org.sonar.api.issue.NoSonarFilter;
+import org.sonar.scanner.plugin.api.impl.sensor.issue.DefaultNoSonarFilter;
 import org.sonarsource.slang.testing.AbstractSensorTest;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -69,6 +69,7 @@ dependencies {
     testImplementation testLibs.junit.jupiter.params
     testImplementation testLibs.sonar.plugin.api.impl
     testImplementation testLibs.sonar.plugin.api.test.fixtures
+    testImplementation testLibs.sensor.test.fixtures
 
     testRuntimeOnly testLibs.junit.jupiter.engine
     testRuntimeOnly testLibs.junit.platform.launcher
