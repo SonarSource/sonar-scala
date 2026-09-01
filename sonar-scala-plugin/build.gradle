@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.scala.ScalaCompile
+
 plugins {
     id "scala"
     id "org.scoverage" version "8.1"
@@ -32,6 +34,10 @@ sourceSets {
 tasks.compileScala.classpath = sourceSets.main.compileClasspath
 tasks.compileJava.classpath += files(sourceSets.main.scala.classesDirectory)
 tasks.compileScoverageJava.enabled = false
+
+tasks.withType(ScalaCompile).configureEach {
+    scalaCompileOptions.additionalParameters += ['-release:17']
+}
 
 sonarqube {
     properties {
@@ -113,7 +119,7 @@ jar {
                 'Sonar-Version': '6.7',
                 'SonarLint-Supported': 'true',
                 'Version': "${project.version}",
-                'Jre-Min-Version': '11',
+                'Jre-Min-Version': '17',
         )
     }
 }

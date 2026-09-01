@@ -1,4 +1,5 @@
 import java.util.jar.JarInputStream
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 
 plugins {
     id 'java'
@@ -79,6 +80,9 @@ subprojects {
     apply plugin: 'com.diffplug.spotless'
 
     java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
         sourceCompatibility = JavaVersion.VERSION_17
         withSourcesJar()
         withJavadocJar()

@@ -31,6 +31,8 @@ To provide feedback (request a feature, report a bug, etc.) use the [SonarQube C
 
 ## Building
 
+You will need Java 21 installed.
+
 ### Build
 
 Build and run Unit Tests:
