@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.PartialAbortSpec" tests="1" failures="0" errors="2" skipped="0" time="0.5">
+  <testcase classname="com.example.PartialAbortSpec" name="errors" time="0.500"><error message="boom">stack trace</error></testcase>
+</testsuite>

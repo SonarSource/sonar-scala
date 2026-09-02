@@ -14,4 +14,4 @@ Discover and update the Scala-specific [properties](/analysis/analysis-parameter
 
 ## Related Pages
 * [Importing External Issues](/analysis/external-issues/) (Scalastyle, Scapegoat, or Scalafix)
-* [Test Coverage & Execution](/analysis/coverage/) (Scoverage)
+* [Test Coverage & Execution](/analysis/coverage/) (Scoverage and ScalaTest XML reports)

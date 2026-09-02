@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite 
+errors="0" failures="2" name="example.ExhaustiveSpec" tests="4" time="0.052">
+  <testcase 
+  name="a passing test" classname="example.ExhaustiveSpec" time="0.017">
+</testcase>
+  <testcase 
+  name="a failing test" classname="example.ExhaustiveSpec" time="0.014">
+    <failure type="class org.scalatest.exceptions.TestFailedException">
+      org.scalatest.exceptions.TestFailedException
+      at org.scalatest.Assertions.newAssertionFailedException(Assertions.scala:472)
+      at org.scalatest.Assertions.newAssertionFailedException$(Assertions.scala:471)
+      at org.scalatest.Assertions$.newAssertionFailedException(Assertions.scala:1231)
+      at org.scalatest.Assertions$AssertionsHelper.macroAssert(Assertions.scala:1295)
+      at example.ExhaustiveSpec.$anonfun$new$2(ExhaustiveSpec.scala:13)
+      at org.scalatest.OutcomeOf.outcomeOf(OutcomeOf.scala:85)
+      at org.scalatest.OutcomeOf.outcomeOf$(OutcomeOf.scala:83)
+      at org.scalatest.OutcomeOf$.outcomeOf(OutcomeOf.scala:104)
+      at org.scalatest.Transformer.apply(Transformer.scala:22)
+      at org.scalatest.Transformer.apply(Transformer.scala:20)
+      at org.scalatest.funsuite.AnyFunSuiteLike$$anon$1.apply(AnyFunSuiteLike.scala:226)
+      at org.scalatest.TestSuite.withFixture(TestSuite.scala:196)
+      at org.scalatest.TestSuite.withFixture$(TestSuite.scala:195)
+      at org.scalatest.funsuite.AnyFunSuite.withFixture(AnyFunSuite.scala:1564)
+      at org.scalatest.funsuite.AnyFunSuiteLike.invokeWithFixture$1(AnyFunSuiteLike.scala:224)
+      at org.scalatest.funsuite.AnyFunSuiteLike.$anonfun$runTest$1(AnyFunSuiteLike.scala:236)
+      at org.scalatest.SuperEngine.runTestImpl(Engine.scala:306)
+      at org.scalatest.funsuite.AnyFunSuiteLike.runTest(AnyFunSuiteLike.scala:236)
+      at org.scalatest.funsuite.AnyFunSuiteLike.runTest$(AnyFunSuiteLike.scala:218)
+      at org.scalatest.funsuite.AnyFunSuite.runTest(AnyFunSuite.scala:1564)
+      at org.scalatest.funsuite.AnyFunSuiteLike.$anonfun$runTests$1(AnyFunSuiteLike.scala:269)
+      at org.scalatest.SuperEngine.$anonfun$runTestsInBranch$1(Engine.scala:413)
+      at scala.collection.immutable.List.foreach(List.scala:334)
+      at org.scalatest.SuperEngine.traverseSubNodes$1(Engine.scala:401)
+      at org.scalatest.SuperEngine.runTestsInBranch(Engine.scala:396)
+      at org.scalatest.SuperEngine.runTestsImpl(Engine.scala:475)
+      at org.scalatest.funsuite.AnyFunSuiteLike.runTests(AnyFunSuiteLike.scala:269)
+      at org.scalatest.funsuite.AnyFunSuiteLike.runTests$(AnyFunSuiteLike.scala:268)
+      at org.scalatest.funsuite.AnyFunSuite.runTests(AnyFunSuite.scala:1564)
+      at org.scalatest.Suite.run(Suite.scala:1114)
+      at org.scalatest.Suite.run$(Suite.scala:1096)
+      at org.scalatest.funsuite.AnyFunSuite.org$scalatest$funsuite$AnyFunSuiteLike$$super$run(AnyFunSuite.scala:1564)
+      at org.scalatest.funsuite.AnyFunSuiteLike.$anonfun$run$1(AnyFunSuiteLike.scala:273)
+      at org.scalatest.SuperEngine.runImpl(Engine.scala:535)
+      at org.scalatest.funsuite.AnyFunSuiteLike.run(AnyFunSuiteLike.scala:273)
+      at org.scalatest.funsuite.AnyFunSuiteLike.run$(AnyFunSuiteLike.scala:272)
+      at org.scalatest.funsuite.AnyFunSuite.run(AnyFunSuite.scala:1564)
+      at org.scalatest.tools.SuiteRunner.run(SuiteRunner.scala:47)
+      at org.scalatest.tools.Runner$.$anonfun$doRunRunRunDaDoRunRun$13(Runner.scala:1321)
+      at org.scalatest.tools.Runner$.$anonfun$doRunRunRunDaDoRunRun$13$adapted(Runner.scala:1315)
+      at scala.collection.immutable.List.foreach(List.scala:334)
+      at org.scalatest.tools.Runner$.doRunRunRunDaDoRunRun(Runner.scala:1315)
+      at org.scalatest.tools.Runner$.$anonfun$runOptionallyWithPassFailReporter$24(Runner.scala:992)
+      at org.scalatest.tools.Runner$.$anonfun$runOptionallyWithPassFailReporter$24$adapted(Runner.scala:970)
+      at org.scalatest.tools.Runner$.withClassLoaderAndDispatchReporter(Runner.scala:1481)
+      at org.scalatest.tools.Runner$.runOptionallyWithPassFailReporter(Runner.scala:970)
+      at org.scalatest.tools.Runner$.main(Runner.scala:775)
+      at org.scalatest.tools.Runner.main(Runner.scala)
+    </failure>
+</testcase>
+  <testcase 
+  name="an errored test" classname="example.ExhaustiveSpec" time="0.012">
+    <failure 
+    message="expected integration-test error" type="class java.lang.RuntimeException">
+      java.lang.RuntimeException: expected integration-test error
+      at example.ExhaustiveSpec.$anonfun$new$3(ExhaustiveSpec.scala:18)
+      at org.scalatest.OutcomeOf.outcomeOf(OutcomeOf.scala:85)
+      at org.scalatest.OutcomeOf.outcomeOf$(OutcomeOf.scala:83)
+      at org.scalatest.OutcomeOf$.outcomeOf(OutcomeOf.scala:104)
+      at org.scalatest.Transformer.apply(Transformer.scala:22)
+      at org.scalatest.Transformer.apply(Transformer.scala:20)
+      at org.scalatest.funsuite.AnyFunSuiteLike$$anon$1.apply(AnyFunSuiteLike.scala:226)
+      at org.scalatest.TestSuite.withFixture(TestSuite.scala:196)
+      at org.scalatest.TestSuite.withFixture$(TestSuite.scala:195)
+      at org.scalatest.funsuite.AnyFunSuite.withFixture(AnyFunSuite.scala:1564)
+      at org.scalatest.funsuite.AnyFunSuiteLike.invokeWithFixture$1(AnyFunSuiteLike.scala:224)
+      at org.scalatest.funsuite.AnyFunSuiteLike.$anonfun$runTest$1(AnyFunSuiteLike.scala:236)
+      at org.scalatest.SuperEngine.runTestImpl(Engine.scala:306)
+      at org.scalatest.funsuite.AnyFunSuiteLike.runTest(AnyFunSuiteLike.scala:236)
+      at org.scalatest.funsuite.AnyFunSuiteLike.runTest$(AnyFunSuiteLike.scala:218)
+      at org.scalatest.funsuite.AnyFunSuite.runTest(AnyFunSuite.scala:1564)
+      at org.scalatest.funsuite.AnyFunSuiteLike.$anonfun$runTests$1(AnyFunSuiteLike.scala:269)
+      at org.scalatest.SuperEngine.$anonfun$runTestsInBranch$1(Engine.scala:413)
+      at scala.collection.immutable.List.foreach(List.scala:334)
+      at org.scalatest.SuperEngine.traverseSubNodes$1(Engine.scala:401)
+      at org.scalatest.SuperEngine.runTestsInBranch(Engine.scala:396)
+      at org.scalatest.SuperEngine.runTestsImpl(Engine.scala:475)
+      at org.scalatest.funsuite.AnyFunSuiteLike.runTests(AnyFunSuiteLike.scala:269)
+      at org.scalatest.funsuite.AnyFunSuiteLike.runTests$(AnyFunSuiteLike.scala:268)
+      at org.scalatest.funsuite.AnyFunSuite.runTests(AnyFunSuite.scala:1564)
+      at org.scalatest.Suite.run(Suite.scala:1114)
+      at org.scalatest.Suite.run$(Suite.scala:1096)
+      at org.scalatest.funsuite.AnyFunSuite.org$scalatest$funsuite$AnyFunSuiteLike$$super$run(AnyFunSuite.scala:1564)
+      at org.scalatest.funsuite.AnyFunSuiteLike.$anonfun$run$1(AnyFunSuiteLike.scala:273)
+      at org.scalatest.SuperEngine.runImpl(Engine.scala:535)
+      at org.scalatest.funsuite.AnyFunSuiteLike.run(AnyFunSuiteLike.scala:273)
+      at org.scalatest.funsuite.AnyFunSuiteLike.run$(AnyFunSuiteLike.scala:272)
+      at org.scalatest.funsuite.AnyFunSuite.run(AnyFunSuite.scala:1564)
+      at org.scalatest.tools.SuiteRunner.run(SuiteRunner.scala:47)
+      at org.scalatest.tools.Runner$.$anonfun$doRunRunRunDaDoRunRun$13(Runner.scala:1321)
+      at org.scalatest.tools.Runner$.$anonfun$doRunRunRunDaDoRunRun$13$adapted(Runner.scala:1315)
+      at scala.collection.immutable.List.foreach(List.scala:334)
+      at org.scalatest.tools.Runner$.doRunRunRunDaDoRunRun(Runner.scala:1315)
+      at org.scalatest.tools.Runner$.$anonfun$runOptionallyWithPassFailReporter$24(Runner.scala:992)
+      at org.scalatest.tools.Runner$.$anonfun$runOptionallyWithPassFailReporter$24$adapted(Runner.scala:970)
+      at org.scalatest.tools.Runner$.withClassLoaderAndDispatchReporter(Runner.scala:1481)
+      at org.scalatest.tools.Runner$.runOptionallyWithPassFailReporter(Runner.scala:970)
+      at org.scalatest.tools.Runner$.main(Runner.scala:775)
+      at org.scalatest.tools.Runner.main(Runner.scala)
+</failure>
+</testcase>
+  <testcase 
+  name="an ignored test" classname="example.ExhaustiveSpec" time="0.0">
+    <skipped/>
+</testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.OverflowSpec" tests="1" failures="0" errors="0" skipped="0" time="1e30">
+  <testcase classname="com.example.OverflowSpec" name="overflows" time="1e30"/>
+</testsuite>

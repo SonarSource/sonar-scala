@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite 
+errors="1" failures="0" name="example.AbortedSuite" tests="0" time="0.013">
+  <system-out><![CDATA[]]></system-out>
+  <system-err>
+    <![CDATA[java.lang.RuntimeException: expected integration-test suite error
+      at example.AbortedSuite.beforeAll(AbortedSuite.scala:9)
+      at org.scalatest.BeforeAndAfterAll.liftedTree1$1(BeforeAndAfterAll.scala:212)
+      at org.scalatest.BeforeAndAfterAll.run(BeforeAndAfterAll.scala:210)
+      at org.scalatest.BeforeAndAfterAll.run$(BeforeAndAfterAll.scala:208)
+      at example.AbortedSuite.run(AbortedSuite.scala:6)
+      at org.scalatest.tools.SuiteRunner.run(SuiteRunner.scala:47)
+      at org.scalatest.tools.Runner$.$anonfun$doRunRunRunDaDoRunRun$13(Runner.scala:1321)
+      at org.scalatest.tools.Runner$.$anonfun$doRunRunRunDaDoRunRun$13$adapted(Runner.scala:1315)
+      at scala.collection.immutable.List.foreach(List.scala:334)
+      at org.scalatest.tools.Runner$.doRunRunRunDaDoRunRun(Runner.scala:1315)
+      at org.scalatest.tools.Runner$.$anonfun$runOptionallyWithPassFailReporter$24(Runner.scala:992)
+      at org.scalatest.tools.Runner$.$anonfun$runOptionallyWithPassFailReporter$24$adapted(Runner.scala:970)
+      at org.scalatest.tools.Runner$.withClassLoaderAndDispatchReporter(Runner.scala:1481)
+      at org.scalatest.tools.Runner$.runOptionallyWithPassFailReporter(Runner.scala:970)
+      at org.scalatest.tools.Runner$.main(Runner.scala:775)
+      at org.scalatest.tools.Runner.main(Runner.scala)
+]]>
+  </system-err>
+</testsuite>
