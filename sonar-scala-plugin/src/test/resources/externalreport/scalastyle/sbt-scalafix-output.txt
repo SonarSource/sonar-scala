@@ -1,0 +1,3 @@
+[error] /absolute/path/to/HelloWorld.scala:5:9: error: [DisableSyntax.isInstanceOf]: isInstanceOf checks are disabled, use pattern matching instead
+[error]     if (args.isInstanceOf[Array[String]]) {
+[error]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -1,0 +1,8 @@
+Running scalafix v0.11.0...
+/absolute/path/to/HelloWorld.scala:5:9: error: [DisableSyntax.isInstanceOf]: isInstanceOf checks are disabled, use pattern matching instead
+    if (args.isInstanceOf[Array[String]]) {
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/absolute/path/to/HelloWorld.scala:9:3: error: [Custom.BannedImport]: usage of banned import
+/absolute/path/to/InvalidPath.scala:3:1: error: [DisableSyntax.null]: null should be avoided
+/absolute/path/to/HelloWorld.scala:6:5: error: [DisableSyntax.var]:
+error: Unknown rule 'FooBar'

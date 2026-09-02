@@ -20,6 +20,8 @@ import org.sonar.api.Plugin;
 import org.sonar.api.SonarProduct;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.PropertyDefinition.ConfigScope;
+import org.sonarsource.scala.externalreport.scalafix.ScalafixRulesDefinition;
+import org.sonarsource.scala.externalreport.scalafix.ScalafixSensor;
 import org.sonarsource.scala.externalreport.scalastyle.ScalastyleRulesDefinition;
 import org.sonarsource.scala.externalreport.scalastyle.ScalastyleSensor;
 import org.sonarsource.scala.externalreport.scapegoat.ScapegoatRulesDefinition;
@@ -58,8 +60,10 @@ public class ScalaPlugin implements Plugin {
         ScoverageSensor.class,
         ScalastyleSensor.class,
         ScapegoatSensor.class,
+        ScalafixSensor.class,
         ScalastyleRulesDefinition.class,
         ScapegoatRulesDefinition.class,
+        ScalafixRulesDefinition.class,
 
         PropertyDefinition.builder(SCALA_FILE_SUFFIXES_KEY)
           .defaultValue(SCALA_FILE_SUFFIXES_DEFAULT_VALUE)
@@ -92,6 +96,16 @@ public class ScalaPlugin implements Plugin {
           PropertyDefinition.builder(ScapegoatSensor.REPORT_PROPERTY_KEY)
             .name("Scapegoat Report Files")
             .description("Paths (absolute or relative) to scapegoat xml files using scalastyle format. For example: scapegoat-scalastyle.xml")
+            .category(EXTERNAL_ANALYZERS_CATEGORY)
+            .subCategory(SCALA_CATEGORY)
+            .onConfigScopes(ConfigScope.PROJECT)
+            .multiValues(true)
+            .build(),
+
+          PropertyDefinition.builder(ScalafixSensor.REPORT_PROPERTY_KEY)
+            .name("Scalafix Report Files")
+            .description("Paths (absolute or relative) to text files containing Scalafix's console diagnostic output. " +
+              "For example: scalafix --check ... > scalafix-report.txt")
             .category(EXTERNAL_ANALYZERS_CATEGORY)
             .subCategory(SCALA_CATEGORY)
             .onConfigScopes(ConfigScope.PROJECT)

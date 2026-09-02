@@ -25,6 +25,7 @@ import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import org.sonarsource.analyzer.commons.xml.SafeStaxParserFactory;
+import org.sonarsource.scala.externalreport.IssueConsumer;
 
 class ScalastyleXmlReportReader {
 
@@ -40,11 +41,6 @@ class ScalastyleXmlReportReader {
 
   private int level = 0;
   private String file = "";
-
-  @FunctionalInterface
-  interface IssueConsumer {
-    void onIssue(String file, String line, String source, String message);
-  }
 
   private ScalastyleXmlReportReader(IssueConsumer consumer) {
     this.consumer = consumer;

@@ -1,0 +1,178 @@
+[
+  {
+    "key": "DisableSyntax.var",
+    "name": "Mutable state (var) should be avoided",
+    "description": "Mutable state should be avoided.",
+    "type": "CODE_SMELL",
+    "severity": "MAJOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.null",
+    "name": "Null should be avoided",
+    "description": "Null should be avoided, consider using Option instead.",
+    "type": "CODE_SMELL",
+    "severity": "MAJOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.throw",
+    "name": "Throwing exceptions should be avoided",
+    "description": "Exceptions should be avoided, consider encoding the error in the return type instead.",
+    "type": "CODE_SMELL",
+    "severity": "MAJOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.return",
+    "name": "Return should be avoided",
+    "description": "Return should be avoided, consider using if/else instead.",
+    "type": "CODE_SMELL",
+    "severity": "MINOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.while",
+    "name": "While loops should be avoided",
+    "description": "While loops should be avoided, consider using recursion instead.",
+    "type": "CODE_SMELL",
+    "severity": "MINOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.noSemicolons",
+    "name": "Semicolons are disabled",
+    "description": "Semicolons are disabled.",
+    "type": "CODE_SMELL",
+    "severity": "MINOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.noTabs",
+    "name": "Tabs are disabled",
+    "description": "Tabs are disabled.",
+    "type": "CODE_SMELL",
+    "severity": "MINOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.noXml",
+    "name": "XML literals should be avoided",
+    "description": "XML literals should be avoided.",
+    "type": "CODE_SMELL",
+    "severity": "MINOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.asInstanceOf",
+    "name": "asInstanceOf casts should be avoided",
+    "description": "asInstanceOf casts are disabled, use pattern matching instead.",
+    "type": "CODE_SMELL",
+    "severity": "MAJOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.asInstanceOfMatchable",
+    "name": "asInstanceOf[Matchable] casts should use the asMatchable extension method",
+    "description": "Prefer the .asMatchable extension method over an asInstanceOf[Matchable] cast for readability.",
+    "type": "CODE_SMELL",
+    "severity": "MINOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.isInstanceOf",
+    "name": "isInstanceOf checks should be avoided",
+    "description": "isInstanceOf checks are disabled, use pattern matching instead.",
+    "type": "CODE_SMELL",
+    "severity": "MAJOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.noFinalVal",
+    "name": "Final vals should be avoided",
+    "description": "Final vals cause problems with incremental compilation.",
+    "type": "CODE_SMELL",
+    "severity": "MINOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.noValPatterns",
+    "name": "Pattern matching in val assignment should be avoided",
+    "description": "Pattern matching in a val assignment using a non-tuple pattern risks a MatchError at runtime.",
+    "type": "CODE_SMELL",
+    "severity": "MAJOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.covariant",
+    "name": "Covariant type parameters should be avoided",
+    "description": "Covariant types could lead to error-prone situations.",
+    "type": "CODE_SMELL",
+    "severity": "MINOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.contravariant",
+    "name": "Contravariant type parameters should be avoided",
+    "description": "Contravariant types could lead to error-prone situations.",
+    "type": "CODE_SMELL",
+    "severity": "MINOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.valInAbstract",
+    "name": "Val fields in traits or abstract classes should be avoided",
+    "description": "Val fields in traits or abstract classes can trigger initialization order bugs.",
+    "type": "CODE_SMELL",
+    "severity": "MAJOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.implicitObject",
+    "name": "Implicit objects should be avoided",
+    "description": "Implicit objects may cause implicit resolution errors.",
+    "type": "CODE_SMELL",
+    "severity": "MINOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.implicitConversion",
+    "name": "Implicit conversions should be avoided",
+    "description": "Implicit conversions reduce type safety compared to explicit conversions.",
+    "type": "CODE_SMELL",
+    "severity": "MINOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.defaultArgs",
+    "name": "Default arguments should be avoided",
+    "description": "Default args makes it hard to use methods as functions.",
+    "type": "CODE_SMELL",
+    "severity": "MINOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.==",
+    "name": "Universal equality (==) should be avoided",
+    "description": "== and != are unsafe since they allow comparing two unrelated types.",
+    "type": "CODE_SMELL",
+    "severity": "MAJOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.!=",
+    "name": "Universal equality (!=) should be avoided",
+    "description": "== and != are unsafe since they allow comparing two unrelated types.",
+    "type": "CODE_SMELL",
+    "severity": "MAJOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  },
+  {
+    "key": "DisableSyntax.noFinalize",
+    "name": "Overriding finalize should be avoided",
+    "description": "finalize should not be used, its semantics are unreliable.",
+    "type": "CODE_SMELL",
+    "severity": "MAJOR",
+    "url": "https://scalacenter.github.io/scalafix/docs/rules/DisableSyntax.html"
+  }
+]
