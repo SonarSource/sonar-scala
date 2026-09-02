@@ -13,5 +13,5 @@ key: scala
 Discover and update the Scala-specific [properties](/analysis/analysis-parameters/) in: <!-- sonarcloud -->Project <!-- /sonarcloud --> **[Administration > General Settings > Scala](/#sonarqube-admin#/admin/settings?category=scala)**.
 
 ## Related Pages
-* [Importing External Issues](/analysis/external-issues/) (Scalastyle or Scapegoat)
+* [Importing External Issues](/analysis/external-issues/) (Scalastyle, Scapegoat, or Scalafix)
 * [Test Coverage & Execution](/analysis/coverage/) (Scoverage)

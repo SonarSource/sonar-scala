@@ -1,0 +1,6 @@
+{ABSOLUTE_HELLO_WORLD_PATH}:5:9: error: [DisableSyntax.isInstanceOf]: isInstanceOf checks are disabled, use pattern matching instead
+    if (args.isInstanceOf[Array[String]]) {
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+{ABSOLUTE_HELLO_WORLD_PATH}:9:3: warning: [DisableSyntax.noValPatterns]: this may result in a MatchError at runtime
+  case class ScalaNativeKind() {
+  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

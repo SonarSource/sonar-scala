@@ -88,6 +88,30 @@ public class ExternalReportTest extends TestBase {
     assertThat(first.getDebt()).isEqualTo("5min");
   }
 
+  @Test
+  public void scalafix() throws IOException {
+    final String projectKey = "scalafix";
+
+    SonarScanner sonarScanner = getSonarScanner(projectKey, BASE_DIRECTORY, "scalafix");
+    Path projectDir = new File(BASE_DIRECTORY, "scalafix").toPath();
+    Path scalafixReportPath = createTemporaryReportFromTemplate(projectDir.resolve("scalafix-output.txt"),
+      "{ABSOLUTE_HELLO_WORLD_PATH}", projectDir.resolve("HelloWorld.scala").toRealPath().toString());
+    sonarScanner.setProperty("sonar.scala.scalafix.reportPaths", scalafixReportPath.toString());
+    ORCHESTRATOR.executeBuild(sonarScanner);
+    List<Issue> issues = getExternalIssues(projectKey);
+    assertThat(issues).hasSize(2);
+    assertThat(issues.stream().map(Issue::getRule).sorted().toList()).containsExactly(
+      "external_scalafix:DisableSyntax.isInstanceOf",
+      "external_scalafix:DisableSyntax.noValPatterns"
+    );
+    assertThat(issues.stream().map(Issue::getLine).sorted().toList()).containsExactly(
+      5,
+      9
+    );
+    Issue first = issues.get(0);
+    assertThat(first.getDebt()).isEqualTo("5min");
+  }
+
   private List<Issue> getExternalIssues(String componentKey) {
     return newWsClient().issues().search(new SearchRequest().setComponentKeys(Collections.singletonList(componentKey)))
       .getIssuesList().stream()

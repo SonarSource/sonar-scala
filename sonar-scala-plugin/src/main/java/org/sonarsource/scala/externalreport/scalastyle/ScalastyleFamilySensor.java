@@ -33,6 +33,7 @@ import org.sonar.api.batch.sensor.issue.NewExternalIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.notifications.AnalysisWarnings;
 import org.sonarsource.analyzer.commons.ExternalRuleLoader;
+import org.sonarsource.scala.externalreport.IssueConsumer;
 import org.sonarsource.scala.plugin.ScalaPlugin;
 import org.sonarsource.slang.plugin.AbstractPropertyHandlerSensor;
 
@@ -80,11 +81,15 @@ public abstract class ScalastyleFamilySensor extends AbstractPropertyHandlerSens
 
   private void importReport(File reportPath, SensorContext context, Set<String> unresolvedInputFiles) {
     try (InputStream in = new FileInputStream(reportPath)) {
-      ScalastyleXmlReportReader.read(in, (file, line, source, message) -> saveIssue(context, file, line, source, message, unresolvedInputFiles));
+      readReport(in, (file, line, source, message) -> saveIssue(context, file, line, source, message, unresolvedInputFiles));
     } catch (IOException | XMLStreamException | RuntimeException e) {
       LOG.error("No issues information will be saved as the report file '{}' can't be read. " +
         e.getClass().getSimpleName() + ": " + e.getMessage(), reportPath, e);
     }
+  }
+
+  protected void readReport(InputStream in, IssueConsumer consumer) throws IOException, XMLStreamException {
+    ScalastyleXmlReportReader.read(in, consumer);
   }
 
   private void saveIssue(SensorContext context, String file, String line, String ruleId, String message, Set<String> unresolvedInputFiles) {
