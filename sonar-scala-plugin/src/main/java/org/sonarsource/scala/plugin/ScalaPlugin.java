@@ -58,6 +58,7 @@ public class ScalaPlugin implements Plugin {
       context.addExtensions(
         ScalaProfileDefinition.class,
         ScoverageSensor.class,
+        ScalaTestSensor.class,
         ScalastyleSensor.class,
         ScapegoatSensor.class,
         ScalafixSensor.class,
@@ -78,6 +79,15 @@ public class ScalaPlugin implements Plugin {
         PropertyDefinition.builder(COVERAGE_REPORT_PATHS_KEY)
           .name("Path to Scoverage report")
           .description("Path to Scoverage report file(s) (scoverage.xml). Usually in target\\scala-X.X\\scoverage-report")
+          .category(SCALA_CATEGORY)
+          .subCategory(TEST_COVERAGE_SUBCATEGORY)
+          .onConfigScopes(ConfigScope.PROJECT)
+          .multiValues(true)
+          .build(),
+
+        PropertyDefinition.builder(ScalaTestSensor.REPORT_PROPERTY_KEY)
+          .name("ScalaTest Report Files")
+          .description("Paths (absolute or relative) to ScalaTest XML report files or directories containing them.")
           .category(SCALA_CATEGORY)
           .subCategory(TEST_COVERAGE_SUBCATEGORY)
           .onConfigScopes(ConfigScope.PROJECT)

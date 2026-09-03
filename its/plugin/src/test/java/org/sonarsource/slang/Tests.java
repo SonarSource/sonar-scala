@@ -38,6 +38,7 @@ import org.junit.runners.Suite;
   ExternalReportTest.class,
   MeasuresTest.class,
   NoSonarTest.class,
+  ScalaTestExecutionTest.class,
 })
 public class Tests {
 

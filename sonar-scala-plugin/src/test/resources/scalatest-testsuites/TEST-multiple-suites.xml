@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="com.example.FirstSpec" tests="2" failures="1" errors="0" skipped="0" time="0.25">
+    <testcase classname="com.example.FirstSpec" name="passes" time="0.100"/>
+    <testcase classname="com.example.FirstSpec" name="fails" time="0.150"><failure message="expected true">stack trace</failure></testcase>
+  </testsuite>
+  <testsuite name="com.example.SecondSpec" tests="3" failures="0" errors="1" skipped="1" time="0.3">
+    <testcase classname="com.example.SecondSpec" name="passes" time="0.100"/>
+    <testcase classname="com.example.SecondSpec" name="errors" time="0.150"><error message="boom">stack trace</error></testcase>
+    <testcase classname="com.example.SecondSpec" name="skips" time="0.050"><skipped/></testcase>
+  </testsuite>
+</testsuites>

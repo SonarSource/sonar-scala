@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.SampleSpec" tests="4" failures="1" errors="1" skipped="1" time="1.0">
+  <testcase classname="com.example.SampleSpec" name="passes" time="0.125"/>
+  <testcase classname="com.example.SampleSpec" name="fails" time="0.250"><failure message="expected true">stack trace</failure></testcase>
+  <testcase classname="com.example.SampleSpec" name="errors" time="0.375"><error message="boom">stack trace</error></testcase>
+  <testcase classname="com.example.SampleSpec" name="skips" time="0.250"><skipped/></testcase>
+</testsuite>
