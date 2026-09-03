@@ -32,7 +32,7 @@ class ScalaProfileDefinitionTest {
 
     assertThat(profile.rules()).extracting("repoKey").containsOnly("scala");
     assertThat(profile.rules()).isNotEmpty();
-    assertThat(profile.rules()).extracting(BuiltInActiveRule::ruleKey).contains("ParsingError");
+    assertThat(profile.rules()).extracting(BuiltInActiveRule::ruleKey).contains("S2260");
   }
 
 }

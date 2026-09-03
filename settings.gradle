@@ -27,7 +27,7 @@ buildCache {
 }
 
 dependencyResolutionManagement {
-    def slangDependenciesVersion = '1.22.0.8388'
+    def slangDependenciesVersion = '1.23.0.8412'
     def analyzerCommonsVersion = '2.30.0.5193'
     def pluginApiVersion = '13.2.0.3137'
     def sonarqubeVersion = '26.8.0.126808'
