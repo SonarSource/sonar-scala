@@ -146,6 +146,18 @@ class ScalaTestSensorTest {
   }
 
   @Test
+  void retains_suites_parsed_before_an_invalid_suite() {
+    Path partiallyInvalidReport = Paths.get("src", "test", "resources", "scalatest-invalid", "partial-invalid.xml").toAbsolutePath();
+    SensorContextTester context = contextFor(partiallyInvalidReport.toString());
+
+    newSensor().execute(context);
+
+    assertThat(measure(context, "src/test/scala/com/example/FirstSpec.scala", CoreMetrics.TESTS).value()).isEqualTo(1);
+    assertThat(ANALYSIS_WARNINGS).hasSize(1);
+    assertThat(logTester.logs()).anyMatch(message -> message.contains("partial-invalid.xml"));
+  }
+
+  @Test
   void describes_the_sensor() {
     com.sonarsource.scanner.engine.sensor.test.fixtures.TestSensorDescriptor descriptor =
       new com.sonarsource.scanner.engine.sensor.test.fixtures.TestSensorDescriptorImpl();

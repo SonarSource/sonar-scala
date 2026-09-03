@@ -26,12 +26,11 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
@@ -110,9 +109,7 @@ public class ScalaTestSensor implements Sensor {
 
   private void importReport(File report, SensorContext context, Map<InputFile, TestMetrics> metricsByFile) {
     try {
-      for (TestMetrics suiteMetrics : parseReport(report)) {
-        addSuiteMetrics(context, suiteMetrics, metricsByFile);
-      }
+      parseReport(report, suiteMetrics -> addSuiteMetrics(context, suiteMetrics, metricsByFile));
     } catch (IOException | XMLStreamException | NumberFormatException | ArithmeticException e) {
       warn("Unable to import ScalaTest report '" + report + "': " + e.getMessage());
     }
@@ -155,8 +152,7 @@ public class ScalaTestSensor implements Sensor {
     measure.on(inputFile).forMetric(metric).withValue(value).save();
   }
 
-  private static List<TestMetrics> parseReport(File report) throws IOException, XMLStreamException {
-    List<TestMetrics> completedSuites = new ArrayList<>();
+  private static void parseReport(File report, Consumer<TestMetrics> completedSuiteConsumer) throws IOException, XMLStreamException {
     try (InputStream input = new FileInputStream(report)) {
       XMLEventReader reader = SafeStaxParserFactory.createXMLInputFactory().createXMLEventReader(input);
       boolean rootSeen = false;
@@ -198,7 +194,7 @@ public class ScalaTestSensor implements Sensor {
             TestMetrics completedSuite = suiteMetrics.pop();
             completedSuite.applyReportedErrors();
             if (suiteMetrics.isEmpty()) {
-              completedSuites.add(completedSuite);
+              completedSuiteConsumer.accept(completedSuite);
             } else {
               suiteMetrics.peek().add(completedSuite);
             }
@@ -209,7 +205,6 @@ public class ScalaTestSensor implements Sensor {
         throw new XMLStreamException("The report is empty.");
       }
     }
-    return completedSuites;
   }
 
   private static String suiteName(StartElement suite) throws XMLStreamException {

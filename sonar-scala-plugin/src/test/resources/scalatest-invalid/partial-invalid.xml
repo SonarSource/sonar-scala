@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="com.example.FirstSpec" errors="0">
+    <testcase classname="com.example.FirstSpec" name="passes" time="0.1"/>
+  </testsuite>
+  <testsuite name="com.example.SecondSpec" errors="0">
+    <testcase classname="com.example.SecondSpec" name="passes" time="0.1"/>
