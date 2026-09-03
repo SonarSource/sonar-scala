@@ -88,13 +88,13 @@ class ScalaTestSensorTest {
   }
 
   @Test
-  void does_not_double_count_errors_when_testcase_and_suite_error_counts_differ() {
+  void counts_suite_level_errors_as_test_executions() {
     Path partialAbortReport = Paths.get("src", "test", "resources", "scalatest-suite-errors", "TEST-com.example.PartialAbortSpec.xml").toAbsolutePath();
     SensorContextTester context = contextFor(partialAbortReport.toString());
 
     newSensor().execute(context);
 
-    assertThat(measure(context, "src/test/scala/com/example/PartialAbortSpec.scala", CoreMetrics.TESTS).value()).isEqualTo(1);
+    assertThat(measure(context, "src/test/scala/com/example/PartialAbortSpec.scala", CoreMetrics.TESTS).value()).isEqualTo(2);
     assertThat(measure(context, "src/test/scala/com/example/PartialAbortSpec.scala", CoreMetrics.TEST_ERRORS).value()).isEqualTo(2);
   }
 

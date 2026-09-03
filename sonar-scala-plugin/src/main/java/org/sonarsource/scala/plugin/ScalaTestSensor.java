@@ -296,6 +296,7 @@ public class ScalaTestSensor implements Sensor {
 
     private void applyReportedErrors() {
       errors = Math.max(errors, reportedErrors);
+      tests = Math.max(tests, failures + errors);
     }
   }
 }
