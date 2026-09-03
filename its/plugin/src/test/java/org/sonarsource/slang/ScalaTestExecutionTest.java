@@ -38,7 +38,7 @@ public class ScalaTestExecutionTest extends TestBase {
 
     Map<String, org.sonarqube.ws.Measures.Measure> measures = getMeasures(projectKey,
       "tests", "test_failures", "test_errors", "skipped_tests", "test_execution_time");
-    assertThat(measures.get("tests").getValue()).isEqualTo("3");
+    assertThat(measures.get("tests").getValue()).isEqualTo("4");
     assertThat(measures.get("test_failures").getValue()).isEqualTo("2");
     assertThat(measures.get("test_errors").getValue()).isEqualTo("1");
     assertThat(measures.get("skipped_tests").getValue()).isEqualTo("1");
