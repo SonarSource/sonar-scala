@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.sonar.api.SonarEdition;
 import org.sonar.api.SonarQubeSide;
 import org.sonar.api.internal.SonarRuntimeImpl;
+import org.sonar.api.rule.RuleKey;
 import org.sonar.api.rules.RuleType;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.utils.Version;
@@ -35,10 +36,11 @@ class ScalaRulesDefinitionTest {
     assertThat(repository.name()).isEqualTo("Sonar");
     assertThat(repository.language()).isEqualTo("scala");
 
-    RulesDefinition.Rule rule = repository.rule("ParsingError");
+    RulesDefinition.Rule rule = repository.rule("S2260");
     assertThat(rule).isNotNull();
     assertThat(rule.name()).isEqualTo("Scala parser failure");
     assertThat(rule.type()).isEqualTo(RuleType.CODE_SMELL);
+    assertThat(rule.deprecatedRuleKeys()).containsExactly(RuleKey.of("scala", "ParsingError"));
   }
 
   @Test

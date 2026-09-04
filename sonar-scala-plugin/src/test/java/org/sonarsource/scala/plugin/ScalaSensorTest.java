@@ -39,7 +39,7 @@ class ScalaSensorTest extends AbstractSensorTest {
   void test_fail_parsing() {
     InputFile inputFile = createInputFile("file1.scala", "#define invalid scala source code");
     context.fileSystem().add(inputFile);
-    CheckFactory checkFactory = checkFactory("ParsingError");
+    CheckFactory checkFactory = checkFactory("S2260");
     sensor(checkFactory).execute(context);
     Collection<AnalysisError> analysisErrors = context.allAnalysisErrors();
     assertThat(analysisErrors).hasSize(1);

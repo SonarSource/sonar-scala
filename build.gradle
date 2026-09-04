@@ -1,4 +1,6 @@
 import java.util.jar.JarInputStream
+import org.gradle.api.tasks.scala.ScalaCompile
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 
 plugins {
     id 'java'
@@ -73,20 +75,29 @@ spotless {
 }
 
 subprojects {
+    def targetJavaVersion = 21
+
     // do not publish to Artifactory by default
     artifactoryPublish.skip = true
 
     apply plugin: 'com.diffplug.spotless'
 
     java {
-        sourceCompatibility = JavaVersion.VERSION_17
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+        }
         withSourcesJar()
         withJavadocJar()
     }
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release = java.sourceCompatibility.majorVersion as int
+        options.release = targetJavaVersion
+    }
+
+    tasks.withType(ScalaCompile).configureEach {
+        scalaCompileOptions.additionalParameters = (scalaCompileOptions.additionalParameters ?: []) +
+                ["-release:${targetJavaVersion}".toString()]
     }
 
     jacoco {
