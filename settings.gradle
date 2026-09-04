@@ -7,7 +7,7 @@ pluginManagement {
 }
 
 plugins {
-    id 'com.gradle.develocity' version '4.4.1'
+    id 'com.gradle.develocity' version '4.5.0'
 }
 
 develocity {
@@ -28,11 +28,11 @@ buildCache {
 
 dependencyResolutionManagement {
     def slangDependenciesVersion = '1.23.0.8412'
-    def analyzerCommonsVersion = '2.30.0.5193'
-    def pluginApiVersion = '13.2.0.3137'
-    def sonarqubeVersion = '26.8.0.126808'
+    def analyzerCommonsVersion = '2.31.0.5284'
+    def pluginApiVersion = '13.11.0.4459'
+    def sonarqubeVersion = '26.9.0.129388'
     // Sensor test fixtures moved out of sonar-plugin-api-impl into the scanner engine in SQ 26.x.
-    def scannerEngineVersion = '13.6.1.4395'
+    def scannerEngineVersion = '13.10.0.4657'
     def orchestratorVersion = '6.4.2.4626'
     def sonarlintVersion = '11.9.0.86162'
     // slf4j is provided by SQ, SC or SL, should be aligned with sonar-plugin-api
@@ -63,11 +63,11 @@ dependencyResolutionManagement {
             library("mockito-core", "org.mockito", "mockito-core").version("5.23.0")
             library("assertj-core", "org.assertj", "assertj-core").version("3.27.7")
             library("awaitility", "org.awaitility", "awaitility").version("4.3.0")
-            library("junit-jupiter-api", "org.junit.jupiter", "junit-jupiter-api").version("6.0.3")
-            library("junit-jupiter-params", "org.junit.jupiter", "junit-jupiter-params").version("6.0.3")
-            library("junit-jupiter-engine", "org.junit.jupiter", "junit-jupiter-engine").version("6.0.3")
-            library("junit-vintage-engine", "org.junit.vintage", "junit-vintage-engine").version("6.0.3")
-            library("junit-platform-launcher", "org.junit.platform", "junit-platform-launcher").version("6.0.3")
+            library("junit-jupiter-api", "org.junit.jupiter", "junit-jupiter-api").version("6.1.3")
+            library("junit-jupiter-params", "org.junit.jupiter", "junit-jupiter-params").version("6.1.3")
+            library("junit-jupiter-engine", "org.junit.jupiter", "junit-jupiter-engine").version("6.1.3")
+            library("junit-vintage-engine", "org.junit.vintage", "junit-vintage-engine").version("6.1.3")
+            library("junit-platform-launcher", "org.junit.platform", "junit-platform-launcher").version("6.1.3")
         }
     }
 }
