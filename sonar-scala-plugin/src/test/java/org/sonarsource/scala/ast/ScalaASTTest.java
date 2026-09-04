@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -53,8 +54,9 @@ class ScalaASTTest {
 
   @Test
   void all_scala_files() throws IOException {
+    Pattern scalaExtension = Pattern.compile("\\.scala$");
     for (Path scalaPath : getScalaSources()) {
-      Path astPath = Paths.get(scalaPath.toString().replaceFirst("\\.scala$", ".txt"));
+      Path astPath = Paths.get(scalaExtension.matcher(scalaPath.toString()).replaceFirst(".txt"));
       String actualAst = TreePrinter.table(parse(scalaPath));
       String expectingAst = astPath.toFile().exists() ? new String(Files.readAllBytes(astPath), UTF_8) : "";
       assertThat(actualAst)
@@ -68,8 +70,9 @@ class ScalaASTTest {
   }
 
   private static void fix_all_cls_files_test_automatically() throws IOException {
+    Pattern scalaExtPattern = Pattern.compile("\\.scala$");
     for (Path scalaPath : getScalaSources()) {
-      Path astPath = Paths.get(scalaPath.toString().replaceFirst("\\.scala$", ".txt"));
+      Path astPath = Paths.get(scalaExtPattern.matcher(scalaPath.toString()).replaceFirst(".txt"));
       String actualAst = TreePrinter.table(parse(scalaPath));
       Files.write(astPath, actualAst.getBytes(UTF_8));
     }
