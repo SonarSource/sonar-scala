@@ -28,7 +28,7 @@ buildCache {
 
 dependencyResolutionManagement {
     def slangDependenciesVersion = '1.23.0.8412'
-    def analyzerCommonsVersion = '2.30.0.5193'
+    def analyzerCommonsVersion = '2.31.0.5284'
     def pluginApiVersion = '13.2.0.3137'
     def sonarqubeVersion = '26.8.0.126808'
     // Sensor test fixtures moved out of sonar-plugin-api-impl into the scanner engine in SQ 26.x.
