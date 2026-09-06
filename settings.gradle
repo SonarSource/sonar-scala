@@ -36,7 +36,7 @@ dependencyResolutionManagement {
     def orchestratorVersion = '6.4.2.4626'
     def sonarlintVersion = '11.9.0.86162'
     // slf4j is provided by SQ, SC or SL, should be aligned with sonar-plugin-api
-    def slf4jApiVersion = '1.7.30'
+    def slf4jApiVersion = '1.7.36'
 
     versionCatalogs {
         libs {
