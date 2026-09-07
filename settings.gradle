@@ -33,7 +33,7 @@ dependencyResolutionManagement {
     def sonarqubeVersion = '26.9.0.129388'
     // Sensor test fixtures moved out of sonar-plugin-api-impl into the scanner engine in SQ 26.x.
     def scannerEngineVersion = '13.10.0.4657'
-    def orchestratorVersion = '6.4.2.4626'
+    def orchestratorVersion = '6.4.3.4676'
     def sonarlintVersion = '11.9.0.86162'
     // slf4j is provided by SQ, SC or SL, should be aligned with sonar-plugin-api
     def slf4jApiVersion = '1.7.30'
