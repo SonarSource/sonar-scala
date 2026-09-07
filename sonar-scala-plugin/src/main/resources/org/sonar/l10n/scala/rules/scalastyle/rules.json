@@ -112,6 +112,14 @@
     "url": "http://www.scalastyle.org/rules-1.0.0.html#org_scalastyle_scalariform_CovariantEqualsChecker"
   },
   {
+    "key": "org.scalastyle.scalariform.CurliesImportChecker",
+    "name": "Curlies import",
+    "description": "Curlies imports, e.g. `import a.{b, c}`, can lead to annoying merge errors in large code bases that are maintained by lot of developers. This rule allows to ensure that only single imports, no renaming and no hiding imports are used in order to minimize merge errors in import declarations.",
+    "type": "CODE_SMELL",
+    "severity": "MINOR",
+    "url": "https://scalastyle.beautiful-scala.com/rules-1.5.0.html#org_scalastyle_scalariform_CurliesImportChecker"
+  },
+  {
     "key": "org.scalastyle.scalariform.CyclomaticComplexityChecker",
     "name": "Cyclomatic complexity",
     "description": "If the code is too complex, then this can make code hard to read.",
@@ -502,6 +510,14 @@
     "type": "CODE_SMELL",
     "severity": "MINOR",
     "url": "http://www.scalastyle.org/rules-1.0.0.html#org_scalastyle_scalariform_StructuralTypeChecker"
+  },
+  {
+    "key": "org.scalastyle.scalariform.ThrowChecker",
+    "name": "Throw",
+    "description": "throw statements should be replaced with type-safe error constructs like Try and Either, which communicate the possibility of error in the type signature.",
+    "type": "CODE_SMELL",
+    "severity": "MINOR",
+    "url": "https://scalastyle.beautiful-scala.com/rules-1.5.0.html#org_scalastyle_scalariform_ThrowChecker"
   },
   {
     "key": "org.scalastyle.scalariform.TodoCommentChecker",
