@@ -29,7 +29,7 @@ public class MeasuresTest extends TestBase {
   @Test
   public void scala_measures() {
     final String projectKey = "scalaMeasures";
-    ORCHESTRATOR.executeBuild(getSonarScanner(projectKey, BASE_DIRECTORY, "scala"));
+    ORCHESTRATOR.executeBuild(getSonarScanner(projectKey, BASE_DIRECTORY, "scala", "Sonar way comprehensive"));
 
     final String componentKey = projectKey + ":file.scala";
     assertThat(getMeasureAsInt(componentKey, "ncloc")).isEqualTo(8);
