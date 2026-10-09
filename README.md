@@ -1,14 +1,32 @@
-# sonar-scala
+<!-- Sonar Marketing hosts these approved brand assets on its Kentico Kontent CDN (assets-eu-01.kc-usercontent.com). Shared URLs are intentional; consult Marketing before replacing them. -->
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://assets-eu-01.kc-usercontent.com/ef593040-b591-0198-9506-ed88b30bc023/a23fc7ba-23f0-489a-829d-ed88c0748521/Sonar_Logo_Dark%20Backgrounds.svg">
+    <img src="https://assets-eu-01.kc-usercontent.com/ef593040-b591-0198-9506-ed88b30bc023/82c13eba-d95c-4bb8-8007-7ce77c14e043/Sonar_Logo_Light%20Backgrounds.svg" alt="Sonar logo" width="400">
+  </picture>
+</p>
+
 [![Build Status](https://github.com/SonarSource/sonar-scala/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/SonarSource/sonar-scala/actions/workflows/build.yml)
 [![Quality Gate Status](https://next.sonarqube.com/sonarqube/api/project_badges/measure?project=SonarSource_sonar-scala&metric=alert_status&token=sqb_6e2451e1b8f2da87264cb9638302eaed1d9eb87a)](https://next.sonarqube.com/sonarqube/dashboard?id=SonarSource_sonar-scala)
 [![Coverage](https://next.sonarqube.com/sonarqube/api/project_badges/measure?project=SonarSource_sonar-scala&metric=coverage&token=sqb_6e2451e1b8f2da87264cb9638302eaed1d9eb87a)](https://next.sonarqube.com/sonarqube/dashboard?id=SonarSource_sonar-scala)
+
+<!-- sonar-marketing:start -->
+<!-- Marketing maintains this section. For wording changes, consult the relevant Product Marketing Manager (PMM). Repository CODEOWNERS review accuracy and merge changes. -->
+
+# SonarQube analyzer for Scala
+
+This repository contains the SonarQube analyzer for Scala. It uses Scalameta and the SLang analysis framework; the documentation below explains its parser integration, coverage import, and development workflow.
+
+To learn more about Sonar’s Scala analysis, visit the [Sonar website](https://www.sonarsource.com/knowledge/languages/scala/).
+
+<!-- sonar-marketing:end -->
 
 This is a developer documentation. If you want to analyze source code in SonarQube read the following documentation:
 
 * Scala language: [analysis of Scala documentation](https://docs.sonarqube.org/latest/analysis/languages/scala/)
 
 This analyzer is built on top of SLang (SonarSource Language).
-SLang is a framework to quickly develop code analyzers for SonarQube to help developers write [Clean Code](https://www.sonarsource.com/solutions/clean-code/?utm_medium=referral&utm_source=github&utm_campaign=clean-code&utm_content=slang).
+SLang is a framework to quickly develop code analyzers for SonarQube to help developers analyze code quality.
 
 SLang defines language-agnostic AST. Using this AST we can develop simple syntax-based rules. Then we use a parser for real language to create this AST. Currently, Ruby and Scala analyzers use this approach.
 
