@@ -14,5 +14,8 @@ test {
         project.hasProperty("its") || project.hasProperty("ruling")
     }
     systemProperty 'java.awt.headless', 'true'
+    // Orchestrator resolves SonarQube Community Build and plugins from Maven Central instead of Repox.
+    systemProperty 'orchestrator.artifactory.url', 'https://repo.maven.apache.org/maven2'
+    dependsOn ':sonar-scala-plugin:shadowJar'
     outputs.upToDateWhen { false }
 }

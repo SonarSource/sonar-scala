@@ -20,13 +20,10 @@ import com.sonar.orchestrator.container.Edition;
 import com.sonar.orchestrator.junit4.OrchestratorRule;
 import com.sonar.orchestrator.junit4.OrchestratorRuleBuilder;
 import com.sonar.orchestrator.locator.FileLocation;
-import com.sonar.orchestrator.locator.Location;
-import com.sonar.orchestrator.locator.MavenLocation;
 import java.io.File;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.ClassRule;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -36,6 +33,7 @@ import org.junit.runners.Suite;
   CoverageTest.class,
   DuplicationsTest.class,
   ExternalReportTest.class,
+  InstalledPluginTest.class,
   MeasuresTest.class,
   NoSonarTest.class,
   ScalaTestExecutionTest.class,
@@ -55,8 +53,7 @@ public class Tests {
     addLanguagePlugins(orchestratorBuilder);
     ORCHESTRATOR = orchestratorBuilder
       .useDefaultAdminCredentialsForBuilds(true)
-      .setEdition(Edition.ENTERPRISE_LW)
-      .activateLicense()
+      .setEdition(Edition.COMMUNITY)
       .setSonarVersion(System.getProperty(SQ_VERSION_PROPERTY, DEFAULT_SQ_VERSION))
       .restoreProfileAtStartup(FileLocation.of("src/test/resources/nosonar-scala.xml"))
       .restoreProfileAtStartup(FileLocation.of("src/test/resources/norule.xml"))
@@ -64,21 +61,13 @@ public class Tests {
   }
 
   static void addLanguagePlugins(OrchestratorRuleBuilder builder) {
-    String slangVersion = System.getProperty("slangVersion");
+    LANGUAGES.forEach(language -> builder.addPlugin(builtPlugin(language)));
+  }
 
-    LANGUAGES.forEach(language -> {
-      Location pluginLocation;
-      String plugin = "sonar-" + language +"-plugin";
-      if (StringUtils.isEmpty(slangVersion)) {
-        // use the plugin that was built on local machine
-        pluginLocation = FileLocation.byWildcardMavenFilename(new File("../../" + plugin + "/build/libs"), plugin + "-*-all.jar");
-      } else {
-        // QA environment downloads the plugin built by the CI job
-        pluginLocation = MavenLocation.of("org.sonarsource.slang", plugin, slangVersion);
-      }
-
-      builder.addPlugin(pluginLocation);
-    });
+  /** The plugin built by this project, which the integration tests always install. */
+  static FileLocation builtPlugin(String language) {
+    String plugin = "sonar-" + language + "-plugin";
+    return FileLocation.byWildcardMavenFilename(new File("../../" + plugin + "/build/libs"), plugin + "-*-all.jar");
   }
 
 }
