@@ -6,12 +6,10 @@
   </picture>
 </p>
 
-[![Build Status](https://github.com/SonarSource/sonar-scala/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/SonarSource/sonar-scala/actions/workflows/build.yml)
-[![Quality Gate Status](https://next.sonarqube.com/sonarqube/api/project_badges/measure?project=SonarSource_sonar-scala&metric=alert_status&token=sqb_6e2451e1b8f2da87264cb9638302eaed1d9eb87a)](https://next.sonarqube.com/sonarqube/dashboard?id=SonarSource_sonar-scala)
-[![Coverage](https://next.sonarqube.com/sonarqube/api/project_badges/measure?project=SonarSource_sonar-scala&metric=coverage&token=sqb_6e2451e1b8f2da87264cb9638302eaed1d9eb87a)](https://next.sonarqube.com/sonarqube/dashboard?id=SonarSource_sonar-scala)
+[![CI](https://github.com/SonarQubeCommunity/sonar-scala/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/SonarQubeCommunity/sonar-scala/actions/workflows/ci.yml)
 
 <!-- sonar-marketing:start -->
-<!-- Marketing maintains this section. For wording changes, consult the relevant Product Marketing Manager (PMM). Repository CODEOWNERS review accuracy and merge changes. -->
+<!-- Marketing maintains this section. For wording changes, consult the relevant Product Marketing Manager (PMM). The repository maintainers review accuracy and merge changes. -->
 
 # SonarQube analyzer for Scala
 
@@ -50,9 +48,13 @@ Rule metadata is maintained by hand. To change a rule, edit its files directly:
 - `sonar-scala-plugin/src/main/resources/org/sonar/l10n/scala/rules/scala/S*.json` (title, severity, tags) and `S*.html` (description) for the Scala rules
 - `rules.json` in the `scalafix`, `scalastyle`, and `scapegoat` folders next to it for the rules of the imported external reports
 
-## Have questions or feedback?
+## Community Maintenance
 
-To provide feedback (request a feature, report a bug, etc.) use the [SonarQube Community Forum](https://community.sonarsource.com/). Please do not forget to specify the language, plugin version, and SonarQube version.
+This analyzer was developed by SonarSource and is now maintained by the community in the [SonarQubeCommunity](https://github.com/SonarQubeCommunity) organization. SonarQube Community Build bundles it in versions before 26.11; from 26.11 on, it is installed separately from the SonarQube Marketplace. It builds on [SLang](https://github.com/SonarQubeCommunity/slang).
+
+## Feedback and Contributions
+
+Report bugs and request features in [GitHub issues](https://github.com/SonarQubeCommunity/sonar-scala/issues). Contributions are welcome: see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Building
 
@@ -88,6 +90,14 @@ You can also build and run only Ruling Tests using the `ruling` property:
     ./gradlew build -x test publishToMavenLocal
     find "$HOME/.m2/repository/org/sonarsource/slang/sonar-scala-plugin" -ls
 
+## Releasing
+
+Releases are published from GitHub:
+
+1. Create and publish a GitHub release with a tag such as `v1.26.0`.
+2. The [Release](.github/workflows/release.yml) workflow builds and tests the plugin with the version from the tag, and attaches `sonar-scala-plugin-<version>.jar` and its SHA-256 checksum to the release.
+3. Set `version` in `gradle.properties` to the next development version, such as `1.26.1-SNAPSHOT`.
+
 ## License headers
 
 License headers are automatically updated by the spotless plugin but only for Java files.
@@ -104,7 +114,7 @@ For Java `*-info.java` files (on Mac):
 Copyright 2018-2026 SonarSource.
 
 SonarQube analyzers released after November 29, 2024, including patch fixes for prior versions,
-are published under the [Sonar Source-Available License Version 1 (SSALv1)](LICENSE).
+are published under the [Sonar Source-Available License Version 1 (SSALv1)](LICENSE.txt).
 
 See individual files for details that specify the license applicable to each file.
 Files subject to the SSALv1 will be noted in their headers.
