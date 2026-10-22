@@ -43,6 +43,13 @@ For Scala files, we will import both [Scoverage](http://scoverage.org/) and JaCo
 
 This situation only applies to two Scala files, this current situation is acceptable.
 
+### Rule descriptions
+
+Rule metadata is maintained by hand. To change a rule, edit its files directly:
+
+- `sonar-scala-plugin/src/main/resources/org/sonar/l10n/scala/rules/scala/S*.json` (title, severity, tags) and `S*.html` (description) for the Scala rules
+- `rules.json` in the `scalafix`, `scalastyle`, and `scapegoat` folders next to it for the rules of the imported external reports
+
 ## Have questions or feedback?
 
 To provide feedback (request a feature, report a bug, etc.) use the [SonarQube Community Forum](https://community.sonarsource.com/). Please do not forget to specify the language, plugin version, and SonarQube version.
