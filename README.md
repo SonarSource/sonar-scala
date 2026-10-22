@@ -64,6 +64,10 @@ You will need Java 21 installed.
 
 ### Build
 
+Initialize the `build-logic/common` submodule, which every build needs for the license file generator plugin:
+
+    git submodule update --init build-logic/common
+
 Build and run Unit Tests:
 
     ./gradlew build
