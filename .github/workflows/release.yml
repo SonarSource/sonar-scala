@@ -1,0 +1,39 @@
+name: Release
+# Builds the plugin and attaches the JAR to the GitHub release.
+# Publish a GitHub release with a tag such as v1.26.0 to trigger it.
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    name: Build and Attach to Release
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Initialize the build-logic submodule
+        run: git submodule update --init build-logic/common
+      - uses: jdx/mise-action@08ae2a091c038e1e05ec6f5115dc5c69d5a2a6b8 # v5.1.2
+        with:
+          version: 2026.9.18
+      - name: Build the plugin
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          VERSION="${TAG#v}"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          ./gradlew build -Pversion="$VERSION" --no-daemon --console=plain
+      - name: Attach the JAR and its checksum to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          JAR="sonar-scala-plugin-$VERSION.jar"
+          cp "sonar-scala-plugin/build/libs/sonar-scala-plugin-$VERSION-all.jar" "$JAR"
+          sha256sum "$JAR" > "$JAR.sha256"
+          gh release upload "$TAG" "$JAR" "$JAR.sha256" --repo "$GITHUB_REPOSITORY"
