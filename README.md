@@ -73,10 +73,11 @@ If you want to run them, you need first to retrieve the related projects which a
 
     git submodule update --init its/sources
 
-`SonarLintIntegrationTest` requires that you first build the plugin (`./gradlew build`).
 Then build and run the Integration Tests using the `its` property:
 
     ./gradlew build -Pits --info --no-daemon
+
+The tests install the plugin built by this project into SonarQube Community Build, which Orchestrator downloads from Maven Central, so no license or repository credentials are needed. They use the latest release by default; to test another version, add for example `-Dsonar.runtimeVersion=26.10.0.133078`.
 
 You can also build and run only Ruling Tests using the `ruling` property:
 

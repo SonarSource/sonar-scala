@@ -21,7 +21,6 @@ import com.sonar.orchestrator.container.Edition;
 import com.sonar.orchestrator.junit4.OrchestratorRule;
 import com.sonar.orchestrator.junit4.OrchestratorRuleBuilder;
 import com.sonar.orchestrator.locator.FileLocation;
-import com.sonar.orchestrator.locator.Location;
 import com.sonar.orchestrator.locator.MavenLocation;
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +29,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -50,8 +48,7 @@ public class SlangRulingTest {
   public static void setUp() {
     OrchestratorRuleBuilder builder = OrchestratorRule.builderEnv()
       .useDefaultAdminCredentialsForBuilds(true)
-      .setEdition(Edition.ENTERPRISE_LW)
-      .activateLicense()
+      .setEdition(Edition.COMMUNITY)
       .setSonarVersion(System.getProperty(SQ_VERSION_PROPERTY, DEFAULT_SQ_VERSION))
       .addPlugin(MavenLocation.of("org.sonarsource.sonar-lits-plugin", "sonar-lits-plugin", "0.10.0.2181"));
 
@@ -70,19 +67,8 @@ public class SlangRulingTest {
   }
 
   private static void addLanguagePlugins(OrchestratorRuleBuilder builder) {
-    String slangVersion = System.getProperty("slangVersion");
-
-    Location pluginLocation;
     String plugin = "sonar-scala-plugin";
-    if (StringUtils.isEmpty(slangVersion)) {
-      // use the plugin that was built on local machine
-      pluginLocation = FileLocation.byWildcardMavenFilename(new File("../../" + plugin + "/build/libs"), plugin + "-*-all.jar");
-    } else {
-      // QA environment downloads the plugin built by the CI job
-      pluginLocation = MavenLocation.of("org.sonarsource.slang", plugin, slangVersion);
-    }
-
-    builder.addPlugin(pluginLocation);
+    builder.addPlugin(FileLocation.byWildcardMavenFilename(new File("../../" + plugin + "/build/libs"), plugin + "-*-all.jar"));
   }
 
   @Test
