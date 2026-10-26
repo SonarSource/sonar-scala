@@ -16,7 +16,6 @@
  */
 package org.sonarsource.slang;
 
-import com.sonar.orchestrator.config.Configuration;
 import com.sonar.orchestrator.locator.FileLocation;
 import java.io.File;
 import java.io.IOException;
@@ -29,8 +28,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import com.sonar.orchestrator.locator.Locators;
-import com.sonar.orchestrator.locator.MavenLocation;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.io.TempDir;
 import org.sonarsource.sonarlint.core.rpc.protocol.backend.analysis.AnalyzeFilesAndTrackParams;
@@ -79,22 +76,10 @@ public class SonarLintIntegrationTest {
   private SonarLintBackendFixture.FakeSonarLintRpcClient client;
   private SonarLintTestRpcServer backend;
 
-  /**
-   * Initialize {@link #scalaPluginPath}:
-   *  <li>In local environment, use the plugin built on local machine.
-   *  <li>In QA environment in CI, the plugin is downloaded using Maven coordinates.
-   */
+  /** Initialize {@link #scalaPluginPath} with the plugin built by this project. */
   @BeforeAll
   static void initScalaPluginLocation() {
-    String slangVersion = System.getProperty("slangVersion");
-
-    if (slangVersion != null && !slangVersion.isEmpty()) {
-      Locators locators = new Locators(Configuration.createEnv());
-      MavenLocation mavenLocation = MavenLocation.of("org.sonarsource.slang", "sonar-scala-plugin", slangVersion);
-      scalaPluginPath = locators.locate(mavenLocation).toPath();
-    } else {
-      scalaPluginPath = FileLocation.byWildcardMavenFilename(new File("../../sonar-scala-plugin/build/libs"), "sonar-scala-plugin-*-all.jar").getFile().toPath();
-    }
+    scalaPluginPath = FileLocation.byWildcardMavenFilename(new File("../../sonar-scala-plugin/build/libs"), "sonar-scala-plugin-*-all.jar").getFile().toPath();
   }
 
   @SonarLintTest
