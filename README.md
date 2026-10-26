@@ -50,7 +50,11 @@ Rule metadata is maintained by hand. To change a rule, edit its files directly:
 
 ## Community Maintenance
 
-This analyzer was developed by SonarSource and is now maintained by the community in the [SonarQubeCommunity](https://github.com/SonarQubeCommunity) organization. SonarQube Community Build bundles it in versions before 26.11; from 26.11 on, it is installed separately from the SonarQube Marketplace. It builds on [SLang](https://github.com/SonarQubeCommunity/slang).
+This analyzer was developed by SonarSource and is now maintained by the community in the [SonarQubeCommunity](https://github.com/SonarQubeCommunity) organization. SonarQube Community Build bundles it in versions before 26.11. From 26.11 on, it is no longer bundled and must be installed manually. It builds on [SLang](https://github.com/SonarQubeCommunity/slang).
+
+## Installing
+
+Download `sonar-scala-plugin-<version>.jar` from [GitHub releases](https://github.com/SonarQubeCommunity/sonar-scala/releases), copy it into your SonarQube server's `extensions/plugins` directory, and restart the server. The plugin is not available from the SonarQube Marketplace.
 
 ## Feedback and Contributions
 
