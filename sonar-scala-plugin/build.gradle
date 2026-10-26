@@ -148,8 +148,6 @@ artifacts {
     archives shadowJar
 }
 
-artifactoryPublish.skip = false
-
 publishing {
     publications {
         mavenJava(MavenPublication) {
